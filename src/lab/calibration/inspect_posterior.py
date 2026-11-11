@@ -47,15 +47,18 @@ def main():
             w.writerow([int(i),'object' if i<n else 'controller',mu[i],sigma[i],prior_std[i],
                         sigma[i]/prior_std[i],median[i],lower[i],upper[i]])
     groups=[('Object',slice(0,n),'#2364aa'),('Controller',slice(n,None),'#e97632')]
+    low=min(sigma.min(),prior_std.min());high=max(sigma.max(),prior_std.max())
+    padding=max((high-low)*0.08,high*0.01)
+    limits=(low-padding,high+padding)
     fig,axes=plt.subplots(2,2,figsize=(13,7),layout='constrained')
     for col,(name,s,c) in enumerate(groups):
         axes[0,col].scatter(ids[s],sigma[s],s=2 if col==0 else 7,alpha=.6,color=c,rasterized=True)
         axes[0,col].axhline(prior_std[s][0],color='black',ls='--',lw=1,label='Prior std')
-        axes[0,col].set(title=f'{name}: every spring ({len(ids[s]):,})',xlabel='Original spring ID',ylabel='Posterior std of log(Y)',ylim=(.45,.55))
+        axes[0,col].set(title=f'{name}: every spring ({len(ids[s]):,})',xlabel='Original spring ID',ylabel='Posterior std of log(Y)',ylim=limits)
         axes[0,col].legend()
         axes[1,col].hist(sigma[s],bins=60,color=c,alpha=.85)
         axes[1,col].axvline(prior_std[s][0],color='black',ls='--',lw=1)
-        axes[1,col].set(xlabel='Posterior std of log(Y)',ylabel='Spring count',xlim=(.45,.55))
+        axes[1,col].set(xlabel='Posterior std of log(Y)',ylabel='Spring count',xlim=limits)
     fig.suptitle(f"{manifest['id']}: per-spring uncertainty, no averaging across springs")
     fig.savefig(args.output/'all-springs.png',dpi=160);plt.close(fig)
 
