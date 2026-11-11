@@ -1,0 +1,17 @@
+id: B-0001
+version: 1
+status: proposal
+object_category: soft_toy
+object_instance: double_stretch_sloth
+session_id: double_stretch_sloth_recording_unknown_original_session
+source: local_PhysTwin_processed_release
+manifest: datasets/sloth-v1.json
+task: recorded_two_controller_stretch
+robot: TBD
+sensors: processed_3d_tracks_original_sensor_models_TBD
+environment: original_recording_conditions_TBD
+control: recorded_controller_xyz_positions_interpolated_per_substep
+frames: simulator_final_data_coordinates_gravity_positive_z
+units: {position: m, time: s, nominal_mass: kg}
+force_parameter_semantics: spring_Y_multiplies_relative_extension_force_units_N_not_N_per_m
+limitations: [single_session, CMA_provenance_incomplete, nominal_masses, reconstructed_observations]

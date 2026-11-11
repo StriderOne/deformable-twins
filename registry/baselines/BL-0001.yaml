@@ -1,0 +1,8 @@
+id: BL-0001
+version: 1
+status: proposal
+method: CMA_initialization
+experiment: E-0001
+benchmark: B-0001
+protocol: P-0001
+settings_source: experiments/E-0001.yaml

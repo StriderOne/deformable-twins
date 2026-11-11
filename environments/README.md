@@ -1,5 +1,7 @@
 # Окружения: Isaac Lab и урок PhysTwin → Newton
 
+Для калибровки см. [отдельное окружение PhysTwin VI/MAP](README-vi.md).
+
 Отдельный контейнер с RTX-окном, мешами Panda и Gaussian Splatting:
 [Isaac Sim + PhysTwin](README-isaac-sim.md).
 

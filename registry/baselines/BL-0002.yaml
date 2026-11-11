@@ -1,0 +1,8 @@
+id: BL-0002
+version: 1
+status: proposal
+method: MAP_log_stiffness
+experiment: E-0001
+benchmark: B-0001
+protocol: P-0001
+settings_source: experiments/E-0001.yaml

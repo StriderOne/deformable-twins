@@ -1,0 +1,49 @@
+id: E-0001
+version: 1
+status: proposal
+question: Q-0001
+hypothesis: H-0001
+benchmark: {id: B-0001, version: 1}
+protocol: {id: P-0001, version: 1}
+baselines: [BL-0001, BL-0002, BL-0003]
+source_commit: 81c718790a37e5e0102eb77af2c6edd34a9db25f
+data:
+  manifest: datasets/sloth-v1.json
+  observations: ~/PhysTwin/data/different_types/double_stretch_sloth/final_data.pkl
+  split: ~/PhysTwin/data/different_types/double_stretch_sloth/split.json
+  optimal: ~/PhysTwin/experiments_optimization/double_stretch_sloth/optimal_params.pkl
+likelihood:
+  family: independent_gaussian_xyz
+  sigma_obs_m: 0.01
+  mask: visibility_t_and_motion_valid_t_minus_1
+  aggregation: sum_over_valid_coordinates_and_frames
+posterior:
+  family: diagonal_gaussian_log_stiffness
+  initial_std: 0.05
+  prior_std: 0.5
+  prior_center: log_CMA_stiffness
+  data_dependent_prior: true
+optimizer:
+  name: Adam
+  lr: 0.001
+  betas: [0.9, 0.99]
+  max_iterations: 200
+  seed: 42
+  samples_per_iteration: 1
+  gradient: truncated_at_frame_boundaries
+budget:
+  map_seconds: 1500
+  vi_seconds: 1500
+  evaluation_seconds: 600
+  posterior_samples: 16
+execution:
+  device: cuda:0
+  use_graph: true
+  self_collision: false
+  artifact_root: ~/.local/share/deformable-twins/artifacts
+  hardware_execution: false
+unknowns:
+  acquisition_robot_sensors_and_sync: TBD
+  measurement_noise: assumed_not_measured
+  CMA_training_extent: TBD
+  dataset_license: TBD

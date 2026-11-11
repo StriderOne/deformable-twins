@@ -1,0 +1,8 @@
+id: BL-0004
+version: 1
+status: proposal
+method: VI_initialized_at_prior
+experiment: E-0002
+benchmark: B-0001
+protocol: P-0002
+settings_source: experiments/E-0002.yaml

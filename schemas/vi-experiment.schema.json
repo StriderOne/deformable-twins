@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PhysTwin VI pilot experiment v1",
+  "type": "object",
+  "required": ["id", "version", "status", "question", "hypothesis", "source_commit", "data", "likelihood", "posterior", "optimizer", "budget", "execution", "protocol", "benchmark", "baselines"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^E-[0-9]{4}$"},
+    "version": {"const": 1},
+    "status": {"enum": ["proposal", "ready", "completed"]},
+    "data": {"type": "object", "required": ["manifest", "observations", "split", "optimal"]},
+    "likelihood": {"type": "object", "required": ["family", "sigma_obs_m", "mask", "aggregation"], "properties": {"family": {"const": "independent_gaussian_xyz"}, "sigma_obs_m": {"type": "number", "exclusiveMinimum": 0}, "mask": {"const": "visibility_t_and_motion_valid_t_minus_1"}, "aggregation": {"const": "sum_over_valid_coordinates_and_frames"}}},
+    "posterior": {"type": "object", "required": ["initial_std", "prior_std", "family"], "properties": {"family": {"const": "diagonal_gaussian_log_stiffness"}, "initial_std": {"type": "number", "exclusiveMinimum": 0}, "prior_std": {"type": "number", "exclusiveMinimum": 0}}},
+    "optimizer": {"type": "object", "required": ["name", "lr", "betas", "max_iterations", "seed", "samples_per_iteration", "gradient"], "properties": {"name": {"const": "Adam"}, "lr": {"type": "number", "exclusiveMinimum": 0}, "betas": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "number", "minimum": 0, "exclusiveMaximum": 1}}, "max_iterations": {"type": "integer", "minimum": 1}, "seed": {"type": "integer", "minimum": 0}, "samples_per_iteration": {"const": 1}, "gradient": {"const": "truncated_at_frame_boundaries"}}},
+    "budget": {"type": "object", "required": ["map_seconds", "vi_seconds", "evaluation_seconds", "posterior_samples"], "properties": {"map_seconds": {"type": "number", "exclusiveMinimum": 0}, "vi_seconds": {"type": "number", "exclusiveMinimum": 0}, "evaluation_seconds": {"type": "number", "exclusiveMinimum": 0}, "posterior_samples": {"type": "integer", "minimum": 0}}},
+    "execution": {"type": "object", "required": ["device", "use_graph", "self_collision", "artifact_root", "hardware_execution"], "properties": {"device": {"const": "cuda:0"}, "use_graph": {"type": "boolean"}, "self_collision": {"const": false}, "artifact_root": {"type": "string"}, "hardware_execution": {"const": false}}}
+  }
+}
