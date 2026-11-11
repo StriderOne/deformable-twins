@@ -8,6 +8,9 @@
 
 ### Changed
 
+- Выполнен E-0002: VI с posterior, инициализированным prior;
+  execution commit указан в F-0002 и RR-0002, исходные runs сохранены.
+
 - Добавлены offline VI/MAP для лог-жёсткостей PhysTwin, Gaussian tracking loss,
   проверка градиентов и воспроизводимые manifests без изменения upstream.
   Пилот sloth выполнен; результаты и ограничения — в research/findings/F-0001.md.

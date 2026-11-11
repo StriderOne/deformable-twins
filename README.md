@@ -268,6 +268,8 @@ Foam визуализирует связи заметок. Типизирова�
 План: [E-0001](research/experiments/E-0001.md); результаты и ограничения:
 [F-0001](research/findings/F-0001.md). Неопределённость физических параметров
 и преимущество для sim-to-real этим пилотом не установлены.
+Повтор со стартом posterior из prior: [E-0002](research/experiments/E-0002.md),
+[результаты и execution commit](research/findings/F-0002.md).
 
 Практический урок: [перенос PhysTwin в Newton своими руками](tutorials/phystwin_to_newton.ipynb).
 Notebook содержит задания, проверки сил / динамики / градиентов, интерактивный
