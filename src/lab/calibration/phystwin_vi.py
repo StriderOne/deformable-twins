@@ -98,6 +98,30 @@ def checkpoint(path: Path, q, optimizer, iteration: int, mode: str, meta: dict):
     tmp.replace(path)
 
 
+def restore_checkpoint(path, q, optimizer, mode, meta):
+    state = torch.load(path, map_location='cpu', weights_only=False)
+    if state['mode'] != mode or state['metadata']['source_commit'] != meta['source_commit']:
+        raise ValueError('Resume mode/source mismatch')
+    if state['metadata']['topology_sha256'] != meta['topology_sha256']:
+        raise ValueError('Resume topology mismatch')
+    old, new = state['metadata']['config'], meta['config']
+    for key in ('data', 'likelihood', 'posterior', 'execution'):
+        if old[key] != new[key]:
+            raise ValueError(f'Resume configuration mismatch: {key}')
+    for key in old['optimizer']:
+        if key != 'max_iterations' and old['optimizer'][key] != new['optimizer'][key]:
+            raise ValueError(f'Resume optimizer mismatch: {key}')
+    if not 0 <= state['iteration'] < new['optimizer']['max_iterations']:
+        raise ValueError('Resume iteration must precede target')
+    q.load_state_dict(state['posterior'])
+    optimizer.load_state_dict(state['optimizer'])
+    torch.set_rng_state(state['torch_rng'])
+    torch.cuda.set_rng_state_all(state['cuda_rng'])
+    np.random.set_state(state['numpy_rng'])
+    random.setstate(state['python_rng'])
+    return state['iteration']
+
+
 class MemoryMonitor:
     """Sample process memory, including Warp allocations invisible to Torch."""
     def __init__(self):
@@ -141,7 +165,7 @@ def prepare_run(args, plan, protocol):
                 tar.add(path, arcname=rel)
     inputs = {str(Path(p).expanduser().resolve()): sha256(Path(p).expanduser())
               for key, p in plan['data'].items() if key != 'manifest'}
-    for option in ('map_checkpoint', 'vi_checkpoint'):
+    for option in ('map_checkpoint', 'vi_checkpoint', 'resume_checkpoint'):
         p = getattr(args, option, None)
         if p:
             inputs[str(p.resolve())] = sha256(p)
@@ -164,7 +188,7 @@ def prepare_run(args, plan, protocol):
     return run_dir, artifacts, manifest
 
 
-def train(rollout, plan, protocol, mode: str, artifacts: Path):
+def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint=None):
     s = rollout.sim
     opt = plan['optimizer']
     seed = opt['seed']
@@ -178,10 +202,15 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path):
     iteration = 0
     meta = dict(config=plan, source_commit=COMMIT, object_springs=s.object_springs,
                 topology_sha256=sha256(artifacts / 'topology.npz'))
+    if resume_checkpoint:
+        iteration = restore_checkpoint(resume_checkpoint, q, optimizer, mode, meta)
+        meta['resume_checkpoint'] = str(resume_checkpoint.resolve())
+        meta['resume_checkpoint_sha256'] = sha256(resume_checkpoint)
+    initial_iteration = iteration
     checkpoint(artifacts / 'checkpoint.pt', q, optimizer, iteration, mode, meta)
     history = []
     status = 'completed'
-    for iteration in range(1, opt['max_iterations'] + 1):
+    for iteration in range(initial_iteration + 1, opt['max_iterations'] + 1):
         if time.monotonic() >= deadline:
             status = 'budget_limited'
             break
@@ -219,7 +248,8 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path):
         logging.info('%s iteration=%d nll=%.5g rmse=%.5g elapsed=%.1fs', mode, iteration,
                      row['nll_without_constant'], row['rmse_m'], row['seconds'])
     completed = len(history)
-    return dict(status=status, completed_iterations=completed,
+    return dict(status=status, completed_iterations=completed, initial_iteration=initial_iteration,
+                total_iterations=initial_iteration + completed,
                 training_seconds=time.monotonic()-start, last_iteration=history[-1] if history else None,
                 convergence='not_established', posterior=posterior_summary(q,s.object_springs,protocol['primary_metric']['std_ratio_threshold']) if mode=='vi' else None)
 
@@ -302,7 +332,10 @@ def main():
     parser.add_argument('--mode',choices=['map','vi','evaluate'],default='vi')
     parser.add_argument('--map-checkpoint',type=Path)
     parser.add_argument('--vi-checkpoint',type=Path)
+    parser.add_argument('--resume-checkpoint', type=Path)
     args=parser.parse_args()
+    if args.resume_checkpoint and args.mode == 'evaluate':
+        parser.error('--resume-checkpoint requires training mode')
     plan,protocol=read_plan(args.config)
     run_dir,artifacts,manifest=prepare_run(args,plan,protocol)
     monitor=MemoryMonitor(); monitor.thread.start()
@@ -319,7 +352,7 @@ def main():
         manifest['counts']=dict(particles=s.num_object_points,springs=s.n_springs,object_springs=s.object_springs)
         if plan['execution']['use_graph']: rollout.capture()
         result=(evaluate(rollout,plan,protocol,args,artifacts) if args.mode=='evaluate'
-                else train(rollout,plan,protocol,args.mode,artifacts))
+                else train(rollout,plan,protocol,args.mode,artifacts,args.resume_checkpoint))
         manifest.update(result)
     except BaseException as exc:
         manifest.update(status='failed',failure_reason=f'{type(exc).__name__}: {exc}')
