@@ -67,8 +67,14 @@ def main(output, config):
         s=r.sim
         np.savez(folder/'topology.npz',edges=s.wp_springs.numpy(),rest=s.wp_rest_lengths.numpy(),mass=s.wp_masses.numpy(),object_springs=np.array(s.object_springs))
         r.z_buffer.copy_(center)
-        smoke=dict(plan);smoke['optimizer']=dict(plan['optimizer'],max_iterations=cfg['initial_samples'])
-        result['smoke']=train(r,smoke,protocol,'vi',folder)
+        resume=Path(plan['continuation']['checkpoint']) if plan.get('continuation') else None
+        initial_iteration=0
+        if resume:
+            result['resume_checkpoint_sha256']=sha256(resume)
+            assert result['resume_checkpoint_sha256']==plan['continuation']['checkpoint_sha256']
+            initial_iteration=torch.load(resume,weights_only=False,map_location='cpu')['iteration']
+        smoke=dict(plan);smoke['optimizer']=dict(plan['optimizer'],max_iterations=initial_iteration+cfg['initial_samples'])
+        result['smoke']=train(r,smoke,protocol,'vi',folder,resume_checkpoint=resume)
         assert result['smoke']['status']=='completed'
         result['status']='passed'
     except BaseException:

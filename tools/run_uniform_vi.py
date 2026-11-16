@@ -26,6 +26,10 @@ def main():
     assert json.loads((args.validation_dir/'evaluation-smoke/validation.json').read_text())['status']=='completed'
     output=root/(plan['id']+'-launch')
     ids=plan['run_ids']
+    continuation=plan.get('continuation')
+    if continuation:
+        assert sha256(Path(continuation['checkpoint']))==continuation['checkpoint_sha256']
+        assert validation['resume_checkpoint_sha256']==continuation['checkpoint_sha256']
     for rid in ids.values():
         if (ROOT/'runs'/rid).exists() or (root/rid).exists():raise FileExistsError(rid)
     status={'status':'running','started_at_unix':time.time(),'completed':[]}
@@ -33,11 +37,16 @@ def main():
         for mode,key in [('vi','train'),('evaluate','evaluate')]:
             status['active']=ids[key];write_json(output/'status.json',status)
             cmd=[sys.executable,'-m','lab.calibration.phystwin_vi','--config',str(config),'--mode',mode,'--run-dir',str(ROOT/'runs'/ids[key])]
+            if mode=='vi' and continuation:
+                cmd+=['--resume-checkpoint',continuation['checkpoint']]
             if mode=='evaluate':cmd+=['--vi-checkpoint',str(root/ids['train']/'checkpoint.pt')]
             subprocess.run(cmd,cwd=ROOT,check=True)
             manifest=json.loads((ROOT/'runs'/ids[key]/'manifest.json').read_text())
             if manifest['status']!='completed':raise RuntimeError(manifest['status'])
             status['completed'].append(ids[key])
+        if continuation:
+            from compare_uniform_continuation import compare
+            compare(plan,output)
         status['status']='completed'
     except BaseException:
         status.update(status='failed',error=traceback.format_exc());raise
