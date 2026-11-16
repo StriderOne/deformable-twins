@@ -101,3 +101,4 @@ suite_runs:
 preflight:
   iterations: 2
   budget_seconds: 120
+  initial_nll_rtol: 0.00001

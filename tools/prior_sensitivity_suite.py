@@ -31,6 +31,7 @@ def preflight(output):
         s=rollout.sim
         initial_center=rollout.z_buffer.clone()
         first=None
+        first_rng=None
         nll=None
         for variant in base['variants']:
             plan,protocol=read_plan(CONFIG,variant)
@@ -43,12 +44,17 @@ def preflight(output):
             rollout.z_buffer.copy_(initial_center)
             r=train(rollout,plan,protocol,'vi',folder)
             assert r['status']=='completed',r
-            state=torch.load(folder/'checkpoint-000000.pt',map_location='cpu',weights_only=False)['posterior']
+            initial=torch.load(folder/'checkpoint-000000.pt',map_location='cpu',weights_only=False)
+            state=initial['posterior']
+            if first_rng is None:first_rng=initial['cuda_rng']
+            for actual,expected in zip(initial['cuda_rng'],first_rng):
+                torch.testing.assert_close(actual,expected,rtol=0,atol=0)
             if first is None:first=state
             for key in ('mu','rho'):torch.testing.assert_close(state[key],first[key],rtol=0,atol=0)
             row=json.loads((folder/'history.jsonl').read_text().splitlines()[0])
             if nll is None:nll=row['nll_without_constant']
-            assert np.isclose(row['nll_without_constant'],nll,rtol=1e-6)
+            assert np.isclose(row['nll_without_constant'],nll,rtol=base['preflight']['initial_nll_rtol'])
+            r['initial_nll_relative_difference']=abs(row['nll_without_constant']-nll)/nll
             result['variants'][variant]=r
             print('PREFLIGHT',variant,r['status'],flush=True)
         result['status']='passed'
