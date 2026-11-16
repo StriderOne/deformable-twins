@@ -1,0 +1,12 @@
+{
+  "source_run": "R-0024",
+  "source_manifest": "runs/R-0024/manifest.json",
+  "files": {
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0024/samples.jsonl": "ef4721a995e6b32566d1c1a76203b26b8c386d57353a4a89d84487029233babd",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0024/selection.json": "251041e27d03aaf9f2f36fa7cf34292c27546f943cc43b9e7718baa9fb07aa4c",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0024/summary.json": "e993c331a46fe03e27c93bb9cfec3ee324692cbf5c204abaf42b88f2f9a3f871",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0024-plots/loss-distributions.png": "e46ae9d29a345684365b38ea1d2716017c244c9bd32386251da6b66cc662ef72",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0024-plots/shared-grid.png": "50e568777740fc363f485142ff0f151dcca7156fd75449bac291f931c6936321",
+    "/home/homa/deformable-twins/tools/plot_spring_loss_probe.py": "248fd671e419d47523afde4b9e1b1cde075919b396b78c8ea08dbe5548ba2deb"
+  }
+}
