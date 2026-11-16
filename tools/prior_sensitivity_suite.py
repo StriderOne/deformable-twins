@@ -29,6 +29,7 @@ def preflight(output):
         rollout,_=build_simulator(plan)
         rollout.capture()
         s=rollout.sim
+        initial_center=rollout.z_buffer.clone()
         first=None
         nll=None
         for variant in base['variants']:
@@ -38,6 +39,8 @@ def preflight(output):
             folder=output/variant;folder.mkdir()
             np.savez(folder/'topology.npz',edges=s.wp_springs.numpy(),rest=s.wp_rest_lengths.numpy(),
                      mass=s.wp_masses.numpy(),object_springs=np.array(s.object_springs))
+            # trajectory writes its sample into the shared stiffness buffer.
+            rollout.z_buffer.copy_(initial_center)
             r=train(rollout,plan,protocol,'vi',folder)
             assert r['status']=='completed',r
             state=torch.load(folder/'checkpoint-000000.pt',map_location='cpu',weights_only=False)['posterior']
