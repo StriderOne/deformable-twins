@@ -65,3 +65,21 @@ class PosteriorTests(unittest.TestCase):
         self.assertFalse(p['execution']['hardware_execution'])
 
 if __name__=='__main__': unittest.main()
+
+class PriorSensitivityTests(unittest.TestCase):
+    def test_common_posterior_different_priors(self):
+        import math
+        center=torch.tensor([1.,2.],dtype=torch.float64)
+        qs=[LogStiffnessPosterior(center,.5,s,f) for f,s in [(1.,.5),(.5,.5),(2.,.5),(1.,.25),(1.,1.)]]
+        eps=torch.tensor([.3,-.2],dtype=torch.float64)
+        for q in qs:
+            torch.testing.assert_close(q.sample(eps),qs[0].sample(eps),rtol=0,atol=0)
+            expected=torch.distributions.kl_divergence(torch.distributions.Normal(q.mu,q.std),torch.distributions.Normal(q.prior_mu,q.prior_std)).sum()
+            torch.testing.assert_close(q.kl(),expected)
+            q.kl().backward()
+        self.assertTrue((qs[1].mu.grad>0).all())
+        self.assertTrue((qs[2].mu.grad<0).all())
+        self.assertTrue((qs[3].rho.grad>0).all())
+        self.assertTrue((qs[4].rho.grad<0).all())
+        for bad in [0,-1,float('nan'),float('inf')]:
+            with self.assertRaises(ValueError):LogStiffnessPosterior(center,.5,.5,bad)

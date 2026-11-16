@@ -1,17 +1,20 @@
 """Diagonal Gaussian in the simulator's log-stiffness coordinates."""
+import math
 import torch
 from torch import nn
 from torch.nn import functional as F
 
 
 class LogStiffnessPosterior(nn.Module):
-    def __init__(self, center: torch.Tensor, initial_std: float, prior_std: float):
+    def __init__(self, center: torch.Tensor, initial_std: float, prior_std: float, prior_center_factor: float = 1.0):
         super().__init__()
         if not 0 < initial_std or not 0 < prior_std:
             raise ValueError('Standard deviations must be positive')
+        if not math.isfinite(prior_center_factor) or prior_center_factor <= 0:
+            raise ValueError('Prior center factor must be positive and finite')
         self.mu = nn.Parameter(center.detach().clone())
         self.rho = nn.Parameter(torch.full_like(center, initial_std).expm1().log())
-        self.register_buffer('prior_mu', center.detach().clone())
+        self.register_buffer('prior_mu', center.detach().clone() + math.log(prior_center_factor))
         self.register_buffer('prior_std', torch.full_like(center, prior_std))
 
     @property

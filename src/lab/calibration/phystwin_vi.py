@@ -27,8 +27,15 @@ def write_json(path: Path, value: dict) -> None:
     path.write_text(json.dumps(value, indent=2, allow_nan=False) + '\n')
 
 
-def read_plan(path: Path):
+def read_plan(path: Path, variant: str | None = None):
     plan = yaml.safe_load(path.read_text())
+    if plan.get('variants'):
+        if variant not in plan['variants']:
+            raise ValueError('Select a configured prior variant')
+        plan['posterior'].update(plan['variants'][variant])
+        plan['selected_variant'] = variant
+    elif variant is not None:
+        raise ValueError('Plan has no variants')
     jsonschema.validate(plan, json.loads((ROOT/'schemas/vi-experiment.schema.json').read_text()))
     if plan['source_commit'] != COMMIT:
         raise ValueError('Plan does not match adapter commit')
@@ -193,7 +200,8 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
     opt = plan['optimizer']
     seed = opt['seed']
     torch.manual_seed(seed)
-    q = LogStiffnessPosterior(rollout.z_buffer.clone(), plan['posterior']['initial_std'], plan['posterior']['prior_std'])
+    q = LogStiffnessPosterior(rollout.z_buffer.clone(), plan['posterior']['initial_std'], plan['posterior']['prior_std'],
+                              plan['posterior'].get('prior_center_factor', 1.0))
     parameters = [q.mu, q.rho] if mode == 'vi' else [q.mu]
     optimizer = torch.optim.Adam(parameters, lr=opt['lr'], betas=tuple(opt['betas']))
     end = protocol['splits']['calibration_targets'][1]
@@ -208,6 +216,8 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
         meta['resume_checkpoint_sha256'] = sha256(resume_checkpoint)
     initial_iteration = iteration
     checkpoint(artifacts / 'checkpoint.pt', q, optimizer, iteration, mode, meta)
+    if initial_iteration in plan.get('checkpoint_iterations', []):
+        checkpoint(artifacts / f'checkpoint-{initial_iteration:06d}.pt', q, optimizer, initial_iteration, mode, meta)
     history = []
     status = 'completed'
     for iteration in range(initial_iteration + 1, opt['max_iterations'] + 1):
@@ -245,6 +255,8 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
         with (artifacts / 'history.jsonl').open('a') as f:
             f.write(json.dumps(row, allow_nan=False)+'\n')
         checkpoint(artifacts / 'checkpoint.pt', q, optimizer, iteration, mode, meta)
+        if iteration in plan.get('checkpoint_iterations', []):
+            checkpoint(artifacts / f'checkpoint-{iteration:06d}.pt', q, optimizer, iteration, mode, meta)
         logging.info('%s iteration=%d nll=%.5g rmse=%.5g elapsed=%.1fs', mode, iteration,
                      row['nll_without_constant'], row['rmse_m'], row['seconds'])
     completed = len(history)
@@ -265,7 +277,8 @@ def evaluate(rollout, plan, protocol, args, artifacts):
     for mode, path in [('MAP',args.map_checkpoint),('VI_mu',args.vi_checkpoint)]:
         if path:
             state = torch.load(path, map_location='cuda:0', weights_only=False)
-            q = LogStiffnessPosterior(center, plan['posterior']['initial_std'], plan['posterior']['prior_std'])
+            q = LogStiffnessPosterior(center, plan['posterior']['initial_std'], plan['posterior']['prior_std'],
+                              plan['posterior'].get('prior_center_factor', 1.0))
             q.load_state_dict(state['posterior'])
             if q.mu.shape != center.shape or state['metadata']['topology_sha256'] != sha256(artifacts/'topology.npz'):
                 raise ValueError('Checkpoint topology mismatch')
@@ -333,10 +346,11 @@ def main():
     parser.add_argument('--map-checkpoint',type=Path)
     parser.add_argument('--vi-checkpoint',type=Path)
     parser.add_argument('--resume-checkpoint', type=Path)
+    parser.add_argument('--variant')
     args=parser.parse_args()
     if args.resume_checkpoint and args.mode == 'evaluate':
         parser.error('--resume-checkpoint requires training mode')
-    plan,protocol=read_plan(args.config)
+    plan,protocol=read_plan(args.config, args.variant)
     run_dir,artifacts,manifest=prepare_run(args,plan,protocol)
     monitor=MemoryMonitor(); monitor.thread.start()
     start=time.monotonic()
