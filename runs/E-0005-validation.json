@@ -1,0 +1,32 @@
+{
+  "experiment": "E-0005",
+  "tests": {
+    "command": "PYTHONPATH=src /home/homa/.venvs/phystwin-vi/bin/python -m unittest discover -s tests -p 'test_vi*.py'",
+    "passed": 10
+  },
+  "attempts": [
+    {
+      "path": "/home/homa/.local/share/deformable-twins/artifacts/E-0005-suite/validation.json",
+      "sha256": "16af35ce36256ec70de6c75081491ec29cd7be239435bac6cfb1758f9741a22a",
+      "status": "failed",
+      "commit": "ab6483aef22c6c92147e3b40bbf2caa7d8f9f390"
+    },
+    {
+      "path": "/home/homa/.local/share/deformable-twins/artifacts/E-0005-suite-v2/validation.json",
+      "sha256": "351c31f117d3918e06043668056b7adfe3d19c13c0123adc47d63654a107db9f",
+      "status": "failed",
+      "commit": "a46a526d15a83369bb3464c1daa662423d3d0b40"
+    },
+    {
+      "path": "/home/homa/.local/share/deformable-twins/artifacts/E-0005-suite-v3/validation.json",
+      "sha256": "34303aa1db02482cd217e0a99f423dbad374fc99da45d0624597b2eaeead4d6f",
+      "status": "passed",
+      "commit": "f8eaf8f91cf687bf26c74b2dc59ea811eacf0bbe"
+    }
+  ],
+  "notes": [
+    "First preflight caught shared stiffness buffer contaminating next initialization; restored common center before each variant.",
+    "Second preflight rejected GPU NLL jitter at strict tolerance; identical parameter and RNG checks retained, NLL tolerance explicitly configured.",
+    "Third preflight passed all variants; no failed sample resampling."
+  ]
+}
