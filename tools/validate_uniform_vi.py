@@ -16,9 +16,8 @@ from lab.calibration.phystwin_vi import read_plan, train, write_json
 from lab.calibration.posterior import make_posterior, UniformStiffnessPosterior
 
 
-def main(output):
+def main(output, config):
     output.mkdir(parents=True,exist_ok=False)
-    config=ROOT/'experiments/E-0006.yaml'
     plan,protocol=read_plan(config)
     cfg=plan['validation']
     result={'status':'running','config_sha256':sha256(config),'source_commit':COMMIT,
@@ -80,4 +79,5 @@ def main(output):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--output',type=Path,required=True)
-    main(parser.parse_args().output)
+    parser.add_argument('--config',type=Path,default=ROOT/'experiments/E-0006.yaml')
+    args=parser.parse_args();main(args.output,args.config)

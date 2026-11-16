@@ -1,0 +1,8 @@
+id: BL-0007
+version: 1
+status: proposal
+method: VI_logistic_normal_Y_uniform_prior_double_lift
+experiment: E-0007
+benchmark: B-0002
+protocol: P-0005
+settings_source: experiments/E-0007.yaml

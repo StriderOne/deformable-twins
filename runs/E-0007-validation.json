@@ -1,0 +1,20 @@
+{
+  "experiment": "E-0007",
+  "status": "passed",
+  "unit_tests_passed": 13,
+  "source_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+  "checks": {
+    "/home/homa/.local/share/deformable-twins/artifacts/E-0007-validation/validation.json": "3a57ce489b651b6d9960eca18483a75e5ae50cbf3310638474e26ddf5372027d",
+    "/home/homa/.local/share/deformable-twins/artifacts/E-0007-validation/evaluation-smoke/validation.json": "244fe5c53ce2b2cbfc1aacc65d603040786978e19ea5fb13362b2b8369f2ab61"
+  },
+  "counts": {
+    "springs": 114997,
+    "object_springs": 114479,
+    "particles": 6660
+  },
+  "baseline_seconds": [
+    3.120256012000027,
+    3.095504556000378,
+    3.095083677999355
+  ]
+}
