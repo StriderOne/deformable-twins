@@ -30,6 +30,8 @@ def main():
     args.output.mkdir(parents=True,exist_ok=False)
     state=torch.load(args.checkpoint,map_location='cpu',weights_only=False)
     q=state['posterior']
+    if state['metadata']['config']['posterior']['family'] != 'diagonal_gaussian_log_stiffness':
+        raise ValueError('Gaussian viewer does not support bounded posteriors; use evaluation physical-posterior.npz')
     mu=q['mu'].numpy().astype(float)
     sigma=torch.nn.functional.softplus(q['rho']).numpy().astype(float)
     prior_mu=q['prior_mu'].numpy().astype(float)

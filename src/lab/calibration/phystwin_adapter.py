@@ -50,7 +50,7 @@ def source_class(path: Path, name: str, method: str | None = None):
 
 def load_upstream():
     paths = ['qqtt/utils/config.py', 'qqtt/engine/trainer_warp.py',
-             'qqtt/model/diff_simulator/spring_mass_warp.py']
+             'qqtt/model/diff_simulator/spring_mass_warp.py', 'configs/real.yaml']
     actual = subprocess.check_output(['git', '-C', str(SOURCE), 'rev-parse', 'HEAD'], text=True).strip()
     if actual != COMMIT:
         raise ValueError('Unsupported PhysTwin commit; review adapter before upgrading')

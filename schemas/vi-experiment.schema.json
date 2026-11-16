@@ -70,13 +70,15 @@
     "posterior": {
       "type": "object",
       "required": [
-        "initial_std",
-        "prior_std",
-        "family"
+        "family",
+        "initial_std"
       ],
       "properties": {
         "family": {
-          "const": "diagonal_gaussian_log_stiffness"
+          "enum": [
+            "diagonal_gaussian_log_stiffness",
+            "logistic_normal_stiffness"
+          ]
         },
         "initial_std": {
           "type": "number",
@@ -89,8 +91,49 @@
         "prior_center_factor": {
           "type": "number",
           "exclusiveMinimum": 0
+        },
+        "prior_family": {
+          "const": "uniform_stiffness"
+        },
+        "lower": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "upper": {
+          "type": "number",
+          "maximum": 100000
+        },
+        "quadrature_points": {
+          "enum": [
+            64,
+            128
+          ]
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "family": {
+                "const": "logistic_normal_stiffness"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "prior_family",
+              "lower",
+              "upper",
+              "quadrature_points"
+            ]
+          },
+          "else": {
+            "required": [
+              "prior_std"
+            ]
+          }
+        }
+      ]
     },
     "optimizer": {
       "type": "object",
@@ -216,6 +259,10 @@
           }
         }
       }
+    },
+    "checkpoint_every": {
+      "type": "integer",
+      "minimum": 1
     }
   }
 }

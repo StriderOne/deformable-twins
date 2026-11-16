@@ -11,3 +11,12 @@ center/scale overrides), and `checkpoint_iterations` to experiment format v1.
 Existing plans retain factor 1 and the previous checkpoint behavior; no migration
 is required. Variant plans require explicit CLI `--variant`; manifests retain the
 selected variant and resolved posterior settings as well as the source config hash.
+
+E-0006 adds `posterior.family: logistic_normal_stiffness` with an explicit
+`uniform_stiffness` prior, positive lower/upper support and quadrature order.
+`initial_std` is now family-specific: log stiffness for the existing Gaussian,
+unconstrained logit for the new family. New records explicitly label this coordinate.
+The new point estimate is median Y, and width ratios use physical Y standard
+deviation relative to uniform standard deviation. Old checkpoints remain unchanged;
+loading uses their stored posterior family. Optional `checkpoint_every` defaults to
+1 and controls rolling checkpoint I/O; milestone and final checkpoints are retained.

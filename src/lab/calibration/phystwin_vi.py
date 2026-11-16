@@ -20,7 +20,7 @@ import torch
 import yaml
 
 from .phystwin_adapter import ROOT, SOURCE, COMMIT, build_simulator, sha256
-from .posterior import LogStiffnessPosterior
+from .posterior import LogStiffnessPosterior, UniformStiffnessPosterior, make_posterior
 
 
 def write_json(path: Path, value: dict) -> None:
@@ -42,9 +42,12 @@ def read_plan(path: Path, variant: str | None = None):
     for key in ('sigma_obs_m',):
         if not math.isfinite(plan['likelihood'][key]) or plan['likelihood'][key] <= 0:
             raise ValueError('Expected positive finite observation noise')
-    for key in ('initial_std', 'prior_std'):
+    for key in ('initial_std', 'prior_std') if plan['posterior']['family'] == 'diagonal_gaussian_log_stiffness' else ('initial_std',):
         if not math.isfinite(plan['posterior'][key]) or plan['posterior'][key] <= 0:
             raise ValueError('Expected positive finite posterior/prior scales')
+    if plan['posterior']['family'] == 'logistic_normal_stiffness':
+        if not 0 < plan['posterior']['lower'] < plan['posterior']['upper'] <= 1e5:
+            raise ValueError('Uniform bounds must lie within positive PhysTwin stiffness support')
     if plan['optimizer']['samples_per_iteration'] != 1 or plan['execution']['hardware_execution']:
         raise ValueError('Only one-sample offline pilot supported')
     protocol_path = ROOT / f"registry/protocols/{plan['protocol']['id']}.yaml"
@@ -87,7 +90,8 @@ def metrics(losses, counts, sigma: float, split: int) -> dict:
 
 
 def posterior_summary(q, n_object: int, threshold: float) -> dict:
-    ratio = (q.std / q.prior_std).detach()
+    with torch.no_grad():
+        ratio = q.std_ratio().detach()
     result = {}
     for name, r in [('object', ratio[:n_object]), ('controller', ratio[n_object:])]:
         result[name] = dict(count=r.numel(), mean_ratio=float(r.mean()),
@@ -190,6 +194,9 @@ def prepare_run(args, plan, protocol):
                     gpu_inventory=subprocess.check_output(['nvidia-smi','--query-gpu=name,driver_version,memory.total','--format=csv,noheader'],text=True).strip(),
                     artifact_directory=str(artifacts), failure_reason=None,
                     limitations=['truncated_gradients','data_dependent_prior','single_session','assumed_noise','no_independent_test'])
+    if plan['posterior'].get('prior_family') == 'uniform_stiffness':
+        manifest['limitations'].remove('data_dependent_prior')
+        manifest['limitations'].extend(['CMA_initialized_posterior','bounded_variational_family','quadrature_KL'])
     write_json(run_dir / 'manifest.json', manifest)
     write_json(artifacts / 'resolved-plan.json', {'experiment':plan,'protocol':protocol})
     return run_dir, artifacts, manifest
@@ -200,8 +207,9 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
     opt = plan['optimizer']
     seed = opt['seed']
     torch.manual_seed(seed)
-    q = LogStiffnessPosterior(rollout.z_buffer.clone(), plan['posterior']['initial_std'], plan['posterior']['prior_std'],
-                              plan['posterior'].get('prior_center_factor', 1.0))
+    q = make_posterior(rollout.z_buffer.clone(), plan['posterior'])
+    if mode != 'vi' and isinstance(q, UniformStiffnessPosterior):
+        raise ValueError('Uniform pilot supports VI only')
     parameters = [q.mu, q.rho] if mode == 'vi' else [q.mu]
     optimizer = torch.optim.Adam(parameters, lr=opt['lr'], betas=tuple(opt['betas']))
     end = protocol['splits']['calibration_targets'][1]
@@ -251,15 +259,23 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
                                    / (3 * s.valid_counts[:end-1].sum())),
                    saturated_fraction=float((z.detach() >= math.log(s.spring_Y_max)).float().mean()),
                    std=posterior_summary(q, s.object_springs, threshold) if mode == 'vi' else None)
+        if isinstance(q, UniformStiffnessPosterior):
+            with torch.no_grad():
+                fraction = (z.detach().exp()-q.lower)/(q.upper-q.lower)
+                margin = plan['diagnostics']['boundary_margin_fraction']
+                row['near_uniform_bounds_fraction'] = float(((fraction < margin) | (fraction > 1-margin)).float().mean())
+                row['max_logit_std'] = float(q.std.max())
         history.append(row)
         with (artifacts / 'history.jsonl').open('a') as f:
             f.write(json.dumps(row, allow_nan=False)+'\n')
-        checkpoint(artifacts / 'checkpoint.pt', q, optimizer, iteration, mode, meta)
+        if iteration % plan.get('checkpoint_every', 1) == 0 or iteration == opt['max_iterations']:
+            checkpoint(artifacts / 'checkpoint.pt', q, optimizer, iteration, mode, meta)
         if iteration in plan.get('checkpoint_iterations', []):
             checkpoint(artifacts / f'checkpoint-{iteration:06d}.pt', q, optimizer, iteration, mode, meta)
         logging.info('%s iteration=%d nll=%.5g rmse=%.5g elapsed=%.1fs', mode, iteration,
                      row['nll_without_constant'], row['rmse_m'], row['seconds'])
     completed = len(history)
+    checkpoint(artifacts / 'checkpoint.pt', q, optimizer, initial_iteration+completed, mode, meta)
     return dict(status=status, completed_iterations=completed, initial_iteration=initial_iteration,
                 total_iterations=initial_iteration + completed,
                 training_seconds=time.monotonic()-start, last_iteration=history[-1] if history else None,
@@ -277,19 +293,28 @@ def evaluate(rollout, plan, protocol, args, artifacts):
     for mode, path in [('MAP',args.map_checkpoint),('VI_mu',args.vi_checkpoint)]:
         if path:
             state = torch.load(path, map_location='cuda:0', weights_only=False)
-            q = LogStiffnessPosterior(center, plan['posterior']['initial_std'], plan['posterior']['prior_std'],
-                              plan['posterior'].get('prior_center_factor', 1.0))
+            q = make_posterior(center, state['metadata']['config']['posterior'])
             q.load_state_dict(state['posterior'])
             if q.mu.shape != center.shape or state['metadata']['topology_sha256'] != sha256(artifacts/'topology.npz'):
                 raise ValueError('Checkpoint topology mismatch')
-            candidates.append((mode,q.mu.detach().clone()))
+            label = 'VI_median' if mode == 'VI_mu' and isinstance(q, UniformStiffnessPosterior) else mode
+            candidates.append((label,q.point_estimate().detach().clone()))
             if mode=='VI_mu': q_vi=q
     if q_vi is not None:
         torch.manual_seed(plan['optimizer']['seed']+1)
         for i in range(plan['budget']['posterior_samples']):
             candidates.append((f'VI_sample_{i:02}',q_vi.sample().detach()))
-        ratios = (q_vi.std/q_vi.prior_std).detach().cpu().numpy()
+        with torch.no_grad():
+            ratios = q_vi.std_ratio().cpu().numpy()
         np.save(artifacts/'std_ratio.npy',ratios)
+        if isinstance(q_vi, UniformStiffnessPosterior):
+            with torch.no_grad():
+                mean, std = q_vi.physical_moments()
+                np.savez(artifacts/'physical-posterior.npz', mean_Y=mean.cpu().numpy(), std_Y=std.cpu().numpy(),
+                         median_Y=q_vi.point_estimate().exp().cpu().numpy(),
+                         q025_Y=q_vi.log_stiffness(q_vi.mu-1.95996398454*q_vi.std).exp().cpu().numpy(),
+                         q975_Y=q_vi.log_stiffness(q_vi.mu+1.95996398454*q_vi.std).exp().cpu().numpy(),
+                         std_ratio=ratios)
     rows = []
     for name,z in candidates:
         try:
@@ -305,13 +330,14 @@ def evaluate(rollout, plan, protocol, args, artifacts):
         np.save(artifacts/f'{name}-frame-nll.npy',losses)
         write_json(artifacts/'evaluation.json',{'results':rows})
         logging.info('evaluation %s %s',name,row)
-    plot_results(args, artifacts, rollout.sim.object_springs)
+    plot_results(args, artifacts, rollout.sim.object_springs,
+                 'Y' if isinstance(q_vi, UniformStiffnessPosterior) else 'log stiffness')
     return dict(status='completed' if len(rows)==len(candidates) else 'budget_limited',
                 evaluation_seconds=time.monotonic()-start, completed_rollouts=len(rows),
                 requested_rollouts=len(candidates),results=rows)
 
 
-def plot_results(args, artifacts: Path, object_springs: int):
+def plot_results(args, artifacts: Path, object_springs: int, coordinates: str = "log stiffness"):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
@@ -320,7 +346,7 @@ def plot_results(args, artifacts: Path, object_springs: int):
         fig,ax=plt.subplots()
         for name,r in [('Object',ratios[:object_springs]),('Controller',ratios[object_springs:])]:
             ax.hist(r,bins=40,alpha=0.6,label=name)
-        ax.set(xlabel='Posterior std / prior std (log stiffness)',ylabel='Spring count')
+        ax.set(xlabel=f'Posterior std / prior std ({coordinates})',ylabel='Spring count')
         ax.legend(); fig.tight_layout(); fig.savefig(artifacts/'std-ratio.png'); plt.close(fig)
     fig,axes=plt.subplots(1,2,figsize=(10,4))
     for name,path in [('MAP',args.map_checkpoint),('VI',args.vi_checkpoint)]:

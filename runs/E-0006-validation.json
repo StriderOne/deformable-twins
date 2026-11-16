@@ -1,0 +1,61 @@
+{
+  "experiment": "E-0006",
+  "unit_tests_passed": 13,
+  "source_audit": {
+    "upstream_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+    "clean_worktree": true,
+    "cached_simulator_definitions_match_upstream": true,
+    "definition_count": 21,
+    "upstream_simulator_sha256": "7deab9a25f4b8b8772f7df45c35571caf3767d014dd353cad151fe8eddceca1c",
+    "cached_simulator_sha256": "d64908c1002cbed77fd644db75478bc2a76ac313274d985a430b5f561d6486b6"
+  },
+  "optimization_candidate": {
+    "accepted": false,
+    "reason": "negligible speed gain; strict gradient comparison failed but baseline repeats also fluctuate",
+    "repeatability": [
+      {
+        "label": "baseline",
+        "seconds": 4.580172975001915,
+        "gradient_relative_l2_vs_first": null,
+        "loss_max_relative_vs_first": null
+      },
+      {
+        "label": "baseline",
+        "seconds": 4.5587072010021075,
+        "gradient_relative_l2_vs_first": 0.009445242583751678,
+        "loss_max_relative_vs_first": 5.864585171422343e-05
+      },
+      {
+        "label": "baseline",
+        "seconds": 4.557492193001963,
+        "gradient_relative_l2_vs_first": 0.007226850371807814,
+        "loss_max_relative_vs_first": 4.722807527428613e-05
+      },
+      {
+        "label": "deferred",
+        "seconds": 4.532003565997002,
+        "gradient_relative_l2_vs_first": 0.003981704358011484,
+        "loss_max_relative_vs_first": 1.9514017915529215e-05
+      },
+      {
+        "label": "deferred",
+        "seconds": 4.532842290998815,
+        "gradient_relative_l2_vs_first": 0.004161868244409561,
+        "loss_max_relative_vs_first": 3.176217809655287e-05
+      },
+      {
+        "label": "deferred",
+        "seconds": 4.534204278999823,
+        "gradient_relative_l2_vs_first": 0.0039049333427101374,
+        "loss_max_relative_vs_first": 3.5914096801984616e-05
+      }
+    ],
+    "snapshot": "/home/homa/.local/share/deformable-twins/artifacts/E-0006-validation/adapter-candidate.py",
+    "snapshot_sha256": "7ec16a829d7016b8507ea47c475ad2f041570c537e074603203e3d141309fb27"
+  },
+  "validation": {
+    "/home/homa/.local/share/deformable-twins/artifacts/E-0006-validation/validation.json": "22240cbd83164cd6272d2687b04ce514fae0fb0238600ed05ce1c50ee62ed500",
+    "/home/homa/.local/share/deformable-twins/artifacts/E-0006-validation-v2/validation.json": "01297e4a7999127f6672b739ec064e6b5401e48225807190bc1240ffcbf260c6",
+    "/home/homa/.local/share/deformable-twins/artifacts/E-0006-validation-v2/evaluation-smoke/validation.json": "d226d055c2c63f2741080417a6b3ff574669ead06379c35286f3cff61a9bb428"
+  }
+}
