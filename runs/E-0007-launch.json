@@ -1,0 +1,8 @@
+{
+  "experiment": "E-0007",
+  "pid": 118565,
+  "execution_commit": "7744b305e95319849895fc2f905784b497fcf50d",
+  "artifact_directory": "/home/homa/.local/share/deformable-twins/artifacts/E-0007-launch",
+  "training_run": "R-0022",
+  "evaluation_run": "R-0023"
+}
