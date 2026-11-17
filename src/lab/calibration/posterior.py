@@ -92,8 +92,48 @@ class UniformStiffnessPosterior(nn.Module):
 
 
 def make_posterior(center, settings):
+    if settings['family'] == 'low_rank_logistic_normal_stiffness':
+        return LowRankUniformPosterior(center, settings['initial_std'], settings['lower'], settings['upper'], settings['quadrature_points'], settings['rank'])
     if settings['family'] == 'logistic_normal_stiffness':
         return UniformStiffnessPosterior(center, settings['initial_std'],
                                          settings['lower'], settings['upper'], settings['quadrature_points'])
     return LogStiffnessPosterior(center, settings['initial_std'], settings['prior_std'],
                                 settings.get('prior_center_factor', 1.0))
+
+
+class LowRankUniformPosterior(UniformStiffnessPosterior):
+    """Gaussian latent covariance diag(d²)+UUᵀ; bounded physical stiffness."""
+    def __init__(self, center, initial_std, lower, upper, quadrature_points=128, rank=32):
+        super().__init__(center, initial_std, lower, upper, quadrature_points)
+        if not 0 < rank <= center.numel():
+            raise ValueError('Invalid covariance rank')
+        # Small nonzero factors allow covariance learning; preserve initial marginals.
+        factor = torch.randn(center.numel(), rank, device=center.device, dtype=center.dtype)
+        factor = factor / factor.norm(dim=1, keepdim=True) * (initial_std * .01)
+        self.factor = nn.Parameter(factor)
+        with torch.no_grad():
+            self.rho.copy_((initial_std**2-factor.square().sum(1)).sqrt().expm1().log())
+
+    @property
+    def diagonal_std(self):
+        return F.softplus(self.rho)
+
+    @property
+    def std(self):
+        return (self.diagonal_std.square()+self.factor.square().sum(1)).sqrt()
+
+    def sample(self, epsilon=None, factor_epsilon=None):
+        if epsilon is None:
+            epsilon = torch.randn_like(self.mu)
+        if factor_epsilon is None:
+            factor_epsilon = torch.randn(self.factor.shape[1], device=self.mu.device, dtype=self.mu.dtype)
+        return self.log_stiffness(self.mu+self.diagonal_std*epsilon+self.factor@factor_epsilon)
+
+    def kl(self):
+        # Determinant lemma avoids constructing the N x N covariance.
+        scaled = self.factor / self.diagonal_std[:, None]
+        gram = torch.eye(scaled.shape[1], device=scaled.device, dtype=scaled.dtype)+scaled.T@scaled
+        logdet = 2*self.diagonal_std.log().sum()+2*torch.linalg.cholesky(gram).diagonal().log().sum()
+        u = self.mu[None, :]+self.std[None, :]*self.nodes
+        jacobian = ((F.softplus(u)+F.softplus(-u))*self.weights).sum()
+        return jacobian-.5*(self.mu.numel()*math.log(2*math.pi*math.e)+logdet)

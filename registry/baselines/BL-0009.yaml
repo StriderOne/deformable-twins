@@ -1,0 +1,8 @@
+id: BL-0009
+version: 1
+status: proposal
+method: VI_low_rank_logistic_normal_uniform_prior
+experiment: E-0011
+benchmark: B-0002
+protocol: P-0005
+settings_source: experiments/E-0011.yaml

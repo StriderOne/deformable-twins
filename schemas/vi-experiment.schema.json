@@ -77,7 +77,8 @@
         "family": {
           "enum": [
             "diagonal_gaussian_log_stiffness",
-            "logistic_normal_stiffness"
+            "logistic_normal_stiffness",
+            "low_rank_logistic_normal_stiffness"
           ]
         },
         "initial_std": {
@@ -108,6 +109,10 @@
             64,
             128
           ]
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 1
         }
       },
       "allOf": [
@@ -115,7 +120,10 @@
           "if": {
             "properties": {
               "family": {
-                "const": "logistic_normal_stiffness"
+                "enum": [
+                  "logistic_normal_stiffness",
+                  "low_rank_logistic_normal_stiffness"
+                ]
               }
             }
           },
@@ -130,6 +138,20 @@
           "else": {
             "required": [
               "prior_std"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "family": {
+                "const": "low_rank_logistic_normal_stiffness"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "rank"
             ]
           }
         }
@@ -263,6 +285,22 @@
     "checkpoint_every": {
       "type": "integer",
       "minimum": 1
+    },
+    "tensorboard": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "image_every"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "image_every": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
     }
   }
 }

@@ -45,7 +45,7 @@ def read_plan(path: Path, variant: str | None = None):
     for key in ('initial_std', 'prior_std') if plan['posterior']['family'] == 'diagonal_gaussian_log_stiffness' else ('initial_std',):
         if not math.isfinite(plan['posterior'][key]) or plan['posterior'][key] <= 0:
             raise ValueError('Expected positive finite posterior/prior scales')
-    if plan['posterior']['family'] == 'logistic_normal_stiffness':
+    if plan['posterior']['family'] in ('logistic_normal_stiffness', 'low_rank_logistic_normal_stiffness'):
         if not 0 < plan['posterior']['lower'] < plan['posterior']['upper'] <= 1e5:
             raise ValueError('Uniform bounds must lie within positive PhysTwin stiffness support')
     if plan['optimizer']['samples_per_iteration'] != 1 or plan['execution']['hardware_execution']:
@@ -210,7 +210,7 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
     q = make_posterior(rollout.z_buffer.clone(), plan['posterior'])
     if mode != 'vi' and isinstance(q, UniformStiffnessPosterior):
         raise ValueError('Uniform pilot supports VI only')
-    parameters = [q.mu, q.rho] if mode == 'vi' else [q.mu]
+    parameters = list(q.parameters()) if mode == 'vi' else [q.mu]
     optimizer = torch.optim.Adam(parameters, lr=opt['lr'], betas=tuple(opt['betas']))
     end = protocol['splits']['calibration_targets'][1]
     deadline = time.monotonic() + plan['budget'][f'{mode}_seconds']
@@ -226,6 +226,10 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
     checkpoint(artifacts / 'checkpoint.pt', q, optimizer, iteration, mode, meta)
     if initial_iteration in plan.get('checkpoint_iterations', []):
         checkpoint(artifacts / f'checkpoint-{initial_iteration:06d}.pt', q, optimizer, initial_iteration, mode, meta)
+    monitor = None
+    if plan.get('tensorboard', {}).get('enabled'):
+        from lab.calibration.vi_monitor import Monitor
+        monitor = Monitor(plan, artifacts, q, s.object_springs)
     history = []
     status = 'completed'
     for iteration in range(initial_iteration + 1, opt['max_iterations'] + 1):
@@ -265,6 +269,8 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
                 margin = plan['diagnostics']['boundary_margin_fraction']
                 row['near_uniform_bounds_fraction'] = float(((fraction < margin) | (fraction > 1-margin)).float().mean())
                 row['max_logit_std'] = float(q.std.max())
+        if monitor:
+            monitor.update(row, q)
         history.append(row)
         with (artifacts / 'history.jsonl').open('a') as f:
             f.write(json.dumps(row, allow_nan=False)+'\n')
@@ -274,6 +280,8 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
             checkpoint(artifacts / f'checkpoint-{iteration:06d}.pt', q, optimizer, iteration, mode, meta)
         logging.info('%s iteration=%d nll=%.5g rmse=%.5g elapsed=%.1fs', mode, iteration,
                      row['nll_without_constant'], row['rmse_m'], row['seconds'])
+    if monitor:
+        monitor.close()
     completed = len(history)
     checkpoint(artifacts / 'checkpoint.pt', q, optimizer, initial_iteration+completed, mode, meta)
     return dict(status=status, completed_iterations=completed, initial_iteration=initial_iteration,

@@ -20,3 +20,9 @@ The new point estimate is median Y, and width ratios use physical Y standard
 deviation relative to uniform standard deviation. Old checkpoints remain unchanged;
 loading uses their stored posterior family. Optional `checkpoint_every` defaults to
 1 and controls rolling checkpoint I/O; milestone and final checkpoints are retained.
+
+E-0011 adds `low_rank_logistic_normal_stiffness`, requiring positive integer
+`rank` and the existing uniform support fields. Covariance is diagonal plus a
+low-rank factor in latent coordinates; physical marginals remain bounded.
+Old family names and checkpoints retain their interpretation. Optional
+`tensorboard.enabled` and `tensorboard.image_every` control online diagnostics.

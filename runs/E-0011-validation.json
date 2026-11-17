@@ -1,0 +1,14 @@
+{
+  "experiment": "E-0011",
+  "status": "passed",
+  "unit_tests_passed": 14,
+  "checks": {
+    "/home/homa/.local/share/deformable-twins/artifacts/E-0011-validation/validation.json": "0f80e4b18c500b9962e6c3fd3382a5e32ab4c22b4d9f7ba5eb93b8ed7cfd7518",
+    "/home/homa/.local/share/deformable-twins/artifacts/E-0011-validation/evaluation-smoke/validation.json": "73f1fe5c76f2353a3e515b5f606fbf0b2b6da2806b99f95f839ac1f7e0435b01"
+  },
+  "factor_gradient": {
+    "autodiff": 0.0003946875222027302,
+    "finite_difference": 0.0003948807716369629
+  },
+  "training_seconds": 13.253969251003582
+}
