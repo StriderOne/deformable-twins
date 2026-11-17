@@ -1,0 +1,10 @@
+{
+  "experiment": "E-0010",
+  "status": "passed",
+  "exact_posterior_adam_torch_rng_restoration": "passed",
+  "resume_checkpoint_sha256": "f5b2750f4d4973d012f04bed16b0c001a05c22421e0c18a642c35c88ffad1fc4",
+  "checks": {
+    "/home/homa/.local/share/deformable-twins/artifacts/E-0010-validation/validation.json": "78d17b88450e6c2532048825ae043c53df24a16af5384303817d5c8b4c05f122",
+    "/home/homa/.local/share/deformable-twins/artifacts/E-0010-validation/evaluation-smoke/validation.json": "8e00df486716c0ddf7109f0a60c5e5dffe73edf8006d696b3bf8038f8d10be09"
+  }
+}
