@@ -23,15 +23,17 @@ cd ~/deformable-twins
 git submodule update --init third_party/PhysTwin
 docker build -f environments/Dockerfile.train -t deformable-twins/train:cu128-v1 environments
 docker build -f environments/Dockerfile.viewer -t deformable-twins/viewer:cu128-v1 environments
+docker build --tag deformable-twins/isaac-newton:3.0.0 - < environments/Dockerfile
 ```
 
 Базовые образы закреплены по digest; версии прямых Python-зависимостей
 закреплены в Dockerfile и существующих requirements. Транзитивные пакеты
 не имеют общего lock-файла; для конкретной сборки сохраняйте `pip freeze`
 и image ID. Существующий `environments/Dockerfile` с Isaac Lab и
-`Dockerfile.isaac-sim` остаются отдельными окружениями. На целевом сервере
-загрузка закреплённого Isaac Lab из `nvcr.io` вернула HTTP 403;
-новые контейнеры используют Docker Hub и не требуют NGC.
+`Dockerfile.isaac-sim` остаются отдельными окружениями. Первая загрузка
+закреплённого Isaac Lab из `nvcr.io` вернула HTTP 403. Повторная сборка
+2026-11-19 завершилась успешно: `deformable-twins/isaac-newton:3.0.0`.
+Контейнеры `train` и `viewer` используют Docker Hub и не требуют NGC.
 Полный RTX-renderer Isaac Sim в эти два образа не входит.
 
 ## Данные PhysTwin
@@ -178,3 +180,18 @@ git rev-parse HEAD
 
 Логи, image IDs, source hashes и `pip freeze` конкретных сборок:
 `~/.cache/deformable-twins/deployment/`. Машинная сводка — `validation.json`.
+
+
+## Повторная сборка Isaac Lab, 2026-11-19
+
+Без изменения закреплённого Dockerfile успешно собран
+`deformable-twins/isaac-newton:3.0.0`. Проверены импорты Isaac Lab, Newton,
+Torch и Warp, CUDA allocation и вычисление на RTX 5080. Внутри образа:
+`isaaclab 28.0.0`, `newton 1.6.1`, `warp-lang 1.17.0`, `torch 2.11.0+cu130`.
+Через X11/XWayland создан невидимый OpenGL-контекст pyglet; renderer —
+NVIDIA RTX 5080, версия контекста 3.3. Обучение и симуляционные сцены
+не запускались. Полный отдельный образ Isaac Sim не собирался.
+
+Машинная сводка и ссылки на логи этой попытки:
+`~/.cache/deformable-twins/deployment/validation-isaac-newton-retry-20261119T074554Z.json`.
+Исходная `validation.json` сохраняет состояние первой подготовки сервера.
