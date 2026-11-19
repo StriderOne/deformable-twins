@@ -71,8 +71,8 @@ checkpoint_iterations:
 - 300
 checkpoint_every: 25
 run_ids:
-  train: R-0033
-  evaluate: R-0034
+  train: R-0039
+  evaluate: R-0040
 diagnostics:
   boundary_margin_fraction: 0.01
 tensorboard:
@@ -89,6 +89,6 @@ comparison:
   - 1
   repetitions: 1
   order:
-  - 42
-  - 7
   - 1
+  - 7
+  - 42
