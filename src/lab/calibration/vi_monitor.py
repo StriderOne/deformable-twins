@@ -22,7 +22,7 @@ class Monitor:
 
     def update(self, row, q):
         step = row['iteration']
-        for key in ['objective','nll_without_constant','penalty','rmse_m','seconds','near_uniform_bounds_fraction']:
+        for key in ['objective','nll_without_constant','penalty','rmse_m','seconds','optimizer_steps','near_uniform_bounds_fraction']:
             if key in row:
                 self.writer.add_scalar('train/'+key, row[key], step)
         for group, stats in row['std'].items():
