@@ -78,7 +78,7 @@ class MultistartMonitor(Monitor):
         self.writer.add_histogram('std/object_ratio',ratio[:self.n],step)
         self.writer.add_histogram('mean/object_Y',mean[:self.n],step)
         self.writer.flush()
-        self.comet.log_image(str(image),name=f'{self.artifacts.name}_pass_{step:04d}_std_and_mean',step=step)
+        self.comet.log_image(str(image),name='springs_std_and_mean',step=step)
 
     def close(self):
         super().close()
