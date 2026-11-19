@@ -1,4 +1,5 @@
 """Execute the approved E-0012 pilot from a clean worktree."""
+import argparse
 import json
 from pathlib import Path
 import subprocess
@@ -17,12 +18,18 @@ def clean_commit():
 
 def main():
     plans = [ROOT/'experiments/E-0012/update-1.yaml',ROOT/'experiments/E-0012/update-7.yaml',ROOT/'experiments/E-0012.yaml']
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--config', type=Path)
+    parser.add_argument('--output-name', default='E-0012-comparison-attempt2')
+    args = parser.parse_args()
+    if args.config:
+        plans = [args.config.resolve()]
     resolved = [read_plan(p)[0] for p in plans]
     root = Path(resolved[0]['execution']['artifact_root']).expanduser()
     reference = root/'R-0030/std_ratio.npy'
     reference_topology = root/'R-0030/topology.npz'
     reference_ratios = np.load(reference)
-    output = root/'E-0012-comparison-attempt2'
+    output = root/args.output_name
     output.mkdir(exist_ok=False)
     rows = []
     for config, plan in zip(plans, resolved):
@@ -32,6 +39,11 @@ def main():
             commit = clean_commit()
             run_dir = output/'manifests'/rid
             cmd = [sys.executable,'-m','lab.calibration.phystwin_vi','--config',str(config),'--run-dir',str(run_dir),'--mode',mode]
+            if mode == 'vi' and plan.get('continuation'):
+                resume = Path(plan['continuation']['checkpoint'])
+                if sha256(resume) != plan['continuation']['checkpoint_sha256']:
+                    raise ValueError('Resume checkpoint hash mismatch')
+                cmd += ['--resume-checkpoint', str(resume)]
             if mode == 'evaluate':
                 cmd += ['--vi-checkpoint',str(root/ids['train']/'checkpoint.pt')]
             with (output/f'{rid}.log').open('w') as log:
@@ -58,7 +70,8 @@ def main():
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
-    fig, axes = plt.subplots(1,3,figsize=(15,4),sharex=True,sharey=True)
+    fig, axes = plt.subplots(1,len(rows),figsize=(5*len(rows),4),sharex=True,sharey=True, squeeze=False)
+    axes = axes.ravel()
     for ax,row in zip(axes,rows):
         data = np.load(output/f"{row['train']}-paired-ratios.npz")
         ax.hexbin(data['reference'],data['candidate'],gridsize=60,mincnt=1,bins='log')
