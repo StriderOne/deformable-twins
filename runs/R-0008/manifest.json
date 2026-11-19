@@ -1,0 +1,639 @@
+{
+  "id": "R-0008",
+  "format_version": 1,
+  "experiment": "E-0003",
+  "benchmark": {
+    "id": "B-0001",
+    "version": 1
+  },
+  "protocol": {
+    "id": "P-0001",
+    "version": 1
+  },
+  "baseline": "BL-0001",
+  "mode": "evaluate",
+  "status": "completed",
+  "started_at": "2026-11-11T18:20:04.729649+00:00",
+  "repository_commit": "5d449de755c809c3a1ad5d6a7722b2d5da98766c",
+  "source_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+  "source_hashes": {
+    ".foam/templates/baseline.md": "a04b29756cdedcac0b737af630d012566c2884679bdf45d1a2157500db94adbe",
+    ".foam/templates/benchmark.md": "f288638be2d490de0ab673a5f92471a7ad0cf5788a827d103480feb1794182b4",
+    ".foam/templates/experiment.md": "f94d9c37c3beee5c5897379453c47b8085d3984c8d7ae5ad8f2ee151d08e7870",
+    ".foam/templates/finding.md": "14debfb631ebb79aac0d98117811a13fd525cf1e42f50ed03a2eb0668e474bdb",
+    ".foam/templates/hypothesis.md": "f6e4dce37c511f16f67d48489713dfd493bbe79f723b585fef475642137ef16b",
+    ".foam/templates/protocol.md": "33e1ce7c3e6212ab00e009e2127b74aebb7a5968447e0906e771d5443ed02553",
+    ".foam/templates/question.md": "b6a7e2b5a2c2f83525d2732158895e6c72fc2aa75e9c9f450c35d17e9adc965b",
+    ".foam/templates/run-review.md": "52551ca44f55194431ec67801ae79bf7d582dca687e22b7703edce0fd0fdd5c2",
+    ".gitignore": "114f3cdc2057d610cbc810f69cbc4f195acec0cd15dd54e9b154cf5f6657fc24",
+    ".gitmodules": "6f03bcb3282159450ce50124035057f4f3351435a6d1f691607bf78e43b8259f",
+    ".vscode/settings.json": "ea921ced072b106db5b4717d898dddf310232e63e52532cf4077a0589091c004",
+    "AGENTS.md": "6bf9a2a5bd989ef06eb2ea459e37f0e3801c56f07021f9326649293dbc6b5eff",
+    "CHANGELOG.md": "456eaa0637c6e33838a819672b7f229c1a2ce353fddfb0296958af703c4332b7",
+    "README.md": "2e3df630986acea8c80c9c48f03efe88079ec4c2ae9e9dc5b33f92551ef0672e",
+    "datasets/sloth-v1.json": "7c012418657aa89c5c6b197bd3dd8cf83bb44ccdd9ee34d6252ccc34109b9a8e",
+    "environments/Dockerfile": "bc646ca3980460e86f51231076b8d51fb36be5a13cb59ae20607d1f38734535a",
+    "environments/Dockerfile.isaac-sim": "c152a024264bfd9acf178483c4ea570e47641dfadda7136208758758ce0bb479",
+    "environments/README-isaac-sim.md": "e163a3b69aec21ee08bda12f04df244c422093918b17d55fd0eb1175970002c4",
+    "environments/README-vi.md": "6c3b3cf8f436e6a98f60c785f55a43e36abe4f9e438162cae9ef8bdf9cc8d15b",
+    "environments/README.md": "982fa8ed38e4f1c72bf693fe85d42ef674ddf4e1c6a0c21d27a4c54915ea5340",
+    "environments/requirements-gaussian-viewer.txt": "4a263ad66dc2f313a832d2d1fef2255d88b96dcb8235f5c7d8a44c7974f1f73f",
+    "environments/requirements-newton-gl.txt": "fc1a230f74d7163771ad19fcca0ae751c8a70235721a4895056e747854697cf8",
+    "environments/requirements-notebook.txt": "b0a1d2801a6d59480ca4ca7d6c14057ca8ecf8ae68b8d1e51d2063262b797600",
+    "environments/requirements-phystwin-vi.txt": "564afbcaa286c1472f6eeca2c48e5079fb97c7283131aed2d722cd1b2ebb968c",
+    "environments/run-isaac-sim.sh": "8931aaffd2aa142a568244919b182abc709393d25baa9e9e13b2c5a046539ccf",
+    "experiments/E-0001.yaml": "b1c674d18ee5e9ec7019986e8ef1f54c835901deaf89ae2362e39464d92f5f17",
+    "experiments/E-0002.yaml": "3dc0a44fa18505686e1b062ba3a875fb78dd3952599797a2047fdd58ad29576e",
+    "experiments/E-0003.yaml": "997558f1ae27d63bf30ac975ff617ea0efa7202654c92e12061bd665a6528303",
+    "experiments/E-0004.yaml": "e558e4cd7fd99cd54a2d1512f5ac632eada986b4698497a21625694e4f28a8ff",
+    "registry/baselines/BL-0001.yaml": "1366c8d309052231bb013f5786ebc0c448dbbe38d9ec50eb825e5ba3fb64a5cd",
+    "registry/baselines/BL-0002.yaml": "2a3b0ec64e3af122b10b420f8b2e5b92e3e64010a0f34d624d4db67cc1129aca",
+    "registry/baselines/BL-0003.yaml": "e4e9eb04bd13d79eed23348aef3998f65f102d1db8ed052fd51c103a25cb02e6",
+    "registry/baselines/BL-0004.yaml": "6c2f5286fb5e5321cb9e22681f2133ed63658103ad9345f2656c83c6c7f66d26",
+    "registry/benchmarks/B-0001.yaml": "55958323c7b8e84250ae51b31c015587cd9a5dfbe3beb7a076c8636c0a648c1d",
+    "registry/protocols/P-0001.yaml": "542663d27b508df3d5faa1043eec5cc1b58b85643baa359cf89c937c8f99c2fe",
+    "registry/protocols/P-0002.yaml": "7a8093d6f7fc637b1ba9e7129e44288fa359fbb8040ef99c557668f0ec47a9bf",
+    "research/baselines/BL-0001.md": "5d8f7463facc948f5b31c63870487eaf2494af125fb42b2297f8297dc142f8ba",
+    "research/baselines/BL-0002.md": "ec5c788f778df2e3e290f757f9610b54961e1b80d3e7b7d92dcf5f6e5c88dcb6",
+    "research/baselines/BL-0003.md": "71105a7ba0571c12a6004e6666430c0505b06aa4e006d247df0db66e3ae3189a",
+    "research/baselines/BL-0004.md": "ed5226776c033f2f4ae7b7197941f759f24d83606f2e525e6a4aa1f955cc27cf",
+    "research/benchmarks/B-0001.md": "9643daf03f2510560594a5abd3768be7506ad7903cc8ca9255cc616067a1cb8b",
+    "research/experiments/E-0001.md": "f97a00115a20f321d659b25147c41b74c341aa41c092edd9d42b3eaa56082b2a",
+    "research/experiments/E-0002.md": "d4c69b88e14745dc78134c98fe5f2ae7f2dbc276db6d826034990f045e44a446",
+    "research/experiments/E-0003.md": "4620e986e747b36546cb43192e9d46d2c2ceb2f1a7b4745a0d57b739cbea462d",
+    "research/experiments/E-0004.md": "59072f9cd05e75225e6f0bd8b4ad8953bd3478a867fc8b49cbc9865a4992d0ef",
+    "research/findings/F-0001.md": "d0ea340e828ec44dd96edaa02d3592fa7b2b9fe936378c552c73dd12b30f984c",
+    "research/findings/F-0002.md": "27d4d76a130c0bd139abfd8045d9569d51df3e8a82c143f5a24988742edf48c8",
+    "research/hypotheses/H-0001.md": "daaf188db86176e68850c0335f7f7e1df2a4ede8fcf686792733eb892a1c332a",
+    "research/protocols/P-0001.md": "fb1d8e446b1b06865df91244f9d51b680796e5b29be0ab8733102d4ee95c9eaa",
+    "research/protocols/P-0002.md": "5d7ef1088ff2cd4f0eb993443cec79b60e13c5c8dee9a43b8368284ed4ced5eb",
+    "research/questions/Q-0001.md": "ec9927bd6bf574ea66042478a7ace68bbe34c2c6a2093b83199b7ecb511d2055",
+    "research/run-reviews/RR-0001.md": "cae28c5528025f8e7629238b80e4f94e95bf806a4dee4790b47011fe3e88082a",
+    "research/run-reviews/RR-0002.md": "273f9a4fe2090869b0671bc3e5054abe01b68b95ce3626c8a75309d8d6ce71d5",
+    "research/run-reviews/RR-0003.md": "be5beb86038e497ae25561e2516b9c2e16fe01c5d529966813e6db69c2981a72",
+    "schemas/README.md": "c08fd4fde23fe2cb4a6f82e0033c15921f24d54fd3bb3aa36cf3be6bd2281473",
+    "schemas/vi-experiment.schema.json": "0b747291a347782e259b80f9c9c40b6a85b9da45a433865d4cd39854f1d4f881",
+    "schemas/vi-registry.schema.json": "b11d134fe1ec04fcd354fce76f05d8c98b4ac5959fddb23a20fb8f1cf6c9879a",
+    "src/lab/calibration/inspect_posterior.py": "342012bd6cbc1d5c6b5a61a6b61e752a7324494d9a3dd2a53a99c23af1404bb2",
+    "src/lab/calibration/phystwin_adapter.py": "6f0f9a1d9ef48861fe44f3b5e3f27bb7438acd7b6f158f36e35c9983dc1136d7",
+    "src/lab/calibration/phystwin_vi.py": "d741f5bd0b0b97692c79844856a62b031232c854fcc5dc9d3be41e5f2df5278f",
+    "src/lab/calibration/posterior.py": "bba3fc76a16c35a50d23637daa1f2f74dc717bd9e54c41c63eb9aa156c0ba455",
+    "src/lab/simulation/demo.py": "06424747f86cde9898b4c59ff094c7d34b713f4c8f0d46174af13ba67f2ba9fb",
+    "src/lab/simulation/grasp_cycle.py": "89ded25385518d823af6668a64f4081c241ca7f7aad60ccb402e8e0b3aeace87",
+    "src/lab/simulation/internal_forces.py": "5f518f67793626f2292be5b4ad433a0e8ecf207bfc4bfb6d806186136babf900",
+    "src/lab/simulation/multirate.py": "54338cf3a933065b09dc4abd7871880ed9aa2a12d3beb5d78ed30fcd94d05f5f",
+    "src/lab/simulation/panda.py": "a18a24a59bc43534499c78085c7fd15d8c4745263c605d5ffa46a03c766897e4",
+    "src/lab/simulation/phystwin.py": "2bcfda5b0e57d98c609272f4127ce8fb578a1ec17353f933d91233dbb4fae812",
+    "src/lab/simulation/skinning.py": "b301b91d79f97252683b9782a3e6f987afdc4538495f612dc2832c119b968e6b",
+    "tests/compare_coupling.py": "8e419be63055269967acc5fdf00809b8e2ff94777cde28f019df1bd8196641d7",
+    "tests/smoke_grasp_cycle.py": "c5c9b12a72e8966c6d3af1fe381458b5181f297a754473457044f9dd8d09865b",
+    "tests/smoke_newton_phystwin.py": "f33f2a170b49c1a5b934224fdf4474a07e99fe1ab186477d914c5062ea6a4193",
+    "tests/smoke_panda_phystwin.py": "0c4a57265e67274a37e22ab25664848fa2ae58a916a456efdf9499cd0691146d",
+    "tests/smoke_vi_gradients.py": "1fb0480419b548d67c89d1680c384a42a346a157c2c7f0917cd747bfdd35768d",
+    "tests/smoke_vi_prior.py": "86f2aeb951e5a8d2f038452b7e6baca6726c39e20f9ffc930e12c5a2371b9d15",
+    "tests/test_articulated_forces.py": "8360fcfc7240f167197426a114e1328475af7fe4bcc5c97e09884f46918e2c31",
+    "tests/test_gpu_skinning.py": "e91176106412829a5f0185c3c7ad35ac03aa0e8a67cdf66404e1a768d890aebc",
+    "tests/test_grasp_cycle.py": "99af26e76a79e5791ed024c8a29c106518327e42faa058d86adc1d0ed8675eb3",
+    "tests/test_internal_forces.py": "faf6dd4ee49b694080a3261ed7b4203bbae039659ea2a0e52c7e0e979579be59",
+    "tests/test_multirate.py": "b5932ba46d2c85dd6180c6137c6934e27ffad6f89718a8bf85a99ca5acc0b2f7",
+    "tests/test_vi_posterior.py": "c1ae9db979b8d1a487cb944a383986415ceca6287b44606199bccade7e5564ba",
+    "tests/test_vi_resume.py": "7d320df9da855ac5e5984df0700fb21ebe628cc3afa997bb422eb892806e485a",
+    "tools/continue_sloth_vi.sh": "5767f19b437082c00d45f3b93d23e8ef96970635550fe703251963531346eb31",
+    "tutorials/analyze_phystwin_springs.py": "b41703fba2d27fd558fa994e4e69a33c159ec75b272bcbd573f56f5d0e06ba2f",
+    "tutorials/export_phystwin.py": "b09e21928bffae0ddf8f5715de9cd4db42469af395f382d381f4426d6ca7293f",
+    "tutorials/phystwin_runtime.py": "e6270197097f402d7804f8267ab835a4d4e4c72e234fceb54e33f3832479a623",
+    "tutorials/phystwin_to_newton.ipynb": "1dd6d9b597794af6d55e1f553339cad787ff6e9974389f539c7c59173aca79ed",
+    "tutorials/test_phystwin_runtime.py": "ae2285ed1bc34880767ccfe3b161624181902cc241df51c8ac0261a150d79f2e",
+    "tutorials/view_phystwin_gaussians.py": "0ec758a06edcce53cc7f7249285e44deab2bdff7dd2ce4a860fa64887d19f0ff",
+    "tutorials/view_phystwin_gl.py": "c2afa51441955b0ba567014875fb63c44e0ca46b1637e95e9f7aebf66cfd093e",
+    "tutorials/view_phystwin_isaac.py": "839de9522b1f88cad33a7f10172506b6b740f19fc9135ed63f1d7ecc196e7ef0"
+  },
+  "source_snapshot": "/home/homa/.local/share/deformable-twins/artifacts/R-0008/source.tar.gz",
+  "working_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "config_sha256": "997558f1ae27d63bf30ac975ff617ea0efa7202654c92e12061bd665a6528303",
+  "config": {
+    "id": "E-0003",
+    "version": 1,
+    "status": "proposal",
+    "question": "Q-0001",
+    "hypothesis": "H-0001",
+    "benchmark": {
+      "id": "B-0001",
+      "version": 1
+    },
+    "protocol": {
+      "id": "P-0001",
+      "version": 1
+    },
+    "baselines": [
+      "BL-0001",
+      "BL-0002",
+      "BL-0003"
+    ],
+    "source_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+    "data": {
+      "manifest": "datasets/sloth-v1.json",
+      "observations": "~/PhysTwin/data/different_types/double_stretch_sloth/final_data.pkl",
+      "split": "~/PhysTwin/data/different_types/double_stretch_sloth/split.json",
+      "optimal": "~/PhysTwin/experiments_optimization/double_stretch_sloth/optimal_params.pkl"
+    },
+    "likelihood": {
+      "family": "independent_gaussian_xyz",
+      "sigma_obs_m": 0.01,
+      "mask": "visibility_t_and_motion_valid_t_minus_1",
+      "aggregation": "sum_over_valid_coordinates_and_frames"
+    },
+    "posterior": {
+      "family": "diagonal_gaussian_log_stiffness",
+      "initial_std": 0.05,
+      "prior_std": 0.5,
+      "prior_center": "log_CMA_stiffness",
+      "data_dependent_prior": true
+    },
+    "optimizer": {
+      "name": "Adam",
+      "lr": 0.001,
+      "betas": [
+        0.9,
+        0.99
+      ],
+      "max_iterations": 2000,
+      "seed": 42,
+      "samples_per_iteration": 1,
+      "gradient": "truncated_at_frame_boundaries"
+    },
+    "budget": {
+      "map_seconds": 1500,
+      "vi_seconds": 21600,
+      "evaluation_seconds": 600,
+      "posterior_samples": 16
+    },
+    "execution": {
+      "device": "cuda:0",
+      "use_graph": true,
+      "self_collision": false,
+      "artifact_root": "~/.local/share/deformable-twins/artifacts",
+      "hardware_execution": false
+    },
+    "unknowns": {
+      "acquisition_robot_sensors_and_sync": "TBD",
+      "measurement_noise": "assumed_not_measured",
+      "CMA_training_extent": "TBD",
+      "dataset_license": "TBD"
+    },
+    "continuation": {
+      "parent_run": "R-0002",
+      "checkpoint": "/home/homa/.local/share/deformable-twins/artifacts/R-0002/checkpoint.pt",
+      "restore_optimizer_and_rng": true
+    },
+    "comparison_note": "VI initialization comparison with longer budget; existing MAP has fewer updates. No convergence claim from width alone."
+  },
+  "protocol_spec": {
+    "id": "P-0001",
+    "version": 1,
+    "status": "proposal",
+    "experiment": "E-0001",
+    "independent_unit": "single_recording_double_stretch_sloth",
+    "splits": {
+      "initialization_frame": 0,
+      "calibration_targets": [
+        1,
+        134
+      ],
+      "continuation_targets": [
+        134,
+        192
+      ],
+      "interval_convention": "half_open",
+      "independent_validation": null,
+      "independent_test": null,
+      "real_world_evaluation": null,
+      "continuation_is_independent": false
+    },
+    "primary_metric": {
+      "name": "fraction_object_springs_with_std_ratio_above_threshold",
+      "std_ratio_threshold": 0.8,
+      "hypothesis_fraction_threshold": 0.5,
+      "units": "fraction",
+      "prerequisite": "finite_training_and_predictive_quality_inspected",
+      "interpretation": "weak_constraint_in_selected_approximation_not_physical_identifiability"
+    },
+    "secondary_metrics": [
+      "tracking_rmse_m_per_coordinate",
+      "tracking_nll_without_constant",
+      "kl_q_prior",
+      "posterior_std_log_stiffness",
+      "controller_spring_std_ratio",
+      "fraction_stiffness_at_or_outside_simulator_bounds",
+      "wall_seconds",
+      "peak_process_gpu_memory_mib"
+    ],
+    "uncertainty": {
+      "method": "posterior_sample_descriptive_spread",
+      "no_independent_confidence_interval": "one_session_one_seed",
+      "contraction_is_not_falsification": "mean_field_and_truncation_can_underestimate_uncertainty"
+    },
+    "comparison": {
+      "shared": [
+        "data",
+        "topology",
+        "likelihood",
+        "prior",
+        "fixed_physics",
+        "seed",
+        "optimizer",
+        "iteration_cap"
+      ],
+      "difference": "wall_budget_may_produce_different_iteration_counts",
+      "nominal_is_uncalibrated": false,
+      "nominal_description": "CMA_calibrated_initialization",
+      "no_uncalibrated_comparison_claim": true
+    },
+    "failures": {
+      "nonfinite": "stop_and_record_sample_frame_and_checkpoint",
+      "timeout": "save_last_completed_iteration_and_mark_budget_limited",
+      "missing_observations": "mask_out_no_imputation",
+      "no_valid_training_coordinates": "fail",
+      "raw_results": "never_overwrite_finished_runs"
+    },
+    "safety": "offline_simulation_only_no_robot"
+  },
+  "dataset_manifest_sha256": "7c012418657aa89c5c6b197bd3dd8cf83bb44ccdd9ee34d6252ccc34109b9a8e",
+  "inputs": {
+    "/home/homa/PhysTwin/data/different_types/double_stretch_sloth/final_data.pkl": "d5a4d44eed6d8d78a6fedbbfa01f1f720b29f757fbb82768b28bb62391f5e346",
+    "/home/homa/PhysTwin/data/different_types/double_stretch_sloth/split.json": "67b6b31095857b16b256865ae069cdc334a934f26b253cedeba6b9c7812ba285",
+    "/home/homa/PhysTwin/experiments_optimization/double_stretch_sloth/optimal_params.pkl": "19379e1693a92dd7be3f46aa2c17ce0c78e628a7ffeb8e4d426f88825fffb954",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0001/checkpoint.pt": "1170d8e413f0aa8ff595c487e120422c8d6afc89887a448255ef06cbaa859883",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0006/checkpoint.pt": "af3cc1ca8f63692c44739eee022fe8b7bbe4ff2bb701002ba1ae7c3ed080e5fe"
+  },
+  "versions": {
+    "torch": "2.9.1+cu128",
+    "warp-lang": "1.17.0",
+    "numpy": "2.4.6",
+    "open3d": "0.19.0",
+    "PyYAML": "6.0.3"
+  },
+  "seed": 42,
+  "hardware": "NVIDIA GeForce RTX 5060",
+  "gpu_inventory": "NVIDIA GeForce RTX 5060, 580.159.04, 8151 MiB",
+  "artifact_directory": "/home/homa/.local/share/deformable-twins/artifacts/R-0008",
+  "failure_reason": null,
+  "limitations": [
+    "truncated_gradients",
+    "data_dependent_prior",
+    "single_session",
+    "assumed_noise",
+    "no_independent_test"
+  ],
+  "resolved_physics": {
+    "FPS": 30,
+    "acc_weight": 0.01,
+    "base_lr": 0.001,
+    "chamfer_weight": 1.0,
+    "collide_elas": 0.22834254801273346,
+    "collide_fric": 0.8793314099311829,
+    "collide_object_elas": 0.5086941719055176,
+    "collide_object_fric": 0.4885832667350769,
+    "collision_dist": 0.020157414674758914,
+    "collision_learn": false,
+    "controller_max_neighbours": 34,
+    "controller_radius": 0.07855622112751007,
+    "dashpot_damping": 94,
+    "data_type": "real",
+    "device": "cuda:0",
+    "drag_damping": 19,
+    "dt": 5e-05,
+    "init_spring_Y": 37511.16991043091,
+    "iterations": 200,
+    "num_substeps": 667,
+    "object_max_neighbours": 15,
+    "object_radius": 0.04144593715667725,
+    "overlay_path": null,
+    "reverse_z": 1,
+    "self_collision": false,
+    "spring_Y_max": 100000.0,
+    "spring_Y_min": 0,
+    "track_weight": 1.0,
+    "use_graph": false,
+    "vis_interval": 20,
+    "vp_front": [
+      1,
+      0,
+      -2
+    ],
+    "vp_up": [
+      0,
+      0,
+      -1
+    ],
+    "vp_zoom": 1
+  },
+  "counts": {
+    "particles": 6487,
+    "springs": 53166,
+    "object_springs": 52778
+  },
+  "evaluation_seconds": 52.18896184299956,
+  "completed_rollouts": 19,
+  "requested_rollouts": 19,
+  "results": [
+    {
+      "name": "CMA_initialization",
+      "calibration": {
+        "nll_without_constant": 1041469.010925293,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011899844470764628
+      },
+      "continuation": {
+        "nll_without_constant": 360853.6435546875,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.01021105718126501
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "MAP",
+      "calibration": {
+        "nll_without_constant": 966898.7637329102,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011465912197370655
+      },
+      "continuation": {
+        "nll_without_constant": 338687.25732421875,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.00989246652725292
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_mu",
+      "calibration": {
+        "nll_without_constant": 670693.2940063477,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009549488087316102
+      },
+      "continuation": {
+        "nll_without_constant": 250217.68115234375,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008502842964820503
+      },
+      "saturated_fraction": 0.01989993453025818
+    },
+    {
+      "name": "VI_sample_00",
+      "calibration": {
+        "nll_without_constant": 652494.2459716797,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009419035904134603
+      },
+      "continuation": {
+        "nll_without_constant": 231835.69079589844,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008184559471488368
+      },
+      "saturated_fraction": 0.027009742334485054
+    },
+    {
+      "name": "VI_sample_01",
+      "calibration": {
+        "nll_without_constant": 656411.5972595215,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009447267921535727
+      },
+      "continuation": {
+        "nll_without_constant": 231810.24755859375,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008184110344345921
+      },
+      "saturated_fraction": 0.02789376489818096
+    },
+    {
+      "name": "VI_sample_02",
+      "calibration": {
+        "nll_without_constant": 648101.9312744141,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009387279893217929
+      },
+      "continuation": {
+        "nll_without_constant": 233817.2188720703,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008219462267235958
+      },
+      "saturated_fraction": 0.02828875556588173
+    },
+    {
+      "name": "VI_sample_03",
+      "calibration": {
+        "nll_without_constant": 645048.9517822266,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.0093651437120415
+      },
+      "continuation": {
+        "nll_without_constant": 233436.45043945312,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008212766894259855
+      },
+      "saturated_fraction": 0.027461158111691475
+    },
+    {
+      "name": "VI_sample_04",
+      "calibration": {
+        "nll_without_constant": 647469.4219665527,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009382698058940403
+      },
+      "continuation": {
+        "nll_without_constant": 234062.24865722656,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008223767950348133
+      },
+      "saturated_fraction": 0.02753639407455921
+    },
+    {
+      "name": "VI_sample_05",
+      "calibration": {
+        "nll_without_constant": 648144.0952758789,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009387585245529607
+      },
+      "continuation": {
+        "nll_without_constant": 233535.8603515625,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008214515429100922
+      },
+      "saturated_fraction": 0.027724483981728554
+    },
+    {
+      "name": "VI_sample_06",
+      "calibration": {
+        "nll_without_constant": 646504.6758422852,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009375705222140797
+      },
+      "continuation": {
+        "nll_without_constant": 231600.90856933594,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008180414130796919
+      },
+      "saturated_fraction": 0.027912573888897896
+    },
+    {
+      "name": "VI_sample_07",
+      "calibration": {
+        "nll_without_constant": 671910.431427002,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009558149103438307
+      },
+      "continuation": {
+        "nll_without_constant": 250170.7344970703,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008502045261873821
+      },
+      "saturated_fraction": 0.027160214260220528
+    },
+    {
+      "name": "VI_sample_08",
+      "calibration": {
+        "nll_without_constant": 672178.7275695801,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009560057213858178
+      },
+      "continuation": {
+        "nll_without_constant": 250948.32653808594,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008515248231960853
+      },
+      "saturated_fraction": 0.027423540130257607
+    },
+    {
+      "name": "VI_sample_09",
+      "calibration": {
+        "nll_without_constant": 649881.059173584,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009400155742454385
+      },
+      "continuation": {
+        "nll_without_constant": 232063.6981201172,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008188583185208265
+      },
+      "saturated_fraction": 0.027780910953879356
+    },
+    {
+      "name": "VI_sample_10",
+      "calibration": {
+        "nll_without_constant": 648472.9663696289,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009389966593999176
+      },
+      "continuation": {
+        "nll_without_constant": 230898.9610595703,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008168007921076598
+      },
+      "saturated_fraction": 0.027555203065276146
+    },
+    {
+      "name": "VI_sample_11",
+      "calibration": {
+        "nll_without_constant": 650198.6814575195,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009402452573679342
+      },
+      "continuation": {
+        "nll_without_constant": 234340.5673828125,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008228655856520007
+      },
+      "saturated_fraction": 0.02689688839018345
+    },
+    {
+      "name": "VI_sample_12",
+      "calibration": {
+        "nll_without_constant": 650922.9019165039,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009407687553079181
+      },
+      "continuation": {
+        "nll_without_constant": 233991.4959716797,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008222524909984543
+      },
+      "saturated_fraction": 0.02712259627878666
+    },
+    {
+      "name": "VI_sample_13",
+      "calibration": {
+        "nll_without_constant": 646896.3234558105,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009378544657621836
+      },
+      "continuation": {
+        "nll_without_constant": 231467.7890625,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.00817806282478008
+      },
+      "saturated_fraction": 0.028194710612297058
+    },
+    {
+      "name": "VI_sample_14",
+      "calibration": {
+        "nll_without_constant": 647017.5844421387,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009379423622492012
+      },
+      "continuation": {
+        "nll_without_constant": 228395.16870117188,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008123601615968142
+      },
+      "saturated_fraction": 0.027592821046710014
+    },
+    {
+      "name": "VI_sample_15",
+      "calibration": {
+        "nll_without_constant": 647630.2719726562,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.009383863452446175
+      },
+      "continuation": {
+        "nll_without_constant": 233078.03381347656,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.008206459561031939
+      },
+      "saturated_fraction": 0.027310686185956
+    }
+  ],
+  "ended_at": "2026-11-11T18:20:58.009909+00:00",
+  "wall_seconds": 53.234887894002895,
+  "peak_process_gpu_memory_mib_sampled": 796,
+  "artifacts": {
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/training.png": "f1808ea100bd6264908764012d4adf362f8ccda2e614e48eeb5501dda7d4c172",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/std_ratio.npy": "563c9be2e2c1d6da942f20cabd9d40021b39ecc4ea0e2b4d6201803b83c5cf14",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_05-frame-nll.npy": "95f0f75f059f12f38334197125796c9049142bb0d8c3bd86011ce859e976a60a",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/evaluation.json": "60875a8697c52a09aa486191a5af260c19b7ec59becd8f2e237e98da9534dfef",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/MAP-frame-nll.npy": "4033ffcada50582866cf6f727432fc95d2148621a4b08ba4ca24680e816daf4f",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_11-frame-nll.npy": "3a22d6620b36f5f1a45c611696adbfa5320802deccffdb124a7d37d7725df46a",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_04-frame-nll.npy": "62c19aa3eb8828035f296f0b6240836b3a1f37814cda3b3fec70367e9c62ffd8",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_03-frame-nll.npy": "6b63c22069fb1e3aae81f1782e3c379d03a28a5eff4caf3f6f2c842989d50900",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_mu-frame-nll.npy": "81410490659308270841d63df878283f98221b09fa77b416b182ce612321eee9",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_13-frame-nll.npy": "f7af2a279cebdd6c4784c00299a89580f6c5a76345cddbe0ae8468f8aa4e5ca3",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/topology.npz": "5d545f16c9635db508c340ace9c327d71588a64b9280e8118c9710414337c9a2",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_10-frame-nll.npy": "2e76ea53429ddc7e00a0f59bd65e864cc2a9e20aafdaa80b9598c3e9026fd333",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_02-frame-nll.npy": "55fef2034eb81e7507f01d70cefb36a4d1bc97107919b4e06002761786a3de69",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_08-frame-nll.npy": "ee58c575b48af05332fe6ac6966ab894f07bff69aa134dac19cba6bd88296aba",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/source.tar.gz": "11ea8e2eb655633823fb50bf0717de6f710851d337facd7bbb6ba3b7ff7a73dc",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/std-ratio.png": "9d8da1497158147bef0889467d9259430ee863d5794c1707fd6ec425486a69ff",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/CMA_initialization-frame-nll.npy": "20469ea729a7792a159f89f1b801426c8dc597da7f366a76a69ea07a43c5f12e",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/run.log": "1c5b1ec3975144814385e767e9f8d2c5413586411f1bab867ca972acae30fcc2",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_01-frame-nll.npy": "10929b2888d61692944d894b95532b5ef73269f5d02c270c69e370d41b428d2a",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_09-frame-nll.npy": "1335c2cfe7b593e4f3fd0668c0ad71300e2a239938d9b6f843a1d01e44dbb815",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_07-frame-nll.npy": "09bc46506a6e5fdc5388433f8d2b5191e943683f0b7ce7e7499c72b52cf23b6a",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_14-frame-nll.npy": "c4901086e2cd63b091823749082cc0f576fd3718aba0e313798202a7704407e6",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_00-frame-nll.npy": "46035f29e6e33aef8c5551bf5bb43e9eb53183950f6c08d0253b23b04920809a",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_06-frame-nll.npy": "e6357482d2b7d71f2197ff79a7d8a16dee58f0579661ede72626b7fa23f65857",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_15-frame-nll.npy": "8f8d0f31e876c05d4174ccedcf666a3567d3ba39531eeef7359fd34f71f9c675",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/VI_sample_12-frame-nll.npy": "adf79ddff772e78ac62acea104c68e88e39bd6714147ea4d6db6cdd6843fdc06",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0008/resolved-plan.json": "fa7c39a9862d2b72be91b96f875d1bbbd1d646fc0d955ed7eff7edcddff719cf"
+  }
+}

@@ -1,0 +1,245 @@
+{
+  "id": "sloth-double-lift-v1",
+  "format_version": 1,
+  "object_instance": "double_lift_sloth",
+  "session_id": "TBD",
+  "sources": {
+    "/home/homa/PhysTwin/data/different_types/double_lift_sloth/final_data.pkl": {
+      "sha256": "6bbb1245812a9b6c760f6881b8b6174343fd0df717c168b09fb7b365caabb33c",
+      "bytes": 15459763
+    },
+    "/home/homa/PhysTwin/data/different_types/double_lift_sloth/split.json": {
+      "sha256": "2cec5a27c837edebb80d09c18fbacb6415299848951c3a19b86f7acd8a924c9a",
+      "bytes": 53
+    },
+    "/home/homa/PhysTwin/data/different_types/double_lift_sloth/metadata.json": {
+      "sha256": "1688745c952b86147b886d799c857ccc2c7e372bdf168e4a1efaacdf213ac276",
+      "bytes": 496
+    },
+    "/home/homa/PhysTwin/data/different_types/double_lift_sloth/calibrate.pkl": {
+      "sha256": "160962e646f60bdfd70a71793e11c8152a0d05543762999213d489ef50849f1d",
+      "bytes": 601
+    },
+    "/home/homa/PhysTwin/experiments_optimization/double_lift_sloth/optimal_params.pkl": {
+      "sha256": "0d2a512ddc68fa21ce52b2e86257f78fd66536450ed334e8d8eded13f898c17f",
+      "bytes": 551
+    },
+    "/home/homa/PhysTwin/experiments_optimization/double_lift_sloth/optimize_cma_log.log": {
+      "sha256": "694c8541a31e78de0cd419ac543f7ec6be5ea50c4a41093a5157ac18af734159",
+      "bytes": 21221
+    }
+  },
+  "shapes": {
+    "controller_mask": [
+      3931
+    ],
+    "controller_points": [
+      62,
+      30,
+      3
+    ],
+    "object_points": [
+      62,
+      4949,
+      3
+    ],
+    "object_colors": [
+      62,
+      4949,
+      3
+    ],
+    "object_visibilities": [
+      62,
+      4949
+    ],
+    "object_motions_valid": [
+      62,
+      4949
+    ],
+    "surface_points": [
+      537,
+      3
+    ],
+    "interior_points": [
+      1174,
+      3
+    ]
+  },
+  "valid_points_per_transition": [
+    4727,
+    4638,
+    4647,
+    4671,
+    4656,
+    4634,
+    4636,
+    4603,
+    4573,
+    4557,
+    4544,
+    4509,
+    4482,
+    4432,
+    4410,
+    4404,
+    4438,
+    4474,
+    4467,
+    4398,
+    4405,
+    4430,
+    4414,
+    4379,
+    4346,
+    4309,
+    4250,
+    4193,
+    4130,
+    4080,
+    4014,
+    3926,
+    3856,
+    3825,
+    3751,
+    3687,
+    3618,
+    3618,
+    3604,
+    3511,
+    3458,
+    3406,
+    3330,
+    3328,
+    3278,
+    3201,
+    3196,
+    3156,
+    3087,
+    3062,
+    2988,
+    2906,
+    2913,
+    2895,
+    2869,
+    2854,
+    2831,
+    2836,
+    2829,
+    2839,
+    2859
+  ],
+  "metadata": {
+    "intrinsics": [
+      [
+        [
+          427.57598876953125,
+          0.0,
+          424.4333190917969
+        ],
+        [
+          0.0,
+          427.1900939941406,
+          246.92410278320312
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      [
+        [
+          426.9201354980469,
+          0.0,
+          423.0926818847656
+        ],
+        [
+          0.0,
+          426.39068603515625,
+          248.86141967773438
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      [
+        [
+          427.8292236328125,
+          0.0,
+          424.8780212402344
+        ],
+        [
+          0.0,
+          427.26611328125,
+          241.48138427734375
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    ],
+    "serial_numbers": [
+      "239222300433",
+      "239222300781",
+      "239222303506"
+    ],
+    "fps": 30,
+    "WH": [
+      848,
+      480
+    ],
+    "frame_num": 62,
+    "start_step": 827,
+    "end_step": 888
+  },
+  "split": {
+    "frame_len": 62,
+    "train": [
+      0,
+      43
+    ],
+    "test": [
+      43,
+      62
+    ]
+  },
+  "units": {
+    "position": "m (PhysTwin convention)",
+    "time": "s",
+    "mass": "kg (nominal unit masses)"
+  },
+  "coordinates": "Unchanged processed coordinates; reverse_z=true means gravity +Z; robot frame TBD",
+  "data_source": {
+    "archive_url": "https://huggingface.co/datasets/Jianghanxiao/PhysTwin/resolve/05665bcd0edad8f069c7def9cbb58d2eb75d68d0/data.zip",
+    "revision": "05665bcd0edad8f069c7def9cbb58d2eb75d68d0"
+  },
+  "CMA_source": {
+    "url": "https://huggingface.co/datasets/Jianghanxiao/PhysTwin/resolve/05665bcd0edad8f069c7def9cbb58d2eb75d68d0/experiments_optimization.zip",
+    "revision": "05665bcd0edad8f069c7def9cbb58d2eb75d68d0",
+    "files": {
+      "/home/homa/PhysTwin/experiments_optimization/double_lift_sloth/optimal_params.pkl": {
+        "sha256": "0d2a512ddc68fa21ce52b2e86257f78fd66536450ed334e8d8eded13f898c17f",
+        "bytes": 551,
+        "archive_member": "experiments_optimization/double_lift_sloth/optimal_params.pkl",
+        "archive_crc32": 435272342
+      },
+      "/home/homa/PhysTwin/experiments_optimization/double_lift_sloth/optimize_cma_log.log": {
+        "sha256": "694c8541a31e78de0cd419ac543f7ec6be5ea50c4a41093a5157ac18af734159",
+        "bytes": 21221,
+        "archive_member": "experiments_optimization/double_lift_sloth/optimize_cma_log.log",
+        "archive_crc32": 3222391955
+      }
+    }
+  },
+  "limitations": [
+    "single recording; continuation is not independent test",
+    "CMA training extent unknown",
+    "CMA initializes posterior median, fixed physics and topology; uniform prior does not use CMA center",
+    "sensor synchronization/acquisition session provenance and data license not independently verified",
+    "spring IDs are specific to this reconstruction; no direct cross-sequence pairing"
+  ]
+}

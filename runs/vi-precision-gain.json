@@ -1,0 +1,79 @@
+{
+  "definition": "posterior_std**(-2) - prior_std**(-2)",
+  "interpretation": "variational_precision_gain_not_likelihood_FIM",
+  "coordinates": "log_stiffness_before_clamp",
+  "analysis_head": "1eee494c79888b814865098f41a0c4cb0316a28e",
+  "analysis_script_sha256": "91a48b8c12c28c02856f885376f3ccf7f3ec42e8e26426574d69c9617f6376d2",
+  "runs": {
+    "R-0006": {
+      "checkpoint_sha256": "af3cc1ca8f63692c44739eee022fe8b7bbe4ff2bb701002ba1ae7c3ed080e5fe",
+      "execution_commit": "977af4c348b33ca75eb88bd8dc46f482d9a7e303",
+      "iteration": 2000,
+      "csv": "/home/homa/.local/share/deformable-twins/artifacts/vi-precision-gain/R-0006.csv",
+      "csv_sha256": "f903acf4ecd738767f6da98a49642e5d047b7cb37cc4f083adb0a8d2f13093da",
+      "groups": {
+        "object": {
+          "count": 52778,
+          "mean": 11.70637479206662,
+          "quantiles": {
+            "min": 6.435800315231342,
+            "p05": 6.47040505636309,
+            "median": 6.562909563105615,
+            "p95": 31.931587634884902,
+            "max": 446.8736762080666
+          },
+          "positive_fraction": 1.0,
+          "negative_fraction": 0.0
+        },
+        "controller": {
+          "count": 388,
+          "mean": 196.54785017393297,
+          "quantiles": {
+            "min": 7.077720870452033,
+            "p05": 12.774413671966114,
+            "median": 179.59406553154028,
+            "p95": 447.2383595039072,
+            "max": 542.882513307942
+          },
+          "positive_fraction": 1.0,
+          "negative_fraction": 0.0
+        }
+      }
+    },
+    "R-0007": {
+      "checkpoint_sha256": "5dfd02832846146c183c5c4a39e6544bcdfa9f3277f3cf5ddf713a25645d30b4",
+      "execution_commit": "977af4c348b33ca75eb88bd8dc46f482d9a7e303",
+      "iteration": 2000,
+      "csv": "/home/homa/.local/share/deformable-twins/artifacts/vi-precision-gain/R-0007.csv",
+      "csv_sha256": "1813fc6251fb7fbbadbe0bc9f310d62c92279d5d146ad6078a60ebd6514d0494",
+      "groups": {
+        "object": {
+          "count": 52778,
+          "mean": 0.35528617089810466,
+          "quantiles": {
+            "min": -1.9216742789923549,
+            "p05": -0.09038981658278754,
+            "median": 0.011319077778001674,
+            "p95": 2.1304850800732464,
+            "max": 9.580446589016477
+          },
+          "positive_fraction": 0.6190079199666527,
+          "negative_fraction": 0.3809920800333472
+        },
+        "controller": {
+          "count": 388,
+          "mean": 4.107212904116353,
+          "quantiles": {
+            "min": -1.7888056313403027,
+            "p05": 0.06738203388942333,
+            "median": 4.739037794035487,
+            "p95": 6.987437530521174,
+            "max": 7.764699114140319
+          },
+          "positive_fraction": 0.9587628865979382,
+          "negative_fraction": 0.041237113402061855
+        }
+      }
+    }
+  }
+}

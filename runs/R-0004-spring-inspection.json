@@ -1,0 +1,44 @@
+{
+  "kind": "checkpoint_inspection_no_training",
+  "source_run": "R-0004",
+  "training_commit": "36168770d86cc26afc762be3b4488e9d238bd09f",
+  "analysis_commit": "4ac7efca7091a1f54c675a4ed01a33ee4fd987bd",
+  "checkpoint_sha256": "8c8bd05f3cb8b9eb38fa2e57e73ef6ce9e0b881ce34a824ac045b506964ea4d2",
+  "run_manifest_sha256": "cb9bfb921291924c753019dce156d1d9e33fbd51e632c1d996251f4fad00a0e9",
+  "analysis_source_sha256": "342012bd6cbc1d5c6b5a61a6b61e752a7324494d9a3dd2a53a99c23af1404bb2",
+  "spring_count": 53166,
+  "summary": {
+    "object": {
+      "count": 52778,
+      "std_quantiles": {
+        "min": 0.4720499813556671,
+        "p05": 0.4892722606658936,
+        "median": 0.49994029104709625,
+        "p95": 0.5087138444185256,
+        "max": 0.5413307547569275
+      }
+    },
+    "controller": {
+      "count": 388,
+      "std_quantiles": {
+        "min": 0.4682964086532593,
+        "p05": 0.4766357123851776,
+        "median": 0.5118441581726074,
+        "p95": 0.5233079761266708,
+        "max": 0.528079092502594
+      }
+    }
+  },
+  "artifacts": {
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0004-spring-inspection-v2/all-springs.html": "6f75cd5e30d93ba2163ff52b32135eb916d6ec5b934d017425190490d93977c4",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0004-spring-inspection-v2/all-springs.png": "1a4746840b10deeda05a965e6298f6876bf923dd776b9485d45303cf6b00c6b9",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0004-spring-inspection-v2/all-springs.csv": "01ea8807f452553c462906636f40cc35f97dc5877cd0a3e9fe0e336ecf48b592"
+  },
+  "validation": [
+    "CSV has all 53166 unique sequential IDs",
+    "PNG visually inspected",
+    "JavaScript syntax check",
+    "mock DOM selection and PDF normalization checked at group boundary IDs"
+  ],
+  "browser_rendering_tested": false
+}

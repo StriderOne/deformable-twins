@@ -1,0 +1,11 @@
+{
+  "experiment": "E-0010",
+  "pid": 436120,
+  "repository_commit": "c10309c58e2f7e5ce85dfb1b2c6742bb49e921c0",
+  "started_at": "2026-11-17T05:11:53.685851+00:00",
+  "artifact_directory": "/home/homa/.local/share/deformable-twins/artifacts/E-0010-launch",
+  "run_ids": [
+    "R-0027",
+    "R-0028"
+  ]
+}

@@ -1,0 +1,8 @@
+id: BL-0006
+version: 1
+status: proposal
+method: VI_logistic_normal_Y_uniform_prior
+experiment: E-0006
+benchmark: B-0001
+protocol: P-0004
+settings_source: experiments/E-0006.yaml

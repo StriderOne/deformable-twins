@@ -1,0 +1,24 @@
+{
+  "run": "R-0020",
+  "evaluation": "R-0021",
+  "iteration": 2000,
+  "springs": 52778,
+  "controllers_excluded": true,
+  "color": "grey at ratio 1, red below, blue above; symmetric linear intensity by abs(ratio-1)",
+  "limits": [
+    0.45519399642944336,
+    1.5448060035705566
+  ],
+  "data_limits": [
+    0.45519399642944336,
+    1.0939288139343262
+  ],
+  "geometry": "frame 0, PCA projection for PNG; original coordinates for HTML",
+  "training_commit": "9309000ff3d3690e9aafe331b2172ef272bf9ad6",
+  "analysis_head": "252c954fd30f5306d19f0d59a7fcd40d677f6d60",
+  "script_sha256": "93fe5ee4a3857d4e7fa6811b5b4863dafa5589971f7f3d25f8f7770c51dad872",
+  "artifacts": {
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0020-spring-std-change-colors/spring-std-colors.html": "bfd3e3ea12c546c0377facea629d576c6d7b2f5b1b014ab8cf5d3ccfa985956d",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0020-spring-std-change-colors/spring-std-colors.png": "b74542f5acc8923397a9afe360ac9231adcc59d22d703c2b995d9de15071d6d4"
+  }
+}

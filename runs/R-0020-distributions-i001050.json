@@ -1,0 +1,43 @@
+{
+  "run": "R-0020",
+  "iteration": 1050,
+  "kind": "intermediate_visualization_not_final_finding",
+  "created_at": "2026-11-16T10:54:59.641399+00:00",
+  "training_commit": "9309000ff3d3690e9aafe331b2172ef272bf9ad6",
+  "analysis_head": "252c954fd30f5306d19f0d59a7fcd40d677f6d60",
+  "script_sha256": "1998dec62f1615e10cc18f17be7747038baabada05a74099fa972f820792dc35",
+  "checkpoint_sha256": "d9654ab8f62f9f150a7cd9f3c654bbd5d82336d4b3cf7bfdafae86cdf5fa8c2e",
+  "prior_bounds": [
+    100.0,
+    100000.0
+  ],
+  "prior_std_Y": 28838.64594602181,
+  "selected_ids": [
+    24742,
+    40187,
+    47919,
+    52931,
+    53102,
+    52879
+  ],
+  "groups": {
+    "Object": {
+      "count": 52778,
+      "mean_std_Y": 27727.68031200698,
+      "median_std_ratio": 0.9761203474545859,
+      "mean_std_ratio": 0.9614764980264934
+    },
+    "Controller": {
+      "count": 388,
+      "mean_std_Y": 24984.830890528272,
+      "median_std_ratio": 0.9072859011376666,
+      "mean_std_ratio": 0.8663662967149413
+    }
+  },
+  "artifacts": {
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0020-distributions-i001050/checkpoint.pt": "d9654ab8f62f9f150a7cd9f3c654bbd5d82336d4b3cf7bfdafae86cdf5fa8c2e",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0020-distributions-i001050/all-springs.png": "7a4146fbb55266c3e15c1074d92dc0f1eb7b7b9505c3bc97a3fdd29afdf018a4",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0020-distributions-i001050/spring-marginals.png": "b77d7bf803606e9826e94ac8b2438ec0a52c24997223ea3ddf6ee47ca1d0990b",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0020-distributions-i001050/all-springs.csv": "2992d433656c0b6ba855a3264f26835d3b8b83864a6e21c9e4a005dd24e78d43"
+  }
+}

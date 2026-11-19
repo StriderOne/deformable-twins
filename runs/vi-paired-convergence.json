@@ -1,0 +1,110 @@
+{
+  "analysis_commit": "5d449de755c809c3a1ad5d6a7722b2d5da98766c",
+  "inputs": {
+    "R-0002": {
+      "checkpoint_sha256": "f89559bfe8531a3f2a778d4823c93ddd0aa454a8fb445930c766ea7b04abd4f0",
+      "iteration": 200,
+      "execution_commit": "04db24f2c9061ff537898b5d2e61fe2058ce2e88"
+    },
+    "R-0004": {
+      "checkpoint_sha256": "8c8bd05f3cb8b9eb38fa2e57e73ef6ce9e0b881ce34a824ac045b506964ea4d2",
+      "iteration": 200,
+      "execution_commit": "36168770d86cc26afc762be3b4488e9d238bd09f"
+    },
+    "R-0006": {
+      "checkpoint_sha256": "af3cc1ca8f63692c44739eee022fe8b7bbe4ff2bb701002ba1ae7c3ed080e5fe",
+      "iteration": 2000,
+      "execution_commit": "977af4c348b33ca75eb88bd8dc46f482d9a7e303"
+    },
+    "R-0007": {
+      "checkpoint_sha256": "5dfd02832846146c183c5c4a39e6544bcdfa9f3277f3cf5ddf713a25645d30b4",
+      "iteration": 2000,
+      "execution_commit": "977af4c348b33ca75eb88bd8dc46f482d9a7e303"
+    }
+  },
+  "topology_arrays_equal": true,
+  "units": "log_stiffness",
+  "definition": "Per-spring absolute differences across initializations; W2=sqrt(delta_mu^2+delta_std^2) for univariate Gaussians",
+  "groups": {
+    "object": {
+      "200": {
+        "mu": {
+          "mae": 0.02524029681408743,
+          "rmse": 0.038278493369444194,
+          "median": 0.016304969787597656,
+          "p95": 0.08472051620483395,
+          "correlation": 0.9660004992039231
+        },
+        "std": {
+          "mae": 0.43932696815129396,
+          "rmse": 0.43936357424060907,
+          "median": 0.43932672533228856,
+          "p95": 0.44908213950192555,
+          "correlation": 0.10344443759063286
+        },
+        "mean_w2": 0.44097342444142523
+      },
+      "2000": {
+        "mu": {
+          "mae": 0.06679950636267738,
+          "rmse": 0.1293128607857653,
+          "median": 0.017406463623046875,
+          "p95": 0.31226277351379383,
+          "correlation": 0.9553358303154434
+        },
+        "std": {
+          "mae": 0.20014696976651503,
+          "rmse": 0.20269313285413093,
+          "median": 0.1916754510211771,
+          "p95": 0.2646706937255022,
+          "correlation": 0.742305316004201
+        },
+        "mean_w2": 0.22600119489570278
+      },
+      "fraction_closer_200_to_2000": {
+        "mu": 0.4294971389594149,
+        "std": 0.9993557921861381
+      }
+    },
+    "controller": {
+      "200": {
+        "mu": {
+          "mae": 0.03750420108283918,
+          "rmse": 0.0487752576204699,
+          "median": 0.02443981170654297,
+          "p95": 0.10893530845642085,
+          "correlation": 0.9741161751431036
+        },
+        "std": {
+          "mae": 0.45117332200899035,
+          "rmse": 0.45150992850654226,
+          "median": 0.4590468870079624,
+          "p95": 0.4713430635736111,
+          "correlation": -0.3015864670067822
+        },
+        "mean_w2": 0.453816800202107
+      },
+      "2000": {
+        "mu": {
+          "mae": 0.24887880099188422,
+          "rmse": 0.2962806821603361,
+          "median": 0.2217702865600586,
+          "p95": 0.6260993003845214,
+          "correlation": 0.9822519949256437
+        },
+        "std": {
+          "mae": 0.26660660828524724,
+          "rmse": 0.27318269223128383,
+          "median": 0.2602775754707641,
+          "p95": 0.3905622043860957,
+          "correlation": 0.536484956327551
+        },
+        "mean_w2": 0.3763683424176672
+      },
+      "fraction_closer_200_to_2000": {
+        "mu": 0.04381443298969072,
+        "std": 0.9922680412371134
+      }
+    }
+  }
+}

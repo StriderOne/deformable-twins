@@ -1,0 +1,13 @@
+{
+  "experiment": "E-0011",
+  "pid": 554645,
+  "tensorboard_pid": 554646,
+  "tensorboard_url": "http://localhost:6006",
+  "repository_commit": "f5b1387a4a4872b8ae994d568b5a302d1885e8d7",
+  "started_at": "2026-11-17T08:59:29.165218+00:00",
+  "artifact_directory": "/home/homa/.local/share/deformable-twins/artifacts/E-0011-launch",
+  "run_ids": [
+    "R-0029",
+    "R-0030"
+  ]
+}

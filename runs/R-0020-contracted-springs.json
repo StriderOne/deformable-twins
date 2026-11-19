@@ -1,0 +1,26 @@
+{
+  "run": "R-0020",
+  "evaluation_run": "R-0021",
+  "iteration": 2000,
+  "selected_count": 5879,
+  "object_count": 52778,
+  "selected_fraction": 0.1113911099321687,
+  "threshold": 0.8,
+  "controller_springs_excluded": true,
+  "geometry": "frame 0 original dataset coordinates; static PCA projection only",
+  "selection": "std(Y)/prior_std(Y) strictly below threshold",
+  "rest_lengths_verified": true,
+  "training_commit": "9309000ff3d3690e9aafe331b2172ef272bf9ad6",
+  "analysis_head": "252c954fd30f5306d19f0d59a7fcd40d677f6d60",
+  "script_sha256": "aeb15b111c8feee2b85117843f59ca1acc35bb1e996e1c0166ce04a4aa043e07",
+  "inputs": {
+    "/home/homa/PhysTwin/data/different_types/double_stretch_sloth/final_data.pkl": "d5a4d44eed6d8d78a6fedbbfa01f1f720b29f757fbb82768b28bb62391f5e346",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0021/topology.npz": "5d545f16c9635db508c340ace9c327d71588a64b9280e8118c9710414337c9a2",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0021/physical-posterior.npz": "0aadd46d1ce1425977cd3350026e917fb5e6c7bb485e768ee76466977d04b003"
+  },
+  "artifacts": {
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0020-contracted-springs/selected-springs.png": "3400c3c4699f66ff9953e98909610253cc357bc5e2ed41c7958ddac2a0d47e06",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0020-contracted-springs/selected-springs.html": "be59fd84165bf07a74acf0a811f7e3658830066ac618bcd26510b63b4411c953",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0020-contracted-springs/selected-springs.csv": "ef015cb6177e35763cb630af5220d844ee59434540d412fdb527cafdc6f049d8"
+  }
+}

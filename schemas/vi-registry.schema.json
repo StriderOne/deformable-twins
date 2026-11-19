@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VI pilot registry record v1",
+  "type": "object",
+  "required": ["id", "version", "status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^(BL|B|P)-[0-9]{4}$"},
+    "version": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["proposal", "ready", "executed", "published", "reproduced"]}
+  },
+  "allOf": [
+    {"if": {"properties": {"id": {"pattern": "^BL-"}}}, "then": {"required": ["method", "experiment", "benchmark", "protocol", "settings_source"]}},
+    {"if": {"properties": {"id": {"pattern": "^B-"}}}, "then": {"required": ["object_category", "object_instance", "manifest", "task", "robot", "sensors", "units", "limitations"]}},
+    {"if": {"properties": {"id": {"pattern": "^P-"}}}, "then": {"required": ["experiment", "splits", "primary_metric", "secondary_metrics", "uncertainty", "comparison", "failures", "safety"]}}
+  ]
+}

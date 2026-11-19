@@ -1,0 +1,79 @@
+id: P-0003
+version: 1
+status: proposal
+experiment: E-0005
+independent_unit: single_recording_double_stretch_sloth
+splits:
+  initialization_frame: 0
+  calibration_targets:
+  - 1
+  - 134
+  continuation_targets:
+  - 134
+  - 192
+  interval_convention: half_open
+  independent_validation: null
+  independent_test: null
+  real_world_evaluation: null
+  continuation_is_independent: false
+primary_metric:
+  name: paired_prior_sensitivity_log_stiffness
+  units: dimensionless
+  std_ratio_threshold: 0.8
+  definitions:
+    center_response: (mu_high-mu_low)/log(center_factor_high/center_factor_low)
+    width_response: log(std_wide/std_narrow)/log(prior_std_wide/prior_std_narrow)
+  aggregation: per_spring_and_group_quantiles_separate_object_controller
+  interpretation: local_finite_perturbation_sensitivity_not_fraction_of_information
+  decision_criteria:
+    prior_sensitive: posterior shifts systematically with changed prior; report signed
+      response distribution
+    data_robust: paired posterior differences small relative to prior perturbation,
+      stable across late checkpoints
+    behavior_only: parameters differ while predictive errors remain comparable; report
+      actual differences without binary cutoff
+    inconclusive: late drift, budget mismatch, failed rollout, or materially different
+      saturation
+secondary_metrics:
+- tracking_rmse_m_per_coordinate
+- tracking_nll_without_constant
+- kl_q_prior
+- posterior_std_log_stiffness
+- controller_spring_std_ratio
+- fraction_stiffness_at_or_outside_simulator_bounds
+- wall_seconds
+- peak_process_gpu_memory_mib
+uncertainty:
+  method: paired_one_seed_sensitivity_and_posterior_predictive_samples
+  limitations:
+  - not causal percentage prior versus data
+  - not FIM
+  - single_seed
+  - data_dependent_prior_center
+  - truncated_gradient
+  - latent_stiffness_clamp
+  - no_independent_test
+comparison:
+  shared:
+  - initial_mu
+  - initial_std
+  - data
+  - topology
+  - likelihood
+  - fixed_physics
+  - seed
+  - Adam
+  - update_budget
+  - epsilon_stream
+  difference: prior center or prior scale, one factor at a time
+  reference: fresh reference run same code, no checkpoint reuse
+  nominal_is_uncalibrated: false
+  convergence: report last checkpoint changes and last window objective drift; fixed
+    budget does not imply convergence
+failures:
+  nonfinite: stop_and_record_sample_frame_and_checkpoint
+  timeout: save_last_completed_iteration_and_mark_budget_limited
+  missing_observations: mask_out_no_imputation
+  no_valid_training_coordinates: fail
+  raw_results: never_overwrite_finished_runs
+safety: offline_simulation_only_no_robot

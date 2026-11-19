@@ -1,0 +1,26 @@
+FROM nvcr.io/nvidia/isaac-sim:6.0.0@sha256:a9d06fb72cc2b39b2bf1cacc002e9f7cd1a5bbe3c3cfbbcf2e6de3a1d726d101
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/*
+# Avoid usermod recursively changing ownership of the large installation tree.
+RUN userdel ubuntu \
+    && (if getent group ubuntu >/dev/null; then groupdel ubuntu; fi) \
+    && usermod -d /tmp/isaac-home isaac-sim \
+    && usermod -u 1000 isaac-sim && groupmod -g 1000 isaac-sim \
+    && usermod -d /isaac-sim isaac-sim && chown 1000:1000 /isaac-sim
+# Keep bundled SciPy: NumPy links to its shared libraries inside the Kit archive.
+RUN /isaac-sim/python.sh -m pip install --no-cache-dir newton==1.6.1 warp-lang==1.17.0 plyfile==1.1.5 viser==1.1.1 GitPython==3.1.46
+# Kit otherwise loads its older Newton/Warp over the already imported packages.
+RUN rm -rf /isaac-sim/exts/isaacsim.pip.newton/pip_prebundle/newton \
+           /isaac-sim/exts/isaacsim.pip.newton/pip_prebundle/newton-*.dist-info \
+    && ln -s /isaac-sim/kit/python/lib/python3.12/site-packages/newton /isaac-sim/exts/isaacsim.pip.newton/pip_prebundle/newton \
+    && ln -s /isaac-sim/kit/python/lib/python3.12/site-packages/newton-1.6.1.dist-info /isaac-sim/exts/isaacsim.pip.newton/pip_prebundle/newton-1.6.1.dist-info \
+    && for target in /isaac-sim/extscache/omni.warp.core-*/warp; do \
+         rm -rf "$target" && ln -s /isaac-sim/kit/python/lib/python3.12/site-packages/warp "$target"; \
+       done
+ENV NVIDIA_DRIVER_CAPABILITIES=all
+ENV PYTHONPATH=/workspace/src
+WORKDIR /isaac-sim
+USER 1000:1000
+ENTRYPOINT ["/isaac-sim/python.sh", "/workspace/tutorials/view_phystwin_gaussians.py"]
+CMD ["/data/point_cloud.ply", "--graph", "/data/export", "--viewer", "isaac"]

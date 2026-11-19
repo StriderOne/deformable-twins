@@ -1,0 +1,44 @@
+{
+  "kind": "implementation_validation_not_scientific_run",
+  "status": "passed",
+  "checks": [
+    "six_unit_tests",
+    "GPU_finite_difference_log_stiffness_and_rho",
+    "eager_vs_CUDA_graph",
+    "sloth_three_transition_smoke",
+    "pip_check"
+  ],
+  "artifacts": {
+    "/home/homa/.local/share/deformable-twins/artifacts/vi-validation/phystwin-vi-smoke-2.log": "34ea603c39abd4b36ac9edc38a80be6fd40041359bc9d7682603d623aa77cdc1",
+    "/home/homa/.local/share/deformable-twins/artifacts/vi-validation/phystwin-vi-smoke-3.log": "0ec9d2de389cd87185fb031cf18ca6d13db81cbcdfa888a68bfd6d95eb430a01",
+    "/home/homa/.local/share/deformable-twins/artifacts/vi-validation/environment-freeze.txt": "b0188c095c1cb0b73e1bbc01f409bac15ae71fc602c1adcab91cd8315ff65012",
+    "/home/homa/.local/share/deformable-twins/artifacts/vi-validation/unit-tests.log": "f6dfdecbbc775884c10c4cbbccfdc3e1501e9037e03da5a37a1188f77ba96338",
+    "/home/homa/.local/share/deformable-twins/artifacts/vi-validation/phystwin-vi-smoke.log": "8dee296ede764e0557c6d915742c9f0dec1339c99a5fa82241eba42f241c46f3",
+    "/home/homa/.local/share/deformable-twins/artifacts/vi-validation/gradient-checks.json": "0885a87317009752d9b05c041424c6dcf78624783f0e33b4c8f4894c14a665e1",
+    "/home/homa/.local/share/deformable-twins/artifacts/vi-validation/prior-only-diagnostic.json": "e3fb2d011b512ac5f5ba4b303b10cdbdcefe861b19c0d012fe9951a89600de9d"
+  },
+  "source_hashes": {
+    "src/lab/calibration/phystwin_vi.py": "3b9b966a95a90de05831a27fa0a3c8d13a1977c47935420437aa0b511d1982d1",
+    "src/lab/calibration/posterior.py": "bba3fc76a16c35a50d23637daa1f2f74dc717bd9e54c41c63eb9aa156c0ba455",
+    "src/lab/calibration/phystwin_adapter.py": "6f0f9a1d9ef48861fe44f3b5e3f27bb7438acd7b6f158f36e35c9983dc1136d7",
+    "tests/smoke_vi_gradients.py": "1fb0480419b548d67c89d1680c384a42a346a157c2c7f0917cd747bfdd35768d",
+    "tests/test_vi_posterior.py": "04c5cc8448e9f5e5842eeb238b92941b4e77a9c44815f986cd9607275d9439b2"
+  },
+  "resolved_issues": [
+    "capture_on_default_Torch_stream_replaced_with_Warp_owned_shared_stream",
+    "warmup_initial_state_reset"
+  ],
+  "known_warning": "fixed_controller_kernel_has_no_backward; physical parameter gradients verified",
+  "followup": {
+    "checks": [
+      "six_unit_tests_after_optional_environment_fix",
+      "Newton_environment_skips_VI_tests_without_Torch",
+      "pip_check"
+    ],
+    "artifacts": {
+      "/home/homa/.local/share/deformable-twins/artifacts/vi-validation/unit-tests-final.log": "a19a7e5df2790295477cd81419b4d91190183c40945b9e536eac2eb24f50bf24",
+      "/home/homa/.local/share/deformable-twins/artifacts/vi-validation/pip-check-final.log": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09"
+    },
+    "test_source_sha256": "f0b4c030de1ba468b55529892b811aecd5d96eb25bf89d1a93eb3156cf58c576"
+  }
+}

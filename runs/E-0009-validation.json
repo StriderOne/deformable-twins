@@ -1,0 +1,11 @@
+{
+  "experiment": "E-0009",
+  "status": "passed",
+  "unit_tests_passed": 13,
+  "identity_comparison": "passed",
+  "resume_checkpoint_sha256": "669eb45294427b25460c1ed58d8cef98897bd2f4f97db8b23ad2fc990d278151",
+  "checks": {
+    "/home/homa/.local/share/deformable-twins/artifacts/E-0009-validation/validation.json": "6f16fa810b0cf470f6ad396165113bd807f7fee59f9794b39491dc121e32b7c3",
+    "/home/homa/.local/share/deformable-twins/artifacts/E-0009-validation/evaluation-smoke/validation.json": "e8d5492bc89ace824be58a5f6e00441f8f00395fda63f3b7f441ed4efbc62776"
+  }
+}

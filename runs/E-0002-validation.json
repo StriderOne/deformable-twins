@@ -1,0 +1,16 @@
+{
+  "kind": "stability_validation_not_training",
+  "experiment": "E-0002",
+  "repository_commit": "36168770d86cc26afc762be3b4488e9d238bd09f",
+  "status": "passed",
+  "unit_tests": 7,
+  "artifact": "/home/homa/.local/share/deformable-twins/artifacts/E-0002-preflight/validation.json",
+  "sha256": "9c26b18d5965743aeaef149f2b28cfd5a361cff50680251e88381cb8060308f4",
+  "checks": [
+    "three_full_calibration_rollouts_with_backward",
+    "no_resampling_failed_samples",
+    "finite_loss_and_gradient",
+    "prior_equal_posterior_initialization"
+  ],
+  "source": "tests/smoke_vi_prior.py"
+}

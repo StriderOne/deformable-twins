@@ -1,0 +1,44 @@
+id: P-0006
+version: 1
+status: proposal
+experiment: E-0008
+independent_unit: single_recording_double_lift_sloth
+splits:
+  initialization_frame: 0
+  calibration_targets:
+  - 1
+  - 43
+  continuation_targets:
+  - 43
+  - 62
+  interval_convention: half_open
+  independent_validation: null
+  independent_test: null
+  real_world_evaluation: null
+  continuation_is_independent: false
+primary_metric:
+  name: conditional_tracking_nll_change
+  units: dimensionless
+  decision: compare_effect_with_baseline_numerical_range
+secondary_metrics:
+- tracking_rmse_m_per_coordinate
+- baseline_numerical_range
+- nll_vs_stiffness
+uncertainty:
+  method: empirical_individual_posterior_samples_and_repeated_fixed_baseline
+  limitations:
+  - conditional_on_other_springs
+  - no_global_identifiability
+  - selected_extreme_spring
+  - single_session
+comparison:
+  reference: all_springs_at_final_posterior_medians
+  matched_grid: same_physical_stiffness_values_for_both_springs
+  training: none
+failures:
+  nonfinite: stop_before_optimizer_step_and_record_first_bad_frame; fast_path_checks_after_rollout
+  timeout: save_last_completed_iteration_and_mark_budget_limited
+  missing_observations: mask_out_no_imputation
+  no_valid_training_coordinates: fail
+  raw_results: never_overwrite_finished_runs
+safety: offline_simulation_only_no_robot

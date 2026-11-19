@@ -1,0 +1,614 @@
+{
+  "id": "R-0003",
+  "format_version": 1,
+  "experiment": "E-0001",
+  "benchmark": {
+    "id": "B-0001",
+    "version": 1
+  },
+  "protocol": {
+    "id": "P-0001",
+    "version": 1
+  },
+  "baseline": "BL-0001",
+  "mode": "evaluate",
+  "status": "completed",
+  "started_at": "2026-11-11T12:30:27.893678+00:00",
+  "repository_commit": "04db24f2c9061ff537898b5d2e61fe2058ce2e88",
+  "source_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+  "source_hashes": {
+    ".foam/templates/baseline.md": "a04b29756cdedcac0b737af630d012566c2884679bdf45d1a2157500db94adbe",
+    ".foam/templates/benchmark.md": "f288638be2d490de0ab673a5f92471a7ad0cf5788a827d103480feb1794182b4",
+    ".foam/templates/experiment.md": "f94d9c37c3beee5c5897379453c47b8085d3984c8d7ae5ad8f2ee151d08e7870",
+    ".foam/templates/finding.md": "14debfb631ebb79aac0d98117811a13fd525cf1e42f50ed03a2eb0668e474bdb",
+    ".foam/templates/hypothesis.md": "f6e4dce37c511f16f67d48489713dfd493bbe79f723b585fef475642137ef16b",
+    ".foam/templates/protocol.md": "33e1ce7c3e6212ab00e009e2127b74aebb7a5968447e0906e771d5443ed02553",
+    ".foam/templates/question.md": "b6a7e2b5a2c2f83525d2732158895e6c72fc2aa75e9c9f450c35d17e9adc965b",
+    ".foam/templates/run-review.md": "52551ca44f55194431ec67801ae79bf7d582dca687e22b7703edce0fd0fdd5c2",
+    ".gitignore": "114f3cdc2057d610cbc810f69cbc4f195acec0cd15dd54e9b154cf5f6657fc24",
+    ".gitmodules": "6f03bcb3282159450ce50124035057f4f3351435a6d1f691607bf78e43b8259f",
+    ".vscode/settings.json": "ea921ced072b106db5b4717d898dddf310232e63e52532cf4077a0589091c004",
+    "AGENTS.md": "6bf9a2a5bd989ef06eb2ea459e37f0e3801c56f07021f9326649293dbc6b5eff",
+    "CHANGELOG.md": "1f00d5c42919651b4e63c1c99234ca6605dc89a5f1548bcd99f587b7b18f3dcf",
+    "README.md": "32693e047a968f15070ad17771b88d379475f2e5b72e9a23bba02238834cd7a0",
+    "datasets/sloth-v1.json": "7c012418657aa89c5c6b197bd3dd8cf83bb44ccdd9ee34d6252ccc34109b9a8e",
+    "environments/Dockerfile": "bc646ca3980460e86f51231076b8d51fb36be5a13cb59ae20607d1f38734535a",
+    "environments/Dockerfile.isaac-sim": "c152a024264bfd9acf178483c4ea570e47641dfadda7136208758758ce0bb479",
+    "environments/README-isaac-sim.md": "e163a3b69aec21ee08bda12f04df244c422093918b17d55fd0eb1175970002c4",
+    "environments/README-vi.md": "6c3b3cf8f436e6a98f60c785f55a43e36abe4f9e438162cae9ef8bdf9cc8d15b",
+    "environments/README.md": "9fc44028b05af365cdf82ec6c682560b60b050f6ebf290886ba798262c14bf83",
+    "environments/requirements-gaussian-viewer.txt": "4a263ad66dc2f313a832d2d1fef2255d88b96dcb8235f5c7d8a44c7974f1f73f",
+    "environments/requirements-newton-gl.txt": "fc1a230f74d7163771ad19fcca0ae751c8a70235721a4895056e747854697cf8",
+    "environments/requirements-notebook.txt": "b0a1d2801a6d59480ca4ca7d6c14057ca8ecf8ae68b8d1e51d2063262b797600",
+    "environments/requirements-phystwin-vi.txt": "6405e9eefe0ab1e9eda671d45a932171b374cce2436544c98d941c2433d8ed1d",
+    "environments/run-isaac-sim.sh": "8931aaffd2aa142a568244919b182abc709393d25baa9e9e13b2c5a046539ccf",
+    "experiments/E-0001.yaml": "b1c674d18ee5e9ec7019986e8ef1f54c835901deaf89ae2362e39464d92f5f17",
+    "registry/baselines/BL-0001.yaml": "1366c8d309052231bb013f5786ebc0c448dbbe38d9ec50eb825e5ba3fb64a5cd",
+    "registry/baselines/BL-0002.yaml": "2a3b0ec64e3af122b10b420f8b2e5b92e3e64010a0f34d624d4db67cc1129aca",
+    "registry/baselines/BL-0003.yaml": "e4e9eb04bd13d79eed23348aef3998f65f102d1db8ed052fd51c103a25cb02e6",
+    "registry/benchmarks/B-0001.yaml": "55958323c7b8e84250ae51b31c015587cd9a5dfbe3beb7a076c8636c0a648c1d",
+    "registry/protocols/P-0001.yaml": "542663d27b508df3d5faa1043eec5cc1b58b85643baa359cf89c937c8f99c2fe",
+    "research/baselines/BL-0001.md": "ce36803a9417a43afec2309a48b86d36f4ab2a678afca33f4bb629a9f87b748d",
+    "research/baselines/BL-0002.md": "9fdb7094520db5a21057334a3d3dc58b5cfbec97d2f7ead5662ec01ddd2e9d4a",
+    "research/baselines/BL-0003.md": "b9441656fbf38c8d34277ce972e25affbeda018f107eec422080a6670c643d53",
+    "research/benchmarks/B-0001.md": "9643daf03f2510560594a5abd3768be7506ad7903cc8ca9255cc616067a1cb8b",
+    "research/experiments/E-0001.md": "29c3e1002dc42fe403ba727507fa8251086b918fa0da3c94bfdd18b0f4e27fe4",
+    "research/hypotheses/H-0001.md": "735c896708ff2df94b9ac6d9d7e6d512f94b01894ac25a4add58fdef9228f4e0",
+    "research/protocols/P-0001.md": "fb1d8e446b1b06865df91244f9d51b680796e5b29be0ab8733102d4ee95c9eaa",
+    "research/questions/Q-0001.md": "a5e1a0d57d23ecfb194e960f1ec2fd2553c1661492f1dcfc8156938153e7d713",
+    "schemas/README.md": "c08fd4fde23fe2cb4a6f82e0033c15921f24d54fd3bb3aa36cf3be6bd2281473",
+    "schemas/vi-experiment.schema.json": "0b747291a347782e259b80f9c9c40b6a85b9da45a433865d4cd39854f1d4f881",
+    "schemas/vi-registry.schema.json": "b11d134fe1ec04fcd354fce76f05d8c98b4ac5959fddb23a20fb8f1cf6c9879a",
+    "src/lab/calibration/phystwin_adapter.py": "6f0f9a1d9ef48861fe44f3b5e3f27bb7438acd7b6f158f36e35c9983dc1136d7",
+    "src/lab/calibration/phystwin_vi.py": "3b9b966a95a90de05831a27fa0a3c8d13a1977c47935420437aa0b511d1982d1",
+    "src/lab/calibration/posterior.py": "bba3fc76a16c35a50d23637daa1f2f74dc717bd9e54c41c63eb9aa156c0ba455",
+    "src/lab/simulation/demo.py": "06424747f86cde9898b4c59ff094c7d34b713f4c8f0d46174af13ba67f2ba9fb",
+    "src/lab/simulation/grasp_cycle.py": "89ded25385518d823af6668a64f4081c241ca7f7aad60ccb402e8e0b3aeace87",
+    "src/lab/simulation/internal_forces.py": "5f518f67793626f2292be5b4ad433a0e8ecf207bfc4bfb6d806186136babf900",
+    "src/lab/simulation/multirate.py": "54338cf3a933065b09dc4abd7871880ed9aa2a12d3beb5d78ed30fcd94d05f5f",
+    "src/lab/simulation/panda.py": "a18a24a59bc43534499c78085c7fd15d8c4745263c605d5ffa46a03c766897e4",
+    "src/lab/simulation/phystwin.py": "2bcfda5b0e57d98c609272f4127ce8fb578a1ec17353f933d91233dbb4fae812",
+    "src/lab/simulation/skinning.py": "b301b91d79f97252683b9782a3e6f987afdc4538495f612dc2832c119b968e6b",
+    "tests/compare_coupling.py": "8e419be63055269967acc5fdf00809b8e2ff94777cde28f019df1bd8196641d7",
+    "tests/smoke_grasp_cycle.py": "c5c9b12a72e8966c6d3af1fe381458b5181f297a754473457044f9dd8d09865b",
+    "tests/smoke_newton_phystwin.py": "f33f2a170b49c1a5b934224fdf4474a07e99fe1ab186477d914c5062ea6a4193",
+    "tests/smoke_panda_phystwin.py": "0c4a57265e67274a37e22ab25664848fa2ae58a916a456efdf9499cd0691146d",
+    "tests/smoke_vi_gradients.py": "1fb0480419b548d67c89d1680c384a42a346a157c2c7f0917cd747bfdd35768d",
+    "tests/test_articulated_forces.py": "8360fcfc7240f167197426a114e1328475af7fe4bcc5c97e09884f46918e2c31",
+    "tests/test_gpu_skinning.py": "e91176106412829a5f0185c3c7ad35ac03aa0e8a67cdf66404e1a768d890aebc",
+    "tests/test_grasp_cycle.py": "99af26e76a79e5791ed024c8a29c106518327e42faa058d86adc1d0ed8675eb3",
+    "tests/test_internal_forces.py": "faf6dd4ee49b694080a3261ed7b4203bbae039659ea2a0e52c7e0e979579be59",
+    "tests/test_multirate.py": "b5932ba46d2c85dd6180c6137c6934e27ffad6f89718a8bf85a99ca5acc0b2f7",
+    "tests/test_vi_posterior.py": "f0b4c030de1ba468b55529892b811aecd5d96eb25bf89d1a93eb3156cf58c576",
+    "tutorials/analyze_phystwin_springs.py": "b41703fba2d27fd558fa994e4e69a33c159ec75b272bcbd573f56f5d0e06ba2f",
+    "tutorials/export_phystwin.py": "b09e21928bffae0ddf8f5715de9cd4db42469af395f382d381f4426d6ca7293f",
+    "tutorials/phystwin_runtime.py": "e6270197097f402d7804f8267ab835a4d4e4c72e234fceb54e33f3832479a623",
+    "tutorials/phystwin_to_newton.ipynb": "1dd6d9b597794af6d55e1f553339cad787ff6e9974389f539c7c59173aca79ed",
+    "tutorials/test_phystwin_runtime.py": "ae2285ed1bc34880767ccfe3b161624181902cc241df51c8ac0261a150d79f2e",
+    "tutorials/view_phystwin_gaussians.py": "0ec758a06edcce53cc7f7249285e44deab2bdff7dd2ce4a860fa64887d19f0ff",
+    "tutorials/view_phystwin_gl.py": "c2afa51441955b0ba567014875fb63c44e0ca46b1637e95e9f7aebf66cfd093e",
+    "tutorials/view_phystwin_isaac.py": "839de9522b1f88cad33a7f10172506b6b740f19fc9135ed63f1d7ecc196e7ef0"
+  },
+  "source_snapshot": "/home/homa/.local/share/deformable-twins/artifacts/R-0003/source.tar.gz",
+  "working_diff_sha256": "21d334834660112ff757666e677c9ddceb82db3056eac16bc623c6901d222504",
+  "config_sha256": "b1c674d18ee5e9ec7019986e8ef1f54c835901deaf89ae2362e39464d92f5f17",
+  "config": {
+    "id": "E-0001",
+    "version": 1,
+    "status": "proposal",
+    "question": "Q-0001",
+    "hypothesis": "H-0001",
+    "benchmark": {
+      "id": "B-0001",
+      "version": 1
+    },
+    "protocol": {
+      "id": "P-0001",
+      "version": 1
+    },
+    "baselines": [
+      "BL-0001",
+      "BL-0002",
+      "BL-0003"
+    ],
+    "source_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+    "data": {
+      "manifest": "datasets/sloth-v1.json",
+      "observations": "~/PhysTwin/data/different_types/double_stretch_sloth/final_data.pkl",
+      "split": "~/PhysTwin/data/different_types/double_stretch_sloth/split.json",
+      "optimal": "~/PhysTwin/experiments_optimization/double_stretch_sloth/optimal_params.pkl"
+    },
+    "likelihood": {
+      "family": "independent_gaussian_xyz",
+      "sigma_obs_m": 0.01,
+      "mask": "visibility_t_and_motion_valid_t_minus_1",
+      "aggregation": "sum_over_valid_coordinates_and_frames"
+    },
+    "posterior": {
+      "family": "diagonal_gaussian_log_stiffness",
+      "initial_std": 0.05,
+      "prior_std": 0.5,
+      "prior_center": "log_CMA_stiffness",
+      "data_dependent_prior": true
+    },
+    "optimizer": {
+      "name": "Adam",
+      "lr": 0.001,
+      "betas": [
+        0.9,
+        0.99
+      ],
+      "max_iterations": 200,
+      "seed": 42,
+      "samples_per_iteration": 1,
+      "gradient": "truncated_at_frame_boundaries"
+    },
+    "budget": {
+      "map_seconds": 1500,
+      "vi_seconds": 1500,
+      "evaluation_seconds": 600,
+      "posterior_samples": 16
+    },
+    "execution": {
+      "device": "cuda:0",
+      "use_graph": true,
+      "self_collision": false,
+      "artifact_root": "~/.local/share/deformable-twins/artifacts",
+      "hardware_execution": false
+    },
+    "unknowns": {
+      "acquisition_robot_sensors_and_sync": "TBD",
+      "measurement_noise": "assumed_not_measured",
+      "CMA_training_extent": "TBD",
+      "dataset_license": "TBD"
+    }
+  },
+  "protocol_spec": {
+    "id": "P-0001",
+    "version": 1,
+    "status": "proposal",
+    "experiment": "E-0001",
+    "independent_unit": "single_recording_double_stretch_sloth",
+    "splits": {
+      "initialization_frame": 0,
+      "calibration_targets": [
+        1,
+        134
+      ],
+      "continuation_targets": [
+        134,
+        192
+      ],
+      "interval_convention": "half_open",
+      "independent_validation": null,
+      "independent_test": null,
+      "real_world_evaluation": null,
+      "continuation_is_independent": false
+    },
+    "primary_metric": {
+      "name": "fraction_object_springs_with_std_ratio_above_threshold",
+      "std_ratio_threshold": 0.8,
+      "hypothesis_fraction_threshold": 0.5,
+      "units": "fraction",
+      "prerequisite": "finite_training_and_predictive_quality_inspected",
+      "interpretation": "weak_constraint_in_selected_approximation_not_physical_identifiability"
+    },
+    "secondary_metrics": [
+      "tracking_rmse_m_per_coordinate",
+      "tracking_nll_without_constant",
+      "kl_q_prior",
+      "posterior_std_log_stiffness",
+      "controller_spring_std_ratio",
+      "fraction_stiffness_at_or_outside_simulator_bounds",
+      "wall_seconds",
+      "peak_process_gpu_memory_mib"
+    ],
+    "uncertainty": {
+      "method": "posterior_sample_descriptive_spread",
+      "no_independent_confidence_interval": "one_session_one_seed",
+      "contraction_is_not_falsification": "mean_field_and_truncation_can_underestimate_uncertainty"
+    },
+    "comparison": {
+      "shared": [
+        "data",
+        "topology",
+        "likelihood",
+        "prior",
+        "fixed_physics",
+        "seed",
+        "optimizer",
+        "iteration_cap"
+      ],
+      "difference": "wall_budget_may_produce_different_iteration_counts",
+      "nominal_is_uncalibrated": false,
+      "nominal_description": "CMA_calibrated_initialization",
+      "no_uncalibrated_comparison_claim": true
+    },
+    "failures": {
+      "nonfinite": "stop_and_record_sample_frame_and_checkpoint",
+      "timeout": "save_last_completed_iteration_and_mark_budget_limited",
+      "missing_observations": "mask_out_no_imputation",
+      "no_valid_training_coordinates": "fail",
+      "raw_results": "never_overwrite_finished_runs"
+    },
+    "safety": "offline_simulation_only_no_robot"
+  },
+  "dataset_manifest_sha256": "7c012418657aa89c5c6b197bd3dd8cf83bb44ccdd9ee34d6252ccc34109b9a8e",
+  "inputs": {
+    "/home/homa/PhysTwin/data/different_types/double_stretch_sloth/final_data.pkl": "d5a4d44eed6d8d78a6fedbbfa01f1f720b29f757fbb82768b28bb62391f5e346",
+    "/home/homa/PhysTwin/data/different_types/double_stretch_sloth/split.json": "67b6b31095857b16b256865ae069cdc334a934f26b253cedeba6b9c7812ba285",
+    "/home/homa/PhysTwin/experiments_optimization/double_stretch_sloth/optimal_params.pkl": "19379e1693a92dd7be3f46aa2c17ce0c78e628a7ffeb8e4d426f88825fffb954",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0001/checkpoint.pt": "1170d8e413f0aa8ff595c487e120422c8d6afc89887a448255ef06cbaa859883",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0002/checkpoint.pt": "f89559bfe8531a3f2a778d4823c93ddd0aa454a8fb445930c766ea7b04abd4f0"
+  },
+  "versions": {
+    "torch": "2.9.1+cu128",
+    "warp-lang": "1.17.0",
+    "numpy": "2.4.6",
+    "open3d": "0.19.0",
+    "PyYAML": "6.0.3"
+  },
+  "seed": 42,
+  "hardware": "NVIDIA GeForce RTX 5060",
+  "gpu_inventory": "NVIDIA GeForce RTX 5060, 580.159.04, 8151 MiB",
+  "artifact_directory": "/home/homa/.local/share/deformable-twins/artifacts/R-0003",
+  "failure_reason": null,
+  "limitations": [
+    "truncated_gradients",
+    "data_dependent_prior",
+    "single_session",
+    "assumed_noise",
+    "no_independent_test"
+  ],
+  "resolved_physics": {
+    "FPS": 30,
+    "acc_weight": 0.01,
+    "base_lr": 0.001,
+    "chamfer_weight": 1.0,
+    "collide_elas": 0.22834254801273346,
+    "collide_fric": 0.8793314099311829,
+    "collide_object_elas": 0.5086941719055176,
+    "collide_object_fric": 0.4885832667350769,
+    "collision_dist": 0.020157414674758914,
+    "collision_learn": false,
+    "controller_max_neighbours": 34,
+    "controller_radius": 0.07855622112751007,
+    "dashpot_damping": 94,
+    "data_type": "real",
+    "device": "cuda:0",
+    "drag_damping": 19,
+    "dt": 5e-05,
+    "init_spring_Y": 37511.16991043091,
+    "iterations": 200,
+    "num_substeps": 667,
+    "object_max_neighbours": 15,
+    "object_radius": 0.04144593715667725,
+    "overlay_path": null,
+    "reverse_z": 1,
+    "self_collision": false,
+    "spring_Y_max": 100000.0,
+    "spring_Y_min": 0,
+    "track_weight": 1.0,
+    "use_graph": false,
+    "vis_interval": 20,
+    "vp_front": [
+      1,
+      0,
+      -2
+    ],
+    "vp_up": [
+      0,
+      0,
+      -1
+    ],
+    "vp_zoom": 1
+  },
+  "counts": {
+    "particles": 6487,
+    "springs": 53166,
+    "object_springs": 52778
+  },
+  "evaluation_seconds": 52.86406504399929,
+  "completed_rollouts": 19,
+  "requested_rollouts": 19,
+  "results": [
+    {
+      "name": "CMA_initialization",
+      "calibration": {
+        "nll_without_constant": 1041466.7709350586,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011899831673672511
+      },
+      "continuation": {
+        "nll_without_constant": 360852.12939453125,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.01021103575818611
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "MAP",
+      "calibration": {
+        "nll_without_constant": 966898.7144470215,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011465911905143743
+      },
+      "continuation": {
+        "nll_without_constant": 338680.3731689453,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009892365989632742
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_mu",
+      "calibration": {
+        "nll_without_constant": 964945.8309631348,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011454326975212984
+      },
+      "continuation": {
+        "nll_without_constant": 338342.70703125,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009887433389052888
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_00",
+      "calibration": {
+        "nll_without_constant": 965495.0870361328,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011457586465762221
+      },
+      "continuation": {
+        "nll_without_constant": 338065.4754638672,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009883381771666025
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_01",
+      "calibration": {
+        "nll_without_constant": 965990.2172546387,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011460523958784677
+      },
+      "continuation": {
+        "nll_without_constant": 338895.5604248047,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009895508145537855
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_02",
+      "calibration": {
+        "nll_without_constant": 963522.6353759766,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011445876882799699
+      },
+      "continuation": {
+        "nll_without_constant": 337749.73083496094,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009878765278822126
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_03",
+      "calibration": {
+        "nll_without_constant": 963146.8569641113,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.01144364469191753
+      },
+      "continuation": {
+        "nll_without_constant": 338191.42736816406,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009885222709178692
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_04",
+      "calibration": {
+        "nll_without_constant": 969782.1113891602,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011482995475433924
+      },
+      "continuation": {
+        "nll_without_constant": 339042.7717285156,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009897657144615707
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_05",
+      "calibration": {
+        "nll_without_constant": 966340.9508972168,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011462604324842248
+      },
+      "continuation": {
+        "nll_without_constant": 338000.2060546875,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.00988242764639318
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_06",
+      "calibration": {
+        "nll_without_constant": 965812.3611755371,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011459468866480967
+      },
+      "continuation": {
+        "nll_without_constant": 338681.0262451172,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.00989237552733541
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_07",
+      "calibration": {
+        "nll_without_constant": 964860.9858093262,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011453823389692084
+      },
+      "continuation": {
+        "nll_without_constant": 338034.86291503906,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.00988293428090077
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_08",
+      "calibration": {
+        "nll_without_constant": 964695.4308776855,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011452840699789465
+      },
+      "continuation": {
+        "nll_without_constant": 338582.208984375,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009890932268500796
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_09",
+      "calibration": {
+        "nll_without_constant": 967034.6898803711,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011466718105166035
+      },
+      "continuation": {
+        "nll_without_constant": 339428.9182128906,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009903291917296782
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_10",
+      "calibration": {
+        "nll_without_constant": 967564.7496032715,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011469860294802557
+      },
+      "continuation": {
+        "nll_without_constant": 338688.8046875,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009892489125124039
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_11",
+      "calibration": {
+        "nll_without_constant": 963159.7466125488,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011443721265942744
+      },
+      "continuation": {
+        "nll_without_constant": 337632.25390625,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009877047101381356
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_12",
+      "calibration": {
+        "nll_without_constant": 966327.7821655273,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011462526221728159
+      },
+      "continuation": {
+        "nll_without_constant": 338598.59814453125,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.00989117165218239
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_13",
+      "calibration": {
+        "nll_without_constant": 964410.315032959,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011451148130532317
+      },
+      "continuation": {
+        "nll_without_constant": 338011.5295410156,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009882593182678546
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_14",
+      "calibration": {
+        "nll_without_constant": 965674.8872680664,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.01145865326601351
+      },
+      "continuation": {
+        "nll_without_constant": 337967.94091796875,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009881955952170465
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_15",
+      "calibration": {
+        "nll_without_constant": 966991.6221618652,
+        "valid_coordinates": 1470936,
+        "rmse_m": 0.011466462762265057
+      },
+      "continuation": {
+        "nll_without_constant": 341429.650390625,
+        "valid_coordinates": 692181,
+        "rmse_m": 0.009932436049952028
+      },
+      "saturated_fraction": 0.0
+    }
+  ],
+  "ended_at": "2026-11-11T12:31:21.827943+00:00",
+  "wall_seconds": 53.88756477700008,
+  "peak_process_gpu_memory_mib_sampled": 796,
+  "artifacts": {
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/training.png": "d03f43f28e591729435c4c0fb8bca57658cf84bfcd6ca98a6e39109a93c6a977",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/std_ratio.npy": "e7fe2a12db83a94aad36c639a74864a0ba3492c38ed14db0427bade5ce53ab51",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_05-frame-nll.npy": "11834ecec95ab72f816ac75b071778d1662d043fa9991f1fdc7834bdfa87156f",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/evaluation.json": "8d18b97b305a62b6f8de23e78c4b172d8167fbb8d9ec63320a5bff584cb30829",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/MAP-frame-nll.npy": "84293d389a5cb1db830dfe2cea5d85903a8762f8da2cefbf8612af124b38b4d6",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_11-frame-nll.npy": "384583014d27f47b96abf80a7836cfe242b34dbe20805909cbd41456ab67f731",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_04-frame-nll.npy": "104f240187ceae0c6ac75412ccfa96d368d22316838882463b220a3356a985b8",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_03-frame-nll.npy": "e5f833737c22f7ac914058c7f9848506fbcbff6ea024acfc0bb125b6cdcf25e5",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_mu-frame-nll.npy": "8e92510dd274acccd3e0e17041ba466720e7ed03a1acc8a01cb719f199ac965c",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_13-frame-nll.npy": "d3872554ee2d69074c240c45480dfb62f2a5679ff22aa3cc1c65958a43db8580",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/topology.npz": "5d545f16c9635db508c340ace9c327d71588a64b9280e8118c9710414337c9a2",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_10-frame-nll.npy": "d8fc1683462090d51c81d37b0f5fe4ff9d6284b2eb456423bc4368a1a9c9e647",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_02-frame-nll.npy": "7a8a8c49972a786c807d0d9e2fbcab972e9cb5b145022c668b04687abfb3c739",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_08-frame-nll.npy": "0f48609ef3b77a4b7f8152721a0b4c24ac9de34a2e2c88a8426074db2e6bf59a",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/source.tar.gz": "3e369d631d32a76d31943d6892bdb83c6cf497dd1c5e1e550660d2a9ce709952",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/std-ratio.png": "e30f0ef789c80c134123124d8a14f5db6bc3dd58ff7bb975fbe532163d5389d4",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/CMA_initialization-frame-nll.npy": "59ee3080bce3f9d09c4e61b4bb0069eba46880e4a57e540b1ddb74d2844d8d2e",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/run.log": "f707646c8f566a181df0a184702111512dddf5e4ee94129812c091245855bfff",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_01-frame-nll.npy": "b9852d1b58d3abd9b87b2d31def40358863d0c2182eb67da351f28e9ed6bc42a",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_09-frame-nll.npy": "18f296a7ff12cb3f9dc9df5025b74220735d60ee8695251d5f62b36a2ff1862f",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_07-frame-nll.npy": "e123dc4e2d7508167f383e7423ab6509f00678eeb88e376e2f06177ff0c79f55",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_14-frame-nll.npy": "fa101a0b6fdcb08c418c723afbe2141c093a57e1e197aae014116459593ee1b7",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_00-frame-nll.npy": "a04bb01660fe0f806c9afb66b83831f24fe99ce726097e351e4238458f4341cc",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_06-frame-nll.npy": "c839495e1d8963a421e7e46fa63e442aff86d2b7ac2c4f32434cdc12c634b4de",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_15-frame-nll.npy": "7130b3cf8fac8d985a41d78794e2dc1667cac31d5b486163c1fd28f8aa5df640",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/VI_sample_12-frame-nll.npy": "37090b7a0583cd872dd7883b0e23b0c728907db147503922e5850501805872dc",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0003/resolved-plan.json": "78eda2b59d9c05fd8f4e59bf27020e4952759a93701c25d598b12d81798fed78"
+  }
+}

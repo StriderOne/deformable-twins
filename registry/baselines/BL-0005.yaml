@@ -1,0 +1,8 @@
+id: BL-0005
+version: 1
+status: proposal
+method: VI_prior_sensitivity_common_initial_posterior
+experiment: E-0005
+benchmark: B-0001
+protocol: P-0003
+settings_source: experiments/E-0005.yaml

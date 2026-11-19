@@ -1,0 +1,11 @@
+{
+  "experiment": "E-0005",
+  "status": "cancelled_by_user",
+  "reason": "User requested replacing prior sweep with one accelerated uniform-prior experiment",
+  "active_run": "R-0010",
+  "run_status": "failed",
+  "run_failure_reason": "KeyboardInterrupt: ",
+  "last_history_iteration": 1340,
+  "checkpoint_sha256": "dea3052da522d250a34cbcd8ba101c3914c54edb88e59107462ab95b3caded27",
+  "unstarted_runs": "R-0011 through R-0019 reserved and cancelled; do not reuse"
+}

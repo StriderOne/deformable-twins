@@ -1,0 +1,8 @@
+id: BL-0008
+version: 1
+status: proposal
+method: single_spring_forward_loss_probe
+experiment: E-0008
+benchmark: B-0002
+protocol: P-0006
+settings_source: experiments/E-0008.yaml

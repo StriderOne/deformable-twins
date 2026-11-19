@@ -1,0 +1,65 @@
+id: P-0002
+version: 1
+status: proposal
+experiment: E-0002
+independent_unit: single_recording_double_stretch_sloth
+splits:
+  initialization_frame: 0
+  calibration_targets:
+  - 1
+  - 134
+  continuation_targets:
+  - 134
+  - 192
+  interval_convention: half_open
+  independent_validation: null
+  independent_test: null
+  real_world_evaluation: null
+  continuation_is_independent: false
+primary_metric:
+  name: fraction_object_springs_with_std_ratio_above_threshold
+  std_ratio_threshold: 0.8
+  hypothesis_fraction_threshold: 0.5
+  units: fraction
+  prerequisite: finite_training_and_predictive_quality_inspected
+  interpretation: weak_constraint_in_selected_approximation_not_physical_identifiability
+secondary_metrics:
+- tracking_rmse_m_per_coordinate
+- tracking_nll_without_constant
+- kl_q_prior
+- posterior_std_log_stiffness
+- controller_spring_std_ratio
+- fraction_stiffness_at_or_outside_simulator_bounds
+- wall_seconds
+- peak_process_gpu_memory_mib
+uncertainty:
+  method: posterior_sample_descriptive_spread
+  no_independent_confidence_interval: one_session_one_seed
+  contraction_is_not_falsification: mean_field_and_truncation_can_underestimate_uncertainty
+  broad_initialization_warning: Width criterion holds at initialization; retained
+    width alone is not support for identifiability hypothesis without convergence
+    and predictive checks
+comparison:
+  shared:
+  - data
+  - topology
+  - likelihood
+  - prior
+  - fixed_physics
+  - seed
+  - optimizer
+  - iteration_cap
+  difference: Only initial posterior scale changes relative to E-0001; reuse existing
+    MAP and narrow VI runs
+  nominal_is_uncalibrated: false
+  nominal_description: CMA_calibrated_initialization
+  no_uncalibrated_comparison_claim: true
+  before_after: Report std ratio and KL at initialization and completion; compare
+    predictive RMSE with R-0003; no retuning
+failures:
+  nonfinite: stop_and_record_sample_frame_and_checkpoint
+  timeout: save_last_completed_iteration_and_mark_budget_limited
+  missing_observations: mask_out_no_imputation
+  no_valid_training_coordinates: fail
+  raw_results: never_overwrite_finished_runs
+safety: offline_simulation_only_no_robot

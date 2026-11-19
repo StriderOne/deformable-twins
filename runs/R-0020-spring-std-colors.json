@@ -1,0 +1,20 @@
+{
+  "run": "R-0020",
+  "evaluation": "R-0021",
+  "iteration": 2000,
+  "springs": 52778,
+  "controllers_excluded": true,
+  "color": "viridis, linear continuous ratio; no clipping",
+  "limits": [
+    0.45519399642944336,
+    1.0939288139343262
+  ],
+  "geometry": "frame 0, PCA projection for PNG; original coordinates for HTML",
+  "training_commit": "9309000ff3d3690e9aafe331b2172ef272bf9ad6",
+  "analysis_head": "252c954fd30f5306d19f0d59a7fcd40d677f6d60",
+  "script_sha256": "d389954f170b01229813270596c090afdec3c52f2d045d3d0ab70025b1128a8a",
+  "artifacts": {
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0020-spring-std-colors/spring-std-colors.html": "1fefc75e7204218347c09998efe057ed62de76b7156436ecc38435967e0bb0a6",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0020-spring-std-colors/spring-std-colors.png": "dd58752bc853906035e4f2a892e9b430e5535fbc68a05851b8794308cfb26e51"
+  }
+}
