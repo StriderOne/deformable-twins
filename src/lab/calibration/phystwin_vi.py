@@ -236,27 +236,34 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
         if time.monotonic() >= deadline:
             status = 'budget_limited'
             break
-        optimizer.zero_grad(set_to_none=True)
-        z = q.sample() if mode == 'vi' else q.mu
-        try:
-            losses, grad = rollout.trajectory(z, end, True, deadline)
-        except TimeoutError:
-            status = 'budget_limited'
-            break
-        except Exception:
-            torch.save({'sample':z.detach().cpu(), 'posterior':q.state_dict()}, artifacts / 'failed-sample.pt')
-            raise
-        penalty = q.kl() if mode == 'vi' else q.map_penalty()
-        torch.autograd.backward((z, penalty), (grad, torch.ones_like(penalty)))
-        if not all(p.grad is not None and torch.isfinite(p.grad).all() for p in parameters):
-            raise FloatingPointError('Non-finite posterior gradient')
-        # Record the objective at the pre-update sample; std summaries are post-update.
-        penalty_value = float(penalty.detach())
-        optimizer.step()
-        if not all(torch.isfinite(p).all() for p in parameters):
-            raise FloatingPointError('Non-finite posterior parameter after update')
+        interval = opt.get('update_every_frames', end - 1)
+        if interval < end - 1:
+            from .vi_frame_updates import train_pass
+            losses, penalty_value, z = train_pass(
+                rollout, q, optimizer, end, interval, deadline)
+        else:
+            optimizer.zero_grad(set_to_none=True)
+            z = q.sample() if mode == 'vi' else q.mu
+            try:
+                losses, grad = rollout.trajectory(z, end, True, deadline)
+            except TimeoutError:
+                status = 'budget_limited'
+                break
+            except Exception:
+                torch.save({'sample':z.detach().cpu(), 'posterior':q.state_dict()}, artifacts / 'failed-sample.pt')
+                raise
+            penalty = q.kl() if mode == 'vi' else q.map_penalty()
+            torch.autograd.backward((z, penalty), (grad, torch.ones_like(penalty)))
+            if not all(p.grad is not None and torch.isfinite(p.grad).all() for p in parameters):
+                raise FloatingPointError('Non-finite posterior gradient')
+            # Record the objective at the pre-update sample; std summaries are post-update.
+            penalty_value = float(penalty.detach())
+            optimizer.step()
+            if not all(torch.isfinite(p).all() for p in parameters):
+                raise FloatingPointError('Non-finite posterior parameter after update')
         threshold = protocol['primary_metric']['std_ratio_threshold']
-        row = dict(iteration=iteration, seconds=time.monotonic()-start,
+        row = dict(iteration=iteration, optimizer_steps=iteration * math.ceil((end-1)/interval),
+                   seconds=time.monotonic()-start,
                    nll_without_constant=float(losses.sum()), penalty=penalty_value,
                    objective=float(losses.sum())+penalty_value,
                    rmse_m=math.sqrt(2 * plan['likelihood']['sigma_obs_m']**2 * losses.sum()

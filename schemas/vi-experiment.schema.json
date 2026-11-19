@@ -199,6 +199,10 @@
         },
         "gradient": {
           "const": "truncated_at_frame_boundaries"
+        },
+        "update_every_frames": {
+          "type": "integer",
+          "minimum": 1
         }
       }
     },
