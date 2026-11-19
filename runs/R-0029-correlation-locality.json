@@ -1,0 +1,80 @@
+{
+  "plan": {
+    "run": "R-0029",
+    "protocol": "P-0005",
+    "seed": 42,
+    "reference_count": 512,
+    "far_samples": 128,
+    "far_distance_quantile": 0.75,
+    "quadrature_order": 32,
+    "selection": "uniform object spring IDs without replacement, before measuring correlations",
+    "neighbor": "shares at least one vertex; excludes self",
+    "metric": "mean absolute physical Pearson correlation; neighbors minus far",
+    "interpretation": "exploratory within one fitted posterior; no independent replication; selected best examples are not representative"
+  },
+  "training_commit": "f5b1387a4a4872b8ae994d568b5a302d1885e8d7",
+  "quadrature_max_error": 4.039814095024852e-05,
+  "reference_fraction_neighbor_stronger": 0.4609375,
+  "mean_neighbor": 0.0034147527168312507,
+  "mean_far": 0.0005152069919170485,
+  "median_difference": -5.153780091771654e-06,
+  "positive_reference_count": 236,
+  "best_selected_examples": [
+    {
+      "reference": 50154,
+      "neighbors": 63,
+      "far_cutoff_m": 0.1676209680659923,
+      "near_mean": 0.11698826808781303,
+      "far_mean": 0.01587897533969937,
+      "difference": 0.10110929274811366,
+      "near_max": 0.3640581132296933,
+      "far_max": 0.26398010104308617
+    },
+    {
+      "reference": 102405,
+      "neighbors": 66,
+      "far_cutoff_m": 0.1657548156984964,
+      "near_mean": 0.10823768131089355,
+      "far_mean": 0.007988589464605863,
+      "difference": 0.10024909184628769,
+      "near_max": 0.28812389222619467,
+      "far_max": 0.295861475006683
+    },
+    {
+      "reference": 89019,
+      "neighbors": 67,
+      "far_cutoff_m": 0.282841170440591,
+      "near_mean": 0.1063808569567509,
+      "far_mean": 0.00821342080342476,
+      "difference": 0.09816743615332614,
+      "near_max": 0.533670885381987,
+      "far_max": 0.17859360897862928
+    },
+    {
+      "reference": 86228,
+      "neighbors": 71,
+      "far_cutoff_m": 0.26090876710586286,
+      "near_mean": 0.08264610378860653,
+      "far_mean": 0.001896691422930805,
+      "difference": 0.08074941236567572,
+      "near_max": 0.2956067710245364,
+      "far_max": 0.05008077375419727
+    },
+    {
+      "reference": 52353,
+      "neighbors": 75,
+      "far_cutoff_m": 0.16663846857562986,
+      "near_mean": 0.08496798306780558,
+      "far_mean": 0.01793788310223852,
+      "difference": 0.06703009996556705,
+      "near_max": 0.42426624430488136,
+      "far_max": 0.23811785311836703
+    }
+  ],
+  "inputs": {
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0029/checkpoint.pt": "075fd4a18520d40e4144d263238825b714e479bc6167d7ac27e997ce5a0d0070",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/topology.npz": "a15c661a29db997cca5802c3196ded379387191c500dc4c6c6697ce14bba7ec2",
+    "/home/homa/PhysTwin/data/different_types/double_lift_sloth/final_data.pkl": "6bbb1245812a9b6c760f6881b8b6174343fd0df717c168b09fb7b365caabb33c"
+  },
+  "script_sha256": "eaad98ca08950f81f23cf2d7f585cb20af69c142e21b7cfbbc5458da7c9a049b"
+}

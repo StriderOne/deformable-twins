@@ -1,0 +1,27 @@
+{
+  "run": "R-0022",
+  "iteration": 2000,
+  "training_commit": "7744b305e95319849895fc2f905784b497fcf50d",
+  "checkpoint_sha256": "669eb45294427b25460c1ed58d8cef98897bd2f4f97db8b23ad2fc990d278151",
+  "source_data_sha256": "6bbb1245812a9b6c760f6881b8b6174343fd0df717c168b09fb7b365caabb33c",
+  "topology_sha256": "a15c661a29db997cca5802c3196ded379387191c500dc4c6c6697ce14bba7ec2",
+  "object_springs": 114479,
+  "ratio_min": 0.20399576433326602,
+  "ratio_max": 1.0491175534347406,
+  "fraction_below_0_8": 0.048000069881812386,
+  "color_limits": [
+    0.45519399642944336,
+    1.5448060035705566
+  ],
+  "outside_color_limits": 1658,
+  "color_intensity": "quadratic deviation from ratio 1, same scale as R-0020 plot",
+  "geometry": "own initial frame, PC1-PC2 projection",
+  "script_sha256": "6cfecbb1a87c7ce7bd802eee50779c5e46ad094cacaaf2ea50d18fc07ee09eb4",
+  "source_host": "homa@100.64.0.3",
+  "source_manifest": "/home/homa/.local/share/deformable-twins/artifacts/R-0022-std-colors-i002000-final/manifest.json",
+  "source_manifest_sha256": "02bfb6ffcf4df5bc270d80dbf07851b1bfc52fc649fe939d9842daf290380d3f",
+  "artifacts": {
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0022-std-colors-i002000-final/std-colors.png": "a95541b61a94fffcdb26f86fb3d3e5ca96e0b7901da9857991a02c2706c04909",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0022-std-colors-i002000-final/std-ratio.npy": "220956fa819222a543c0fc69c2ffee0e9af4a808fde9138ae9c9ce74fa8bd611"
+  }
+}

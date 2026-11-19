@@ -1,0 +1,719 @@
+{
+  "id": "R-0030",
+  "format_version": 1,
+  "experiment": "E-0011",
+  "benchmark": {
+    "id": "B-0002",
+    "version": 1
+  },
+  "protocol": {
+    "id": "P-0005",
+    "version": 1
+  },
+  "baseline": "BL-0009",
+  "mode": "evaluate",
+  "status": "completed",
+  "started_at": "2026-11-17T17:40:59.801861+00:00",
+  "repository_commit": "19dad3b3cbdc857d9c234694690c7b137e8927a1",
+  "source_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+  "source_hashes": {
+    ".foam/templates/baseline.md": "a04b29756cdedcac0b737af630d012566c2884679bdf45d1a2157500db94adbe",
+    ".foam/templates/benchmark.md": "f288638be2d490de0ab673a5f92471a7ad0cf5788a827d103480feb1794182b4",
+    ".foam/templates/experiment.md": "f94d9c37c3beee5c5897379453c47b8085d3984c8d7ae5ad8f2ee151d08e7870",
+    ".foam/templates/finding.md": "14debfb631ebb79aac0d98117811a13fd525cf1e42f50ed03a2eb0668e474bdb",
+    ".foam/templates/hypothesis.md": "f6e4dce37c511f16f67d48489713dfd493bbe79f723b585fef475642137ef16b",
+    ".foam/templates/protocol.md": "33e1ce7c3e6212ab00e009e2127b74aebb7a5968447e0906e771d5443ed02553",
+    ".foam/templates/question.md": "b6a7e2b5a2c2f83525d2732158895e6c72fc2aa75e9c9f450c35d17e9adc965b",
+    ".foam/templates/run-review.md": "52551ca44f55194431ec67801ae79bf7d582dca687e22b7703edce0fd0fdd5c2",
+    ".gitignore": "114f3cdc2057d610cbc810f69cbc4f195acec0cd15dd54e9b154cf5f6657fc24",
+    ".gitmodules": "6f03bcb3282159450ce50124035057f4f3351435a6d1f691607bf78e43b8259f",
+    ".vscode/settings.json": "ea921ced072b106db5b4717d898dddf310232e63e52532cf4077a0589091c004",
+    "AGENTS.md": "6bf9a2a5bd989ef06eb2ea459e37f0e3801c56f07021f9326649293dbc6b5eff",
+    "CHANGELOG.md": "456eaa0637c6e33838a819672b7f229c1a2ce353fddfb0296958af703c4332b7",
+    "README.md": "2e3df630986acea8c80c9c48f03efe88079ec4c2ae9e9dc5b33f92551ef0672e",
+    "datasets/sloth-additional-v1.json": "431019598b589dc21bc14c80fb95fb21816d7829212ac2e70c7d8e181502b6b1",
+    "datasets/sloth-double-lift-v1.json": "b1f939a657148fc851d4e212d8f36b469b08240e65750583fa467fcd0a550663",
+    "datasets/sloth-v1.json": "7c012418657aa89c5c6b197bd3dd8cf83bb44ccdd9ee34d6252ccc34109b9a8e",
+    "environments/Dockerfile": "bc646ca3980460e86f51231076b8d51fb36be5a13cb59ae20607d1f38734535a",
+    "environments/Dockerfile.isaac-sim": "c152a024264bfd9acf178483c4ea570e47641dfadda7136208758758ce0bb479",
+    "environments/README-isaac-sim.md": "e163a3b69aec21ee08bda12f04df244c422093918b17d55fd0eb1175970002c4",
+    "environments/README-vi.md": "6c3b3cf8f436e6a98f60c785f55a43e36abe4f9e438162cae9ef8bdf9cc8d15b",
+    "environments/README.md": "982fa8ed38e4f1c72bf693fe85d42ef674ddf4e1c6a0c21d27a4c54915ea5340",
+    "environments/requirements-gaussian-viewer.txt": "4a263ad66dc2f313a832d2d1fef2255d88b96dcb8235f5c7d8a44c7974f1f73f",
+    "environments/requirements-newton-gl.txt": "fc1a230f74d7163771ad19fcca0ae751c8a70235721a4895056e747854697cf8",
+    "environments/requirements-notebook.txt": "b0a1d2801a6d59480ca4ca7d6c14057ca8ecf8ae68b8d1e51d2063262b797600",
+    "environments/requirements-phystwin-vi.txt": "c949da59b73bb62acfa69f578dca3be66cd78958ec45b164dc3b4cf1406b37c5",
+    "environments/run-isaac-sim.sh": "8931aaffd2aa142a568244919b182abc709393d25baa9e9e13b2c5a046539ccf",
+    "experiments/E-0001.yaml": "b1c674d18ee5e9ec7019986e8ef1f54c835901deaf89ae2362e39464d92f5f17",
+    "experiments/E-0002.yaml": "3dc0a44fa18505686e1b062ba3a875fb78dd3952599797a2047fdd58ad29576e",
+    "experiments/E-0003.yaml": "997558f1ae27d63bf30ac975ff617ea0efa7202654c92e12061bd665a6528303",
+    "experiments/E-0004.yaml": "e558e4cd7fd99cd54a2d1512f5ac632eada986b4698497a21625694e4f28a8ff",
+    "experiments/E-0005.yaml": "2f8fceb2544f695563f8fa304bc9deb21780ed4d0310c8d8416a2753dfc091bb",
+    "experiments/E-0006.yaml": "9c3db9e67b2cf2971224475aae08dc8df1d69f812b65b39321a8106d643a2d95",
+    "experiments/E-0007.yaml": "c0116c2ead76a70276e2c065848c28b39e6ed7824fc37b45ae2f07c0d9812450",
+    "experiments/E-0008.yaml": "ab3728bd328c01cbdc6e67cddaa20a29d52912bc914e6ef4ef6856821b719141",
+    "experiments/E-0009.yaml": "9bcd84de3b4de849b065ff63c57c21aa52155ea40fcb123bdb2df602f7198c76",
+    "experiments/E-0010.yaml": "aebae0821ef04ef23698528b37dccdf5f971f5ce4b8fbac511fdabc64d64132e",
+    "experiments/E-0011.yaml": "a998fda2c6001a2a357785212828fe32c44ad5f92abd234038209f0b977394a7",
+    "registry/baselines/BL-0001.yaml": "1366c8d309052231bb013f5786ebc0c448dbbe38d9ec50eb825e5ba3fb64a5cd",
+    "registry/baselines/BL-0002.yaml": "2a3b0ec64e3af122b10b420f8b2e5b92e3e64010a0f34d624d4db67cc1129aca",
+    "registry/baselines/BL-0003.yaml": "e4e9eb04bd13d79eed23348aef3998f65f102d1db8ed052fd51c103a25cb02e6",
+    "registry/baselines/BL-0004.yaml": "6c2f5286fb5e5321cb9e22681f2133ed63658103ad9345f2656c83c6c7f66d26",
+    "registry/baselines/BL-0005.yaml": "33944d599260c19e72aa16753537bdb99c3d636149890c1192be29b15f330407",
+    "registry/baselines/BL-0006.yaml": "a4c82b1ff021ec99462572bc0242346e79dfb6815524d51f309b50a47cdb5a4e",
+    "registry/baselines/BL-0007.yaml": "a066021bd3aff98bd77f8a93bde1380b3615fbddb20bd91ef3e08c9b8e9503da",
+    "registry/baselines/BL-0008.yaml": "67ffe3d805a9b08d76c91f04654800f3cbf54de09a24b6d16eb36030493fe989",
+    "registry/baselines/BL-0009.yaml": "f853423fb2d3b74a646d0ab0b0969596576995d701cac0d1a45b7164ecba4d8c",
+    "registry/benchmarks/B-0001.yaml": "55958323c7b8e84250ae51b31c015587cd9a5dfbe3beb7a076c8636c0a648c1d",
+    "registry/benchmarks/B-0002.yaml": "4e3470457b002630deec36df9d7fd369b126d257106219e0e1bea7f7931c911f",
+    "registry/protocols/P-0001.yaml": "542663d27b508df3d5faa1043eec5cc1b58b85643baa359cf89c937c8f99c2fe",
+    "registry/protocols/P-0002.yaml": "7a8093d6f7fc637b1ba9e7129e44288fa359fbb8040ef99c557668f0ec47a9bf",
+    "registry/protocols/P-0003.yaml": "1a62baccd9f49131d31c7a8cf9737bfb804905dbd72d98b6cebcca5f2f5ca4f0",
+    "registry/protocols/P-0004.yaml": "43a7cf6a660940ec89318de46bb0f6ad14428a916481f03b608ec2a43d929c25",
+    "registry/protocols/P-0005.yaml": "bede2ad1efde73f2517da4c3f5e61f298f032bb978081e690be09484dd9edd20",
+    "registry/protocols/P-0006.yaml": "869eab8615422eda1de12df1438729f2b6911f9f07fcc4150fc447b1e0169f9c",
+    "research/baselines/BL-0001.md": "5d8f7463facc948f5b31c63870487eaf2494af125fb42b2297f8297dc142f8ba",
+    "research/baselines/BL-0002.md": "ec5c788f778df2e3e290f757f9610b54961e1b80d3e7b7d92dcf5f6e5c88dcb6",
+    "research/baselines/BL-0003.md": "71105a7ba0571c12a6004e6666430c0505b06aa4e006d247df0db66e3ae3189a",
+    "research/baselines/BL-0004.md": "ed5226776c033f2f4ae7b7197941f759f24d83606f2e525e6a4aa1f955cc27cf",
+    "research/baselines/BL-0005.md": "dd1553022e2ef6b337409a2a7bcc76d18143b09cf06e229d66ed772812c07144",
+    "research/baselines/BL-0006.md": "9dc6b112309f118680a10cf8cc68cc28f534a64fef8b3028941ad4ccdf943088",
+    "research/baselines/BL-0007.md": "05e0c169fb2f54a93d339f7ea15d48bf2bebb2e83a44e925997b0170a81f5614",
+    "research/baselines/BL-0008.md": "aeb177ee896d037b491764fe9d9636416703bd093c76c9851cb537d6e1c7100c",
+    "research/baselines/BL-0009.md": "6ca03f530a9229287c13d9f6243de54dd8b675cd1398ee6d808556f6545a5904",
+    "research/benchmarks/B-0001.md": "9643daf03f2510560594a5abd3768be7506ad7903cc8ca9255cc616067a1cb8b",
+    "research/benchmarks/B-0002.md": "2245b5938ce461fc70076a83ff5dffd18fdb3d65b9431d88af77689afbbb32e8",
+    "research/datasets/phystwin-sloth-additional.md": "a40db04e5777dc5f8523fe8e50fc4ef14e8b69aa5a9c48569b50026780aab830",
+    "research/experiments/E-0001.md": "f97a00115a20f321d659b25147c41b74c341aa41c092edd9d42b3eaa56082b2a",
+    "research/experiments/E-0002.md": "d4c69b88e14745dc78134c98fe5f2ae7f2dbc276db6d826034990f045e44a446",
+    "research/experiments/E-0003.md": "de88bcc508723d0b062d13073dfb482898d13f15d86fa07fb59e29b5dd6326df",
+    "research/experiments/E-0004.md": "041f2fb3ae5cb9dacd1f5e074ac08aecd57f86c6e0a2fa3d8263b3e60e2a4453",
+    "research/experiments/E-0005.md": "e9ef218aae078293c7ae1e4bb301ffe011785ea967a3683a6b8cd0818fc39f49",
+    "research/experiments/E-0006.md": "b5f0b2bbb99121436756c6db19d82a37ef5781277419aeb93eba468de9843ad8",
+    "research/experiments/E-0007.md": "6e351f0e04002c13d59fc3ce439e8f55279777bc01b7086e7b29d0d40df63ef6",
+    "research/experiments/E-0008.md": "f19dc34194cc72bed14bf8b6bf93d539b172c3ef002e4516df047da0ed1afb46",
+    "research/experiments/E-0009.md": "aba54e013bd3ed62dd42959f1417513d2c0bad6e0132065946c7772dc9dd060f",
+    "research/experiments/E-0010.md": "486216d6a8f0cca9fdbbfaf44a028e98129b2998b11a55d19b2d309a459f215f",
+    "research/experiments/E-0011.md": "02afa50138ed45fa819d8ebfed2ad04a596247bf710f631a75e5fcd5d3f18bb1",
+    "research/findings/F-0001.md": "d0ea340e828ec44dd96edaa02d3592fa7b2b9fe936378c552c73dd12b30f984c",
+    "research/findings/F-0002.md": "27d4d76a130c0bd139abfd8045d9569d51df3e8a82c143f5a24988742edf48c8",
+    "research/findings/F-0003.md": "61d28e53db3025a3a80b344225e7b870766e002d7bcd3e81546e6bbd77035846",
+    "research/hypotheses/H-0001.md": "daaf188db86176e68850c0335f7f7e1df2a4ede8fcf686792733eb892a1c332a",
+    "research/protocols/P-0001.md": "fb1d8e446b1b06865df91244f9d51b680796e5b29be0ab8733102d4ee95c9eaa",
+    "research/protocols/P-0002.md": "5d7ef1088ff2cd4f0eb993443cec79b60e13c5c8dee9a43b8368284ed4ced5eb",
+    "research/protocols/P-0003.md": "15fda1288c90659bfb2627e22e9c82e0046d52b2a2749150f8aa364d964c2f9d",
+    "research/protocols/P-0004.md": "a340ba47c1c08580a36f9af2a3489cc0d1f58a4090769af8cc07be10629283b0",
+    "research/protocols/P-0005.md": "ae0e902a79d01bd2293a5dbab69b54c116fda98716c5a3025a4f88195e0e7ed7",
+    "research/protocols/P-0006.md": "0f8f5adc21f9d160254fb786339947ecbd61cd3581b87ba8c9bf24828cb95098",
+    "research/questions/Q-0001.md": "ec9927bd6bf574ea66042478a7ace68bbe34c2c6a2093b83199b7ecb511d2055",
+    "research/run-reviews/RR-0001.md": "cae28c5528025f8e7629238b80e4f94e95bf806a4dee4790b47011fe3e88082a",
+    "research/run-reviews/RR-0002.md": "273f9a4fe2090869b0671bc3e5054abe01b68b95ce3626c8a75309d8d6ce71d5",
+    "research/run-reviews/RR-0003.md": "14ffa407d61da0b004de16925442555d3e18ee2bbbefe616d1db2d7f8403ebf8",
+    "research/run-reviews/RR-0004.md": "f9812f492d404278f023df126bc7cff1ebc6e3f88059c57ba5a33b7eb905f1eb",
+    "research/run-reviews/RR-0005.md": "a5758e44cda8b1e12a0513e17d7e890f7003ca5f3ef20de13493a301eeda615e",
+    "research/run-reviews/RR-0006.md": "22f8a3feeb6808994434b9262dbcdb26c394f25218a2bd4eb1cf18f7ab2e0141",
+    "research/run-reviews/RR-0007.md": "49d1aacd58b3f9710aa38c9ff51fab81699182f5241f40ac63257513d5e1810b",
+    "research/run-reviews/RR-0008.md": "f64d39fa685e9e52ff7b1c65770a7d0a4476abf83263b3cc8d924d8c3f286cfc",
+    "research/run-reviews/RR-0009.md": "b0461e4fddf46531ef39f8dbdb491c2f004e198ed057a50821459d79a9e63307",
+    "research/run-reviews/RR-0010.md": "374c3a7425c0f3c8f38499efeb09bd34874183b6edbb802cb018ac40b119b3a8",
+    "schemas/README.md": "20bdee62f09679969cfd44eb9c00970c6323301d02bbd4e94aa9dc7602bf6e99",
+    "schemas/vi-experiment.schema.json": "c27a47fc61e617e61245e57748b203281bf1d10a387705ac65244b849f2c66fd",
+    "schemas/vi-registry.schema.json": "b11d134fe1ec04fcd354fce76f05d8c98b4ac5959fddb23a20fb8f1cf6c9879a",
+    "src/lab/calibration/inspect_posterior.py": "a1807bfea34b59c1d163ebb3c7c729eceedf26dea33bfd2b7ba2b25f0423bb56",
+    "src/lab/calibration/phystwin_adapter.py": "b4e0f368cb5709a7f0decdc9557a26026bfd05f9876f5a2c390549ae52e1525f",
+    "src/lab/calibration/phystwin_vi.py": "2d94bbf474085789c5d7db9ae1cb459a707725232dbfaa27d1f43e08a8e9485e",
+    "src/lab/calibration/posterior.py": "cd3191ece105d8117520e098b7e68eb1ef44055fce8441779dbff69f993eaa57",
+    "src/lab/calibration/spring_loss_probe.py": "31b8075d35977f4c23b596426c1f84243c53ac5a84da7f09d49652530266baee",
+    "src/lab/calibration/vi_monitor.py": "f0320416a4ffa29a3e21aff54a4844ac76dcc0267c0af0cfb5beb673044fcd01",
+    "src/lab/simulation/demo.py": "06424747f86cde9898b4c59ff094c7d34b713f4c8f0d46174af13ba67f2ba9fb",
+    "src/lab/simulation/grasp_cycle.py": "89ded25385518d823af6668a64f4081c241ca7f7aad60ccb402e8e0b3aeace87",
+    "src/lab/simulation/internal_forces.py": "5f518f67793626f2292be5b4ad433a0e8ecf207bfc4bfb6d806186136babf900",
+    "src/lab/simulation/multirate.py": "54338cf3a933065b09dc4abd7871880ed9aa2a12d3beb5d78ed30fcd94d05f5f",
+    "src/lab/simulation/panda.py": "a18a24a59bc43534499c78085c7fd15d8c4745263c605d5ffa46a03c766897e4",
+    "src/lab/simulation/phystwin.py": "2bcfda5b0e57d98c609272f4127ce8fb578a1ec17353f933d91233dbb4fae812",
+    "src/lab/simulation/skinning.py": "b301b91d79f97252683b9782a3e6f987afdc4538495f612dc2832c119b968e6b",
+    "tests/compare_coupling.py": "8e419be63055269967acc5fdf00809b8e2ff94777cde28f019df1bd8196641d7",
+    "tests/smoke_grasp_cycle.py": "c5c9b12a72e8966c6d3af1fe381458b5181f297a754473457044f9dd8d09865b",
+    "tests/smoke_newton_phystwin.py": "f33f2a170b49c1a5b934224fdf4474a07e99fe1ab186477d914c5062ea6a4193",
+    "tests/smoke_panda_phystwin.py": "0c4a57265e67274a37e22ab25664848fa2ae58a916a456efdf9499cd0691146d",
+    "tests/smoke_vi_gradients.py": "1fb0480419b548d67c89d1680c384a42a346a157c2c7f0917cd747bfdd35768d",
+    "tests/smoke_vi_prior.py": "86f2aeb951e5a8d2f038452b7e6baca6726c39e20f9ffc930e12c5a2371b9d15",
+    "tests/test_articulated_forces.py": "8360fcfc7240f167197426a114e1328475af7fe4bcc5c97e09884f46918e2c31",
+    "tests/test_gpu_skinning.py": "e91176106412829a5f0185c3c7ad35ac03aa0e8a67cdf66404e1a768d890aebc",
+    "tests/test_grasp_cycle.py": "99af26e76a79e5791ed024c8a29c106518327e42faa058d86adc1d0ed8675eb3",
+    "tests/test_internal_forces.py": "faf6dd4ee49b694080a3261ed7b4203bbae039659ea2a0e52c7e0e979579be59",
+    "tests/test_multirate.py": "b5932ba46d2c85dd6180c6137c6934e27ffad6f89718a8bf85a99ca5acc0b2f7",
+    "tests/test_vi_lowrank.py": "cb31d70533b55c3a4d37d8536cada03912deacfbe79f1f59b4fa3c257a3adf36",
+    "tests/test_vi_posterior.py": "e309003d6e359b025c7fe4abc5c769c0d218de9d376c6d9adafe6fcd89844f6b",
+    "tests/test_vi_prior_suite.py": "46341f36d713bafd8ba17a8c6a0121e8add4593a253332e0eda5dcbea5c07271",
+    "tests/test_vi_resume.py": "7d320df9da855ac5e5984df0700fb21ebe628cc3afa997bb422eb892806e485a",
+    "tests/test_vi_uniform.py": "3cac4e7d7115ffb0c505a10c8c1e116111206c572d2faa39b55f13178526df35",
+    "tools/compare_uniform_continuation.py": "2d544f3932bf8bf73470c6c44d9e3d57e4a6c379d564efd2077e7ca7b6cbcb8b",
+    "tools/continue_sloth_vi.sh": "5767f19b437082c00d45f3b93d23e8ef96970635550fe703251963531346eb31",
+    "tools/map_contracted_springs.py": "aeb15b111c8feee2b85117843f59ca1acc35bb1e996e1c0166ce04a4aa043e07",
+    "tools/map_spring_std_colors.py": "93fe5ee4a3857d4e7fa6811b5b4863dafa5589971f7f3d25f8f7770c51dad872",
+    "tools/plot_spring_loss_probe.py": "248fd671e419d47523afde4b9e1b1cde075919b396b78c8ea08dbe5548ba2deb",
+    "tools/plot_uniform_errorbars.py": "da1f6d1a04f7b1003f47648eac8b1df7b2c610f8735d5615b41f102970157a33",
+    "tools/plot_uniform_posterior.py": "1998dec62f1615e10cc18f17be7747038baabada05a74099fa972f820792dc35",
+    "tools/prior_sensitivity_suite.py": "77b8125c99cb246be99d16607dacc292d5ca6e54108d719603040266ed09b6f5",
+    "tools/run_uniform_vi.py": "c92a5bebb26bcc6ffa6bfd099d0a693797fd37a9aeab5e770e5a6d15f7bd570e",
+    "tools/validate_lowrank_vi.py": "b9e20cf0227aa75998575a3fff422a622101a8c5316dcd6e8a1e677a04b2c5ff",
+    "tools/validate_uniform_vi.py": "76291b1694f868808adab21b6b9d0faf3e7431e01853a16a0ec826670d315d7c",
+    "tools/variational_precision.py": "91a48b8c12c28c02856f885376f3ccf7f3ec42e8e26426574d69c9617f6376d2",
+    "tutorials/analyze_phystwin_springs.py": "b41703fba2d27fd558fa994e4e69a33c159ec75b272bcbd573f56f5d0e06ba2f",
+    "tutorials/export_phystwin.py": "b09e21928bffae0ddf8f5715de9cd4db42469af395f382d381f4426d6ca7293f",
+    "tutorials/phystwin_runtime.py": "e6270197097f402d7804f8267ab835a4d4e4c72e234fceb54e33f3832479a623",
+    "tutorials/phystwin_to_newton.ipynb": "1dd6d9b597794af6d55e1f553339cad787ff6e9974389f539c7c59173aca79ed",
+    "tutorials/test_phystwin_runtime.py": "ae2285ed1bc34880767ccfe3b161624181902cc241df51c8ac0261a150d79f2e",
+    "tutorials/view_phystwin_gaussians.py": "0ec758a06edcce53cc7f7249285e44deab2bdff7dd2ce4a860fa64887d19f0ff",
+    "tutorials/view_phystwin_gl.py": "c2afa51441955b0ba567014875fb63c44e0ca46b1637e95e9f7aebf66cfd093e",
+    "tutorials/view_phystwin_isaac.py": "839de9522b1f88cad33a7f10172506b6b740f19fc9135ed63f1d7ecc196e7ef0"
+  },
+  "source_snapshot": "/home/homa/.local/share/deformable-twins/artifacts/R-0030/source.tar.gz",
+  "working_diff_sha256": "e5bc5bc3dabf0d3e931d03d2c8a327ce154964f216ad939803e3a5b6b08b027c",
+  "config_sha256": "a998fda2c6001a2a357785212828fe32c44ad5f92abd234038209f0b977394a7",
+  "config": {
+    "id": "E-0011",
+    "version": 1,
+    "status": "proposal",
+    "question": "Q-0001",
+    "hypothesis": "H-0001",
+    "benchmark": {
+      "id": "B-0002",
+      "version": 1
+    },
+    "protocol": {
+      "id": "P-0005",
+      "version": 1
+    },
+    "baselines": [
+      "BL-0009"
+    ],
+    "source_commit": "81c718790a37e5e0102eb77af2c6edd34a9db25f",
+    "data": {
+      "manifest": "datasets/sloth-double-lift-v1.json",
+      "observations": "/home/homa/PhysTwin/data/different_types/double_lift_sloth/final_data.pkl",
+      "split": "/home/homa/PhysTwin/data/different_types/double_lift_sloth/split.json",
+      "optimal": "/home/homa/PhysTwin/experiments_optimization/double_lift_sloth/optimal_params.pkl"
+    },
+    "likelihood": {
+      "family": "independent_gaussian_xyz",
+      "sigma_obs_m": 0.01,
+      "mask": "visibility_t_and_motion_valid_t_minus_1",
+      "aggregation": "sum_over_valid_coordinates_and_frames"
+    },
+    "posterior": {
+      "family": "low_rank_logistic_normal_stiffness",
+      "prior_family": "uniform_stiffness",
+      "lower": 100.0,
+      "upper": 100000.0,
+      "initial_std": 1.5,
+      "initial_std_coordinate": "unconstrained_logit",
+      "initial_median": "CMA_stiffness",
+      "quadrature_points": 128,
+      "data_dependent_prior": false,
+      "data_dependent_initialization": true,
+      "rank": 32
+    },
+    "optimizer": {
+      "name": "Adam",
+      "lr": 0.001,
+      "betas": [
+        0.9,
+        0.99
+      ],
+      "max_iterations": 10000,
+      "seed": 42,
+      "samples_per_iteration": 1,
+      "gradient": "truncated_at_frame_boundaries"
+    },
+    "budget": {
+      "map_seconds": 1500,
+      "vi_seconds": 57600,
+      "evaluation_seconds": 600,
+      "posterior_samples": 16
+    },
+    "execution": {
+      "device": "cuda:0",
+      "use_graph": true,
+      "self_collision": false,
+      "artifact_root": "~/.local/share/deformable-twins/artifacts",
+      "hardware_execution": false
+    },
+    "unknowns": {
+      "acquisition_robot_sensors_and_sync": "TBD",
+      "measurement_noise": "assumed_not_measured",
+      "CMA_training_extent": "TBD",
+      "dataset_license": "TBD"
+    },
+    "baseline_by_mode": {
+      "vi": "BL-0009",
+      "evaluate": "BL-0009"
+    },
+    "checkpoint_iterations": [
+      0,
+      2000,
+      6000,
+      10000
+    ],
+    "checkpoint_every": 25,
+    "validation": {
+      "benchmark_repeats": 3,
+      "loss_rtol": 0.0001,
+      "loss_atol": 0.01,
+      "gradient_relative_l2_tolerance": 0.001,
+      "minimum_speedup": 1.03,
+      "initial_samples": 3,
+      "quadrature_reference_points": 256,
+      "quadrature_absolute_error_per_spring": 1e-05
+    },
+    "run_ids": {
+      "train": "R-0029",
+      "evaluate": "R-0030"
+    },
+    "diagnostics": {
+      "boundary_margin_fraction": 0.01
+    },
+    "tensorboard": {
+      "enabled": true,
+      "image_every": 500
+    }
+  },
+  "protocol_spec": {
+    "id": "P-0005",
+    "version": 1,
+    "status": "proposal",
+    "experiment": "E-0007",
+    "independent_unit": "single_recording_double_lift_sloth",
+    "splits": {
+      "initialization_frame": 0,
+      "calibration_targets": [
+        1,
+        43
+      ],
+      "continuation_targets": [
+        43,
+        62
+      ],
+      "interval_convention": "half_open",
+      "independent_validation": null,
+      "independent_test": null,
+      "real_world_evaluation": null,
+      "continuation_is_independent": false
+    },
+    "primary_metric": {
+      "name": "fraction_object_springs_with_physical_std_ratio_above_threshold",
+      "std_ratio_threshold": 0.8,
+      "hypothesis_fraction_threshold": 0.5,
+      "units": "fraction",
+      "prerequisite": "finite_training_and_predictive_quality_inspected",
+      "interpretation": "width_relative_to_uniform_prior_not_calibrated_physical_uncertainty",
+      "coordinates": "physical_stiffness_Y_before_clamp"
+    },
+    "secondary_metrics": [
+      "tracking_rmse_m_per_coordinate",
+      "tracking_nll_without_constant",
+      "kl_q_prior",
+      "posterior_std_log_stiffness",
+      "controller_spring_std_ratio",
+      "fraction_stiffness_at_or_outside_simulator_bounds",
+      "wall_seconds",
+      "peak_process_gpu_memory_mib"
+    ],
+    "uncertainty": {
+      "method": "logistic_normal_posterior_predictive_samples",
+      "prior": "uniform_physical_stiffness",
+      "metrics": "physical_mean_std_and_quantiles; do_not_use_latent_std_as_physical_uncertainty",
+      "convergence": "fixed_budget_does_not_establish_convergence",
+      "limitations": [
+        "truncated_gradient",
+        "bounded_variational_family",
+        "finite_uniform_bounds",
+        "CMA_initialization",
+        "single_session",
+        "no_independent_test"
+      ]
+    },
+    "comparison": {
+      "reference": "CMA_initialization",
+      "nominal_is_uncalibrated": false,
+      "historical_gaussian_runs": "descriptive_only_posterior_family_and_prior_both_changed",
+      "speed": "matched_fixed_samples_identical_source_and_substeps_baseline_vs_deferred_host_checks",
+      "no_claim_prior_free": true,
+      "historical_uniform_stretch": "descriptive cross-sequence only; different observations, topology and CMA initialization; spring IDs not interchangeable"
+    },
+    "failures": {
+      "nonfinite": "stop_before_optimizer_step_and_record_first_bad_frame; fast_path_checks_after_rollout",
+      "timeout": "save_last_completed_iteration_and_mark_budget_limited",
+      "missing_observations": "mask_out_no_imputation",
+      "no_valid_training_coordinates": "fail",
+      "raw_results": "never_overwrite_finished_runs"
+    },
+    "safety": "offline_simulation_only_no_robot"
+  },
+  "dataset_manifest_sha256": "b1f939a657148fc851d4e212d8f36b469b08240e65750583fa467fcd0a550663",
+  "inputs": {
+    "/home/homa/PhysTwin/data/different_types/double_lift_sloth/final_data.pkl": "6bbb1245812a9b6c760f6881b8b6174343fd0df717c168b09fb7b365caabb33c",
+    "/home/homa/PhysTwin/data/different_types/double_lift_sloth/split.json": "2cec5a27c837edebb80d09c18fbacb6415299848951c3a19b86f7acd8a924c9a",
+    "/home/homa/PhysTwin/experiments_optimization/double_lift_sloth/optimal_params.pkl": "0d2a512ddc68fa21ce52b2e86257f78fd66536450ed334e8d8eded13f898c17f",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0029/checkpoint.pt": "075fd4a18520d40e4144d263238825b714e479bc6167d7ac27e997ce5a0d0070"
+  },
+  "versions": {
+    "torch": "2.9.1+cu128",
+    "warp-lang": "1.17.0",
+    "numpy": "2.4.6",
+    "open3d": "0.19.0",
+    "PyYAML": "6.0.3"
+  },
+  "seed": 42,
+  "hardware": "NVIDIA GeForce RTX 5060",
+  "gpu_inventory": "NVIDIA GeForce RTX 5060, 580.159.04, 8151 MiB",
+  "artifact_directory": "/home/homa/.local/share/deformable-twins/artifacts/R-0030",
+  "failure_reason": null,
+  "limitations": [
+    "truncated_gradients",
+    "single_session",
+    "assumed_noise",
+    "no_independent_test",
+    "CMA_initialized_posterior",
+    "bounded_variational_family",
+    "quadrature_KL"
+  ],
+  "resolved_physics": {
+    "FPS": 30,
+    "acc_weight": 0.01,
+    "base_lr": 0.001,
+    "chamfer_weight": 1.0,
+    "collide_elas": 0.28101545572280884,
+    "collide_fric": 1.1528488397598267,
+    "collide_object_elas": 0.3287285566329956,
+    "collide_object_fric": 0.6454499363899231,
+    "collision_dist": 0.010384358614683151,
+    "collision_learn": false,
+    "controller_max_neighbours": 38,
+    "controller_radius": 0.07999860227108002,
+    "dashpot_damping": 120,
+    "data_type": "real",
+    "device": "cuda:0",
+    "drag_damping": 17,
+    "dt": 5e-05,
+    "init_spring_Y": 22240.060567855835,
+    "iterations": 200,
+    "num_substeps": 667,
+    "object_max_neighbours": 31,
+    "object_radius": 0.031241836547851565,
+    "overlay_path": null,
+    "reverse_z": 1,
+    "self_collision": false,
+    "spring_Y_max": 100000.0,
+    "spring_Y_min": 0,
+    "track_weight": 1.0,
+    "use_graph": false,
+    "vis_interval": 20,
+    "vp_front": [
+      1,
+      0,
+      -2
+    ],
+    "vp_up": [
+      0,
+      0,
+      -1
+    ],
+    "vp_zoom": 1
+  },
+  "counts": {
+    "particles": 6660,
+    "springs": 114997,
+    "object_springs": 114479
+  },
+  "evaluation_seconds": 30.8005976669956,
+  "completed_rollouts": 18,
+  "requested_rollouts": 18,
+  "results": [
+    {
+      "name": "CMA_initialization",
+      "calibration": {
+        "nll_without_constant": 166245.74954605103,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.007888337688159422
+      },
+      "continuation": {
+        "nll_without_constant": 403827.0234375,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.02168391842329631
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_median",
+      "calibration": {
+        "nll_without_constant": 78607.38005828857,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.005424277250918181
+      },
+      "continuation": {
+        "nll_without_constant": 306117.56982421875,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.018879226823337904
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_00",
+      "calibration": {
+        "nll_without_constant": 87575.75303649902,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.005725351554007004
+      },
+      "continuation": {
+        "nll_without_constant": 355635.04052734375,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.020348966107389233
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_01",
+      "calibration": {
+        "nll_without_constant": 77418.46689605713,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.005383100674607997
+      },
+      "continuation": {
+        "nll_without_constant": 362474.59912109375,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.02054370948536566
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_02",
+      "calibration": {
+        "nll_without_constant": 84216.09677886963,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.005614457169925031
+      },
+      "continuation": {
+        "nll_without_constant": 329825.6640625,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.01959667086850296
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_03",
+      "calibration": {
+        "nll_without_constant": 85393.34596633911,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.005653562974169354
+      },
+      "continuation": {
+        "nll_without_constant": 324711.36376953125,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.01944414359503391
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_04",
+      "calibration": {
+        "nll_without_constant": 82431.84551239014,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.005554663187408884
+      },
+      "continuation": {
+        "nll_without_constant": 361384.57666015625,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.0205127970226045
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_05",
+      "calibration": {
+        "nll_without_constant": 88648.1922492981,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.005760300771514329
+      },
+      "continuation": {
+        "nll_without_constant": 334465.30419921875,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.019734022192170374
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_06",
+      "calibration": {
+        "nll_without_constant": 84451.94515609741,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.0056223133570221595
+      },
+      "continuation": {
+        "nll_without_constant": 324399.42529296875,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.019434801707737738
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_07",
+      "calibration": {
+        "nll_without_constant": 88473.67644882202,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.00575462801772746
+      },
+      "continuation": {
+        "nll_without_constant": 316591.2724609375,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.019199483476298563
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_08",
+      "calibration": {
+        "nll_without_constant": 85718.14595413208,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.00566430464480322
+      },
+      "continuation": {
+        "nll_without_constant": 314480.61376953125,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.019135376649685645
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_09",
+      "calibration": {
+        "nll_without_constant": 83937.24488830566,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.005605154315773871
+      },
+      "continuation": {
+        "nll_without_constant": 319974.55810546875,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.019301799491097116
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_10",
+      "calibration": {
+        "nll_without_constant": 76784.64074325562,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.0053610196241617334
+      },
+      "continuation": {
+        "nll_without_constant": 377317.90771484375,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.02096012095963926
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_11",
+      "calibration": {
+        "nll_without_constant": 83287.12163925171,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.005583405182289996
+      },
+      "continuation": {
+        "nll_without_constant": 327927.119140625,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.019540188218989035
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_12",
+      "calibration": {
+        "nll_without_constant": 83332.58913040161,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.005584929000038514
+      },
+      "continuation": {
+        "nll_without_constant": 347859.2939453125,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.02012527768502596
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_13",
+      "calibration": {
+        "nll_without_constant": 87836.0569229126,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.005733854052776964
+      },
+      "continuation": {
+        "nll_without_constant": 307359.77978515625,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.01891749352598385
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_14",
+      "calibration": {
+        "nll_without_constant": 79496.30910110474,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.005454861162581087
+      },
+      "continuation": {
+        "nll_without_constant": 359826.07568359375,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.02046851766170499
+      },
+      "saturated_fraction": 0.0
+    },
+    {
+      "name": "VI_sample_15",
+      "calibration": {
+        "nll_without_constant": 79233.69235229492,
+        "valid_coordinates": 534330,
+        "rmse_m": 0.005445843618379787
+      },
+      "continuation": {
+        "nll_without_constant": 344947.27197265625,
+        "valid_coordinates": 171771,
+        "rmse_m": 0.02004086364474803
+      },
+      "saturated_fraction": 0.0
+    }
+  ],
+  "ended_at": "2026-11-17T17:41:32.004928+00:00",
+  "wall_seconds": 32.15868883000803,
+  "peak_process_gpu_memory_mib_sampled": 1150,
+  "artifacts": {
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/training.png": "a8ad5a3a045166a1d8089d2216fd1a98f6f1bf0ba69d01fc8d9eadc4fdbd7b1e",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/std_ratio.npy": "a7add93ee44933a627efb2a7b6d2c8ccf3992871e76d5684776d6ba03b38f855",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_05-frame-nll.npy": "d95f1c13c508bc88af46d642e241844b14fc2113cf8f6c7abed0232280a86da3",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/physical-posterior.npz": "349ce911cef42d3be00479a4ece72a3dcfa4f1b916795e66dfa5e259c72d7d37",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/evaluation.json": "ce7e9d9f3695f4acbf971d86700da77016568c12b764473688fbf5ceed6ff6b9",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_11-frame-nll.npy": "ec4e3c421874af20ab467a6b6a2071739f228622b1b81cc4e0892c268cdda022",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_04-frame-nll.npy": "aaf4bd3e4a36f1054ae9ae4336f3209294f317725efe19fb66ed1a58d9f2b257",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_03-frame-nll.npy": "dd97d78099b341992ec01c30891ff2067e6546cae62b4ed02879e78bed89fe7d",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_13-frame-nll.npy": "b3db14bee1b88a8ea602747d073135bb98df5fbc66b058d9ea909b60183c7ff1",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/topology.npz": "a15c661a29db997cca5802c3196ded379387191c500dc4c6c6697ce14bba7ec2",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_10-frame-nll.npy": "6da2d8b73d567e3cfdd425758c76a66cc1ed689359c8a1470da556221d2192df",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_02-frame-nll.npy": "ded4527f975ad24895834e0f3d314b659bd031e82993caf70a4da16b24953d96",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_08-frame-nll.npy": "22c5a2bcd488aa4ad035e2da3a71cbdabc390c6d412fe786e462e3aecf4bf2d1",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/source.tar.gz": "3b90d98483e28c7c28744e92b75ac85666c246965721e45b54b16dcabf84ef54",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/std-ratio.png": "41ad675cc8b172ebb80f6e7b32a2ac2dc9ac18311b893df9b70ade74afd40256",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/CMA_initialization-frame-nll.npy": "44d9d76240aebcc7a78222320d6f1c0177ec1f6def1dc3af4c3564cab356d098",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/run.log": "5e98b89d995f65864d8ad21d4350f0f2194de688f460327260dde1516a34f70a",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_01-frame-nll.npy": "784e06faec9030e56bbbe0ba2dd0338c151855ae5fd0bfac6cde2ba61c95a3a5",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_09-frame-nll.npy": "2de6bc7c9bbcb79e02baf6ce389a1327d4160b26682894b26131ff9b442d3880",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_07-frame-nll.npy": "e39fb1ef51ac9543f5442fcafaeb600307b52f5ea4b6d961475d5de09745ad28",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_14-frame-nll.npy": "b3e9867bec0f9e530727424c3ed0ea7fe8864506a61b4591b0d8b9c6765226b4",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_00-frame-nll.npy": "2f9d5dbb60ae0d48e74cffa219360561e5cecebd4478bf507cd553ca7f56970e",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_06-frame-nll.npy": "2e05a687b030d48ea3b1e90c2e4085deea15a187f3e47b66014450dcd04364f0",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_15-frame-nll.npy": "b7719a7f15b2b3feb40eb40baef89d8ed9cb5da191740f5a3624ebeb7b87e92f",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_sample_12-frame-nll.npy": "b58ca7ae6b70e9ca2d064acb5141a64d39052bdf6a9a1680e18d6f00b586bdc7",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/VI_median-frame-nll.npy": "d335b9f6ea1a400efee3071a55caa5376cd4f122514f3c4ae105179cb67279e2",
+    "/home/homa/.local/share/deformable-twins/artifacts/R-0030/resolved-plan.json": "827801acb4aac7267a17d552afb7850446674be276381ebc2728df46a24f5a7e"
+  }
+}
