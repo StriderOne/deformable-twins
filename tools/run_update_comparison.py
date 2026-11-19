@@ -16,13 +16,13 @@ def clean_commit():
 
 
 def main():
-    plans = [ROOT/'experiments/E-0012.yaml',ROOT/'experiments/E-0012/update-7.yaml',ROOT/'experiments/E-0012/update-1.yaml']
+    plans = [ROOT/'experiments/E-0012/update-1.yaml',ROOT/'experiments/E-0012/update-7.yaml',ROOT/'experiments/E-0012.yaml']
     resolved = [read_plan(p)[0] for p in plans]
     root = Path(resolved[0]['execution']['artifact_root']).expanduser()
     reference = root/'R-0030/std_ratio.npy'
     reference_topology = root/'R-0030/topology.npz'
     reference_ratios = np.load(reference)
-    output = root/'E-0012-comparison'
+    output = root/'E-0012-comparison-attempt2'
     output.mkdir(exist_ok=False)
     rows = []
     for config, plan in zip(plans, resolved):
