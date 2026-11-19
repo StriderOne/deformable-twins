@@ -113,6 +113,10 @@
         "rank": {
           "type": "integer",
           "minimum": 1
+        },
+        "initial_median_Y": {
+          "type": "number",
+          "exclusiveMinimum": 0
         }
       },
       "allOf": [
@@ -303,6 +307,44 @@
         "image_every": {
           "type": "integer",
           "minimum": 1
+        }
+      }
+    },
+    "periodic_evaluation": {
+      "type": "object",
+      "required": [
+        "every",
+        "seed",
+        "posterior_samples"
+      ],
+      "properties": {
+        "every": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "posterior_samples": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "comet": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "project"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "project": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }

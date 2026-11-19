@@ -80,3 +80,7 @@
   независимые выборки, воспроизводимость, метрики, бюджеты и разрешение
   на физические запуски.
 - Создан CHANGELOG.md для истории изменений проекта.
+
+## E-0013 implementation
+
+Optional VI fields initial_median_Y, periodic_evaluation and comet support explicit physical initialization and online diagnostics. Existing plans retain their previous defaults. No data migration is required. Runtime manifests retain exact repository commits and Comet SDK versions.
