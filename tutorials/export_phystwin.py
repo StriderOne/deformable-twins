@@ -49,7 +49,9 @@ def main():
         raise FileExistsError(f'Refusing to overwrite {args.output}')
     root = args.source.resolve()
     commit = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
-    if commit != '2b6630528141b9cba5a7677c8b88b2129b4a8390':
+    # These revisions have identical Config, topology, physics and data sources.
+    if commit not in ('2b6630528141b9cba5a7677c8b88b2129b4a8390',
+                      '81c718790a37e5e0102eb77af2c6edd34a9db25f'):
         raise ValueError('Unsupported PhysTwin revision; review the adapter before upgrading')
     config_source = root / 'qqtt/utils/config.py'
     trainer_source = root / 'qqtt/engine/trainer_warp.py'

@@ -1,0 +1,18 @@
+FROM python:3.12-slim-bookworm@sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git libgl1 libegl1 libglx0 libglib2.0-0 libgomp1 libx11-6 libxi6 libxrandr2 \
+    libxcursor1 libxinerama1 libopengl0 mesa-utils xauth \
+    && rm -rf /var/lib/apt/lists/*
+COPY requirements-newton-gl.txt requirements-gaussian-viewer.txt /tmp/
+RUN python -m pip install --no-cache-dir -r /tmp/requirements-newton-gl.txt \
+    newton==1.6.1 warp-lang==1.17.0 numpy==2.2.6 matplotlib==3.10.3 \
+    && python -m pip check
+RUN mkdir -p /home/homa && chmod 755 /home/homa \
+    && git config --system --add safe.directory /workspace \
+    && git config --system --add safe.directory /workspace/third_party/PhysTwin
+ENV HOME=/home/homa PYTHONPATH=/workspace/src PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics,display
+WORKDIR /workspace
+EXPOSE 8080
+CMD ["python", "tutorials/view_phystwin_gaussians.py", "--static", "--host", "0.0.0.0", "--port", "8080"]

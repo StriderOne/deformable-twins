@@ -1,0 +1,29 @@
+{
+  "format_version": 1,
+  "repository": "Jianghanxiao/PhysTwin",
+  "revision": "05665bcd0edad8f069c7def9cbb58d2eb75d68d0",
+  "license": "mit",
+  "metadata_url": "https://huggingface.co/api/datasets/Jianghanxiao/PhysTwin/revision/05665bcd0edad8f069c7def9cbb58d2eb75d68d0?blobs=true",
+  "archives": {
+    "additional_data.zip": {
+      "bytes": 4401211501,
+      "sha256": "0c8e6bf8d8142eee24e73386ead42a1be68442f7362eb53f3250b0f9ffa99c6a"
+    },
+    "data.zip": {
+      "bytes": 8075884740,
+      "sha256": "586a237a0f870b2a0a144ee69c3f04b636cac4fe251df969c1fd1feaf67eeae2"
+    },
+    "experiments.zip": {
+      "bytes": 494566786,
+      "sha256": "81a250d12b351bde9f94d7ecd3270c3703ca325337c32a93af06b2aa6ff068ec"
+    },
+    "experiments_optimization.zip": {
+      "bytes": 318027387,
+      "sha256": "03505f4a68d09c0988c439e6ad0798f5b29ed5c4b982b36b047e2db2ab5e0e7a"
+    },
+    "gaussian_output.zip": {
+      "bytes": 1313866175,
+      "sha256": "ef7aed94343b3c60398e0570dbe98b9a4bfa2b16911be7b11575b810eaa223bd"
+    }
+  }
+}
