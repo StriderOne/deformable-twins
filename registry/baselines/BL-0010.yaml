@@ -1,0 +1,8 @@
+id: BL-0010
+version: 1
+status: proposal
+method: VI_low_rank_update1_multistart
+experiment: E-0013
+benchmark: B-0002
+protocol: P-0008
+settings_source: experiments/E-0013.yaml

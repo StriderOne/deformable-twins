@@ -48,6 +48,10 @@ def read_plan(path: Path, variant: str | None = None):
     if plan['posterior']['family'] in ('logistic_normal_stiffness', 'low_rank_logistic_normal_stiffness'):
         if not 0 < plan['posterior']['lower'] < plan['posterior']['upper'] <= 1e5:
             raise ValueError('Uniform bounds must lie within positive PhysTwin stiffness support')
+    if 'initial_median_Y' in plan['posterior']:
+        value = plan['posterior']['initial_median_Y']
+        if not plan['posterior']['lower'] < value < plan['posterior']['upper']:
+            raise ValueError('Initial physical median must be strictly inside prior bounds')
     if plan['optimizer']['samples_per_iteration'] != 1 or plan['execution']['hardware_execution']:
         raise ValueError('Only one-sample offline pilot supported')
     protocol_path = ROOT / f"registry/protocols/{plan['protocol']['id']}.yaml"
@@ -197,6 +201,11 @@ def prepare_run(args, plan, protocol):
     if plan['posterior'].get('prior_family') == 'uniform_stiffness':
         manifest['limitations'].remove('data_dependent_prior')
         manifest['limitations'].extend(['CMA_initialized_posterior','bounded_variational_family','quadrature_KL'])
+    if plan.get('comet', {}).get('enabled'):
+        manifest['versions']['comet_ml'] = importlib.metadata.version('comet_ml')
+    if 'initial_median_Y' in plan['posterior']:
+        manifest['limitations'].remove('CMA_initialized_posterior')
+        manifest['limitations'].append('CMA_initialized_topology_and_other_physics')
     write_json(run_dir / 'manifest.json', manifest)
     write_json(artifacts / 'resolved-plan.json', {'experiment':plan,'protocol':protocol})
     return run_dir, artifacts, manifest
@@ -207,7 +216,10 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
     opt = plan['optimizer']
     seed = opt['seed']
     torch.manual_seed(seed)
-    q = make_posterior(rollout.z_buffer.clone(), plan['posterior'])
+    center = rollout.z_buffer.clone()
+    if 'initial_median_Y' in plan['posterior']:
+        center.fill_(math.log(plan['posterior']['initial_median_Y']))
+    q = make_posterior(center, plan['posterior'])
     if mode != 'vi' and isinstance(q, UniformStiffnessPosterior):
         raise ValueError('Uniform pilot supports VI only')
     parameters = list(q.parameters()) if mode == 'vi' else [q.mu]
@@ -228,8 +240,16 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
         checkpoint(artifacts / f'checkpoint-{initial_iteration:06d}.pt', q, optimizer, initial_iteration, mode, meta)
     monitor = None
     if plan.get('tensorboard', {}).get('enabled'):
-        from lab.calibration.vi_monitor import Monitor
+        if plan.get('comet', {}).get('enabled'):
+            from lab.calibration.vi_multistart_monitor import MultistartMonitor as Monitor
+        else:
+            from lab.calibration.vi_monitor import Monitor
         monitor = Monitor(plan, artifacts, q, s.object_springs)
+    evaluation = plan.get('periodic_evaluation')
+    if evaluation:
+        from lab.calibration.vi_multistart_monitor import evaluate_current
+        result = evaluate_current(rollout, q, plan, protocol, artifacts, initial_iteration, deadline)
+        monitor.evaluation(result, initial_iteration)
     history = []
     status = 'completed'
     for iteration in range(initial_iteration + 1, opt['max_iterations'] + 1):
@@ -278,6 +298,9 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
                 row['max_logit_std'] = float(q.std.max())
         if monitor:
             monitor.update(row, q)
+        if evaluation and iteration % evaluation['every'] == 0:
+            result = evaluate_current(rollout, q, plan, protocol, artifacts, iteration, deadline)
+            monitor.evaluation(result, iteration)
         history.append(row)
         with (artifacts / 'history.jsonl').open('a') as f:
             f.write(json.dumps(row, allow_nan=False)+'\n')
@@ -316,7 +339,7 @@ def evaluate(rollout, plan, protocol, args, artifacts):
             candidates.append((label,q.point_estimate().detach().clone()))
             if mode=='VI_mu': q_vi=q
     if q_vi is not None:
-        torch.manual_seed(plan['optimizer']['seed']+1)
+        torch.manual_seed(plan.get('periodic_evaluation', {}).get('seed', plan['optimizer']['seed']+1))
         for i in range(plan['budget']['posterior_samples']):
             candidates.append((f'VI_sample_{i:02}',q_vi.sample().detach()))
         with torch.no_grad():
