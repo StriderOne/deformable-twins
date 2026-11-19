@@ -147,6 +147,20 @@ Before finishing, run **only checks supported by the actual repository**. Report
 
 ## 9. Agent working procedure
 
+### Researcher and agent responsibilities
+
+The researcher supplies the question, hypothesis, comparison, protocol and decision criterion. The agent records the plan, checks its completeness and feasibility, implements it and may carry out the planned offline runs once the conditions below are met. Refer missing design decisions and changes to metrics, splits, baselines or stopping rules to the researcher.
+
+Before advancing to any research step, check the whole repository for open Markdown checkboxes beginning with `- [ ] Human input required` and check the conversation for documents known to await the researcher. Put that prefix and one specific question where the researcher's contribution belongs. A historical `TBD` alone does not establish that a document awaits input. While any such document is outstanding, link to it, ask for the missing contribution and pause all further research steps, including work on other experiments. The agent may help resolve the current question. Close the checkbox only once the researcher's answer is in the document. An answer supplied in chat may be transcribed faithfully.
+
+Immediately before every scientific run, including pilots and retries, execute `git status --porcelain=v1 --untracked-files=all --ignore-submodules=none` in the worktree that will run the experiment. Proceed only if the command succeeds with empty output. Record that worktree's HEAD commit hash in the run manifest. Otherwise report the changed paths or Git error and stop. Never commit, stash or clean files automatically to pass this check. Section 8 also applies to physical runs.
+
+Record each run's technical outcome, including failures. For each planned comparison, give one brief observational summary covering the question, the primary result against the decision criterion, and signals that could affect its interpretation. Check secondary metrics, failed episodes, missing data and available diagnostics. Cite run and protocol IDs and link directly to the relevant plots, tables or logs. Ask the researcher for their first interpretation using the document checkbox above.
+
+After the researcher responds, check their interpretation against the evidence and raise contradictions or alternative explanations where warranted. Obtain explicit confirmation of the final wording before recording a finding or changing a hypothesis status. A subsequent experiment requires the researcher's plan.
+
+### Task workflow
+
 For each task:
 
 1. **Inspect:** read relevant README, research notes, registry specs, plans, schemas, existing code and run manifests.
@@ -154,7 +168,7 @@ For each task:
 3. **Plan:** prefer the smallest reversible change; identify required schema/metadata changes.
 4. **Implement:** keep third-party code untouched and add interfaces/tests where needed.
 5. **Validate:** run local supported checks; avoid costly or physical execution unless authorized.
-6. **Record:** update relevant Markdown links and machine-readable specs; create a finding only with actual evidence.
+6. **Record:** update relevant Markdown links and machine-readable specs. Apply the researcher's review and confirmation requirements above when recording conclusions.
 7. **Report:** summarize files changed, checks performed, data used, limitations, and next steps.
 
 When producing research interpretations, label statements as one of:
@@ -173,6 +187,8 @@ A research/code change is complete only when all applicable items are satisfied:
 - [ ] The change serves a documented research question/hypothesis or infrastructure need.
 - [ ] IDs, wikilinks, YAML plans and registries remain consistent.
 - [ ] Reproducibility metadata and data provenance are preserved.
+- [ ] Every scientific run started from a verified clean worktree and its manifest identifies the checked commit.
+- [ ] The researcher's outstanding documents were resolved before advancing, and recorded findings and hypothesis status changes have the researcher's explicit confirmation.
 - [ ] No calibration/test leakage or misleading baseline comparison is introduced.
 - [ ] Relevant tests/validators pass, or unverified checks are explicitly disclosed.
 - [ ] No raw data, immutable results, third-party source or safety settings are silently overwritten.
