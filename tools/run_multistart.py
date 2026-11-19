@@ -1,4 +1,5 @@
 """Run E-0013 sequentially and retain every technical outcome."""
+import argparse
 import json
 import subprocess
 import sys
@@ -43,22 +44,44 @@ def compare(completed, output):
 
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output-name',default='E-0013-suite')
+    parser.add_argument('--first-checkpoint',type=Path)
+    args=parser.parse_args()
     suite=yaml.safe_load((ROOT/'experiments/E-0013.yaml').read_text())
     plans=[(ROOT/path,read_plan(ROOT/path)[0]) for path in suite['suite_plans']]
     root=Path(plans[0][1]['execution']['artifact_root']).expanduser()
-    output=root/'E-0013-suite';output.mkdir(exist_ok=False)
+    output=root/args.output_name;output.mkdir(exist_ok=False)
     status={'experiment':'E-0013','status':'running','runs':[]}
     completed=[]
     try:
         for config,plan in plans:
             record={'train':plan['run_ids']['train'],'seed':plan['optimizer']['seed'],'initial_median_Y':plan['posterior']['initial_median_Y'],'status':'running'}
             status['runs'].append(record);write_json(output/'status.json',status)
+            selected_checkpoint=root/plan['run_ids']['train']/'checkpoint.pt'
+            if args.first_checkpoint and config==plans[0][0]:
+                import torch
+                selected_checkpoint=args.first_checkpoint.resolve()
+                state=torch.load(selected_checkpoint,map_location='cpu',weights_only=False)
+                if state['iteration']!=plan['optimizer']['max_iterations']:
+                    raise ValueError('Selected checkpoint must match the requested pass budget')
+                previous=state['metadata']['config']
+                for field in ('data','posterior','likelihood','execution'):
+                    if previous[field]!=plan[field]:raise ValueError('Checkpoint mismatch: '+field)
+                for field,value in previous['optimizer'].items():
+                    if field!='max_iterations' and value!=plan['optimizer'][field]:
+                        raise ValueError('Checkpoint optimizer mismatch: '+field)
+                record['selected_checkpoint']={'path':str(selected_checkpoint),'sha256':sha256(selected_checkpoint),'iteration':state['iteration']}
             for mode,key in [('vi','train'),('evaluate','evaluate')]:
+                if mode=='vi' and 'selected_checkpoint' in record:
+                    record['status']='evaluating_selected_checkpoint'
+                    write_json(output/'status.json',status)
+                    continue
                 # Every scientific run is guarded independently, including evaluations.
                 commit=clean_commit()
                 rid=plan['run_ids'][key];run_dir=output/'manifests'/rid
                 command=[sys.executable,'-m','lab.calibration.phystwin_vi','--config',str(config),'--mode',mode,'--run-dir',str(run_dir)]
-                if mode=='evaluate':command+=['--vi-checkpoint',str(root/plan['run_ids']['train']/'checkpoint.pt')]
+                if mode=='evaluate':command+=['--vi-checkpoint',str(selected_checkpoint)]
                 with (output/f'{rid}.log').open('w') as log:
                     result=subprocess.run(command,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT)
                 manifest_path=run_dir/'manifest.json'
