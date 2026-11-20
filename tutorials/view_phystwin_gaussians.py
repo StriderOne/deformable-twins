@@ -28,6 +28,7 @@ def main(isaac_app=None, parsed_args=None):
     parser.add_argument('--headless', action='store_true', help='Offscreen window-viewer validation')
     parser.add_argument('--frames', type=int, help='Stop window viewer after this many rendered frames')
     parser.add_argument('--port', type=int, default=8080)
+    parser.add_argument('--host', default='127.0.0.1', help='Bind address; use 0.0.0.0 inside Docker')
     parser.add_argument('--seed', type=int, default=0, help='Random grasp target seed')
     parser.add_argument('--sphere', action='store_true', help='Use the previous sphere demo instead of Panda')
     parser.add_argument('--reference', action='store_true', help='Original PhysTwin controller-point demo')
@@ -147,7 +148,7 @@ def main(isaac_app=None, parsed_args=None):
         from lab.simulation.skinning import GpuGaussianBinding
         gpu_binding = GpuGaussianBinding(binding, simulation.model.device)
 
-    server = viser.ViserServer(host='127.0.0.1', port=args.port, label='PhysTwin: mass-spring interaction' if simulation else 'PhysTwin: static Gaussian splats')
+    server = viser.ViserServer(host=args.host, port=args.port, label='PhysTwin: mass-spring interaction' if simulation else 'PhysTwin: static Gaussian splats')
     up = (0., 0., 1.) if newton_mode else (0., 0., -1.)
     server.scene.set_up_direction('+z' if newton_mode else '-z')
     if newton_mode:
@@ -219,7 +220,7 @@ def main(isaac_app=None, parsed_args=None):
         client.camera.look_at = center
 
     print(f'Loaded {gaussian.count:,} Gaussian splats; displaying {len(centers):,} from {args.ply}', flush=True)
-    print(f'Open http://127.0.0.1:{server.get_port()} — Ctrl+C to stop.', flush=True)
+    print(f'Open http://{args.host}:{server.get_port()} — Ctrl+C to stop.', flush=True)
     try:
         while True:
             start = time.monotonic()
