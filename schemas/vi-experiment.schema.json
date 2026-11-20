@@ -78,7 +78,8 @@
           "enum": [
             "diagonal_gaussian_log_stiffness",
             "logistic_normal_stiffness",
-            "low_rank_logistic_normal_stiffness"
+            "low_rank_logistic_normal_stiffness",
+            "graph_residual_flow"
           ]
         },
         "initial_std": {
@@ -117,6 +118,32 @@
         "initial_median_Y": {
           "type": "number",
           "exclusiveMinimum": 0
+        },
+        "blocks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "spatial_neighbors": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "trace_min_terms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "contraction": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "trace_continuation": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
         }
       },
       "allOf": [
@@ -126,7 +153,8 @@
               "family": {
                 "enum": [
                   "logistic_normal_stiffness",
-                  "low_rank_logistic_normal_stiffness"
+                  "low_rank_logistic_normal_stiffness",
+                  "graph_residual_flow"
                 ]
               }
             }
@@ -156,6 +184,25 @@
           "then": {
             "required": [
               "rank"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "family": {
+                "const": "graph_residual_flow"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "blocks",
+              "width",
+              "spatial_neighbors",
+              "contraction",
+              "trace_min_terms",
+              "trace_continuation"
             ]
           }
         }

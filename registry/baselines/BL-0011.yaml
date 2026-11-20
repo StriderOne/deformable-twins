@@ -1,0 +1,8 @@
+id: BL-0011
+version: 1
+status: proposal
+method: VI_graph_residual_flow_frame_updates
+experiment: E-0014
+benchmark: B-0002
+protocol: P-0009
+settings_source: experiments/E-0014.yaml

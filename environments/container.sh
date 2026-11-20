@@ -19,6 +19,13 @@ args=(docker run --rm --gpus all --shm-size=2g --init
     --mount "type=bind,src=$data,dst=/home/homa/PhysTwin,readonly"
     --mount "type=bind,src=$cache,dst=/home/homa/.cache"
     --mount "type=bind,src=$artifacts,dst=/home/homa/.local/share/deformable-twins")
+if [[ "$kind" == train ]]; then
+    [[ -n ${COMET_API_KEY:-} ]] && args+=(--env COMET_API_KEY)
+    [[ -n ${COMET_WORKSPACE:-} ]] && args+=(--env COMET_WORKSPACE)
+    if [[ -f "$HOME/.comet.config" ]]; then
+        args+=(--mount "type=bind,src=$HOME/.comet.config,dst=/home/homa/.comet.config,readonly")
+    fi
+fi
 [[ -t 0 && -t 1 ]] && args+=(-it)
 if [[ ${1:-} == --x11 ]]; then
     shift

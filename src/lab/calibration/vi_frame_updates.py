@@ -3,20 +3,25 @@ import time
 import numpy as np
 import torch
 from .posterior import LowRankUniformPosterior
+from .residual_flow import GraphResidualPosterior
 
 
 def train_pass(rollout, q, optimizer, end, interval, deadline):
-    if not isinstance(q, LowRankUniformPosterior):
-        raise ValueError('Frame updates require the low-rank uniform posterior')
+    if not isinstance(q, (LowRankUniformPosterior, GraphResidualPosterior)):
+        raise ValueError('Frame updates require a low-rank or graph residual posterior')
     if not 1 <= interval <= end - 1:
         raise ValueError('Invalid update interval')
     epsilon = torch.randn_like(q.mu)
-    factor_epsilon = torch.randn(q.factor.shape[1], device=q.mu.device, dtype=q.mu.dtype)
+    factor_epsilon = (torch.randn(q.factor.shape[1], device=q.mu.device, dtype=q.mu.dtype)
+                      if isinstance(q, LowRankUniformPosterior) else None)
     losses = []
     penalty_value = 0.0
     for first in range(1, end, interval):
         optimizer.zero_grad(set_to_none=True)
-        z = q.sample(epsilon, factor_epsilon)
+        if isinstance(q, GraphResidualPosterior):
+            z, full_penalty = q.sample_and_penalty(epsilon)
+        else:
+            z, full_penalty = q.sample(epsilon, factor_epsilon), q.kl()
         if first == 1:
             rollout.reset(z)
         else:
@@ -31,7 +36,7 @@ def train_pass(rollout, q, optimizer, end, interval, deadline):
             loss, grad = rollout.frame(frame, True)
             losses.append(loss)
             gradient.add_(grad)
-        penalty = q.kl() * ((stop - first) / (end - 1))
+        penalty = full_penalty * ((stop - first) / (end - 1))
         torch.autograd.backward((z, penalty), (gradient, torch.ones_like(penalty)))
         if not all(p.grad is not None and torch.isfinite(p.grad).all() for p in q.parameters()):
             raise FloatingPointError('Non-finite posterior gradient')

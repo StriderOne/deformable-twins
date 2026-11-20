@@ -18,7 +18,7 @@ class MultistartMonitor(Monitor):
             log_env_network=False, log_env_disk=False, auto_output_logging=False,
             auto_param_logging=False, auto_metric_logging=False, auto_log_co2=False,
             offline_directory=str(artifacts/'comet-offline'))
-        self.comet = comet_ml.start(project_name=plan['comet']['project'], experiment_config=config)
+        self.comet = comet_ml.start(project_name=plan['comet']['project'], online=True, experiment_config=config)
         if self.comet is None:
             raise RuntimeError('Comet did not create an experiment')
         self.comet.log_parameters({
@@ -27,6 +27,8 @@ class MultistartMonitor(Monitor):
             'seed': plan['optimizer']['seed'], 'passes': plan['optimizer']['max_iterations'],
             'update_every_frames': plan['optimizer']['update_every_frames'],
             'repository_commit': subprocess.check_output(['git','rev-parse','HEAD'],cwd=Path(__file__).resolve().parents[3],text=True).strip()})
+        self.comet.log_parameters({'posterior':plan['posterior'], 'budget':plan.get('budget', {}),
+                                   'protocol':plan.get('protocol', {})})
         (artifacts/'comet.json').write_text(json.dumps({'url':self.comet.url,'key':self.comet.get_key()},indent=2)+'\n')
         super().__init__(plan, artifacts, q, object_springs)
 

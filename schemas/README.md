@@ -26,3 +26,10 @@ E-0011 adds `low_rank_logistic_normal_stiffness`, requiring positive integer
 low-rank factor in latent coordinates; physical marginals remain bounded.
 Old family names and checkpoints retain their interpretation. Optional
 `tensorboard.enabled` and `tensorboard.image_every` control online diagnostics.
+
+## Graph residual posterior (additive)
+
+`vi-experiment.schema.json` accepts `graph_residual_flow` and requires its graph,
+network and stochastic trace settings. Existing family formats are unchanged.
+The runtime additionally requires trace continuation probability greater than
+the squared contraction bound. No existing records need migration.

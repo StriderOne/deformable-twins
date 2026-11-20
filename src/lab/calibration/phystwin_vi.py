@@ -21,6 +21,7 @@ import yaml
 
 from .phystwin_adapter import ROOT, SOURCE, COMMIT, build_simulator, sha256
 from .posterior import LogStiffnessPosterior, UniformStiffnessPosterior, make_posterior
+from .residual_flow import GraphResidualPosterior, SpringGraph, spatial_edges
 
 
 def write_json(path: Path, value: dict) -> None:
@@ -45,7 +46,7 @@ def read_plan(path: Path, variant: str | None = None):
     for key in ('initial_std', 'prior_std') if plan['posterior']['family'] == 'diagonal_gaussian_log_stiffness' else ('initial_std',):
         if not math.isfinite(plan['posterior'][key]) or plan['posterior'][key] <= 0:
             raise ValueError('Expected positive finite posterior/prior scales')
-    if plan['posterior']['family'] in ('logistic_normal_stiffness', 'low_rank_logistic_normal_stiffness'):
+    if plan['posterior']['family'] in ('logistic_normal_stiffness', 'low_rank_logistic_normal_stiffness', 'graph_residual_flow'):
         if not 0 < plan['posterior']['lower'] < plan['posterior']['upper'] <= 1e5:
             raise ValueError('Uniform bounds must lie within positive PhysTwin stiffness support')
     if 'initial_median_Y' in plan['posterior']:
@@ -119,6 +120,8 @@ def restore_checkpoint(path, q, optimizer, mode, meta):
         raise ValueError('Resume mode/source mismatch')
     if state['metadata']['topology_sha256'] != meta['topology_sha256']:
         raise ValueError('Resume topology mismatch')
+    if state['metadata'].get('graph_sha256') != meta.get('graph_sha256'):
+        raise ValueError('Resume graph mismatch')
     old, new = state['metadata']['config'], meta['config']
     for key in ('data', 'likelihood', 'posterior', 'execution'):
         if old[key] != new[key]:
@@ -161,6 +164,13 @@ class MemoryMonitor:
 
 
 def prepare_run(args, plan, protocol):
+    if plan['id'] == 'E-0014':
+        status = subprocess.check_output(['git','status','--porcelain=v1','--untracked-files=all','--ignore-submodules=none'], cwd=ROOT, text=True)
+        if status:
+            raise RuntimeError('Scientific run requires a clean worktree:\n'+status)
+        for note in ROOT.rglob('*.md'):
+            if '.git' not in note.parts and any(line.lstrip().startswith('- [ ] Human input required') for line in note.read_text(errors='replace').splitlines()):
+                raise RuntimeError(f'Outstanding researcher input: {note}')
     run_dir = args.run_dir.resolve()
     if not run_dir.name.startswith('R-'):
         raise ValueError('run-dir must use an R-NNNN ID')
@@ -201,6 +211,15 @@ def prepare_run(args, plan, protocol):
     if plan['posterior'].get('prior_family') == 'uniform_stiffness':
         manifest['limitations'].remove('data_dependent_prior')
         manifest['limitations'].extend(['CMA_initialized_posterior','bounded_variational_family','quadrature_KL'])
+    if plan['posterior']['family'] == 'graph_residual_flow':
+        manifest['limitations'].remove('quadrature_KL')
+        manifest['limitations'].extend(['stochastic_logdet','framewise_parameter_changes','initial_graph_choice','mode_coverage_unestablished'])
+        manifest['versions']['scipy'] = importlib.metadata.version('scipy')
+    if plan['id'] == 'E-0014':
+        manifest['clean_worktree_verified'] = True
+    if plan['id'] == 'E-0014' and args.mode == 'evaluate' and getattr(args, 'vi_checkpoint', None):
+        state = torch.load(args.vi_checkpoint, map_location='cpu', weights_only=False)
+        manifest['baseline'] = state['metadata']['config']['baseline_by_mode']['vi']
     if plan.get('comet', {}).get('enabled'):
         manifest['versions']['comet_ml'] = importlib.metadata.version('comet_ml')
     if 'initial_median_Y' in plan['posterior']:
@@ -211,6 +230,33 @@ def prepare_run(args, plan, protocol):
     return run_dir, artifacts, manifest
 
 
+def build_posterior(center, settings, plan, artifacts):
+    graph = None
+    if settings['family'] == 'graph_residual_flow':
+        center = torch.full_like(center, math.log(settings['initial_median_Y']))
+        import pickle
+        with Path(plan['data']['observations']).open('rb') as f:
+            data = pickle.load(f)
+        points = np.concatenate([data['object_points'][0], data['surface_points'], data['interior_points'], data['controller_points'][0]])
+        topology = np.load(artifacts/'topology.npz')
+        endpoints = topology['edges'].astype(np.int64)
+        cache = artifacts/'posterior-graph.npz'
+        if cache.exists():
+            saved = np.load(cache)
+            if not np.array_equal(saved['endpoints'], endpoints):
+                raise ValueError('Graph topology mismatch')
+            neighbors = saved['neighbors']
+        else:
+            neighbors = spatial_edges(points, endpoints, settings['spatial_neighbors'])
+            np.savez(cache, endpoints=endpoints, neighbors=neighbors)
+        graph = SpringGraph(endpoints, neighbors)
+        degree = np.bincount(neighbors.ravel(), minlength=len(endpoints))
+        write_json(artifacts/'graph-summary.json', dict(sha256=sha256(cache),
+                   springs=len(endpoints), spatial_pairs=len(neighbors),
+                   degree_max=int(degree.max()), degree_mean=float(degree.mean())))
+    return make_posterior(center, settings, graph)
+
+
 def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint=None):
     s = rollout.sim
     opt = plan['optimizer']
@@ -219,8 +265,8 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
     center = rollout.z_buffer.clone()
     if 'initial_median_Y' in plan['posterior']:
         center.fill_(math.log(plan['posterior']['initial_median_Y']))
-    q = make_posterior(center, plan['posterior'])
-    if mode != 'vi' and isinstance(q, UniformStiffnessPosterior):
+    q = build_posterior(center, plan['posterior'], plan, artifacts)
+    if mode != 'vi' and isinstance(q, (UniformStiffnessPosterior, GraphResidualPosterior)):
         raise ValueError('Uniform pilot supports VI only')
     parameters = list(q.parameters()) if mode == 'vi' else [q.mu]
     optimizer = torch.optim.Adam(parameters, lr=opt['lr'], betas=tuple(opt['betas']))
@@ -230,6 +276,8 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
     iteration = 0
     meta = dict(config=plan, source_commit=COMMIT, object_springs=s.object_springs,
                 topology_sha256=sha256(artifacts / 'topology.npz'))
+    if isinstance(q, GraphResidualPosterior):
+        meta['graph_sha256'] = sha256(artifacts/'posterior-graph.npz')
     if resume_checkpoint:
         iteration = restore_checkpoint(resume_checkpoint, q, optimizer, mode, meta)
         meta['resume_checkpoint'] = str(resume_checkpoint.resolve())
@@ -250,68 +298,81 @@ def train(rollout, plan, protocol, mode: str, artifacts: Path, resume_checkpoint
         from lab.calibration.vi_multistart_monitor import evaluate_current
         result = evaluate_current(rollout, q, plan, protocol, artifacts, initial_iteration, deadline)
         monitor.evaluation(result, initial_iteration)
-    history = []
-    status = 'completed'
-    for iteration in range(initial_iteration + 1, opt['max_iterations'] + 1):
-        if time.monotonic() >= deadline:
-            status = 'budget_limited'
-            break
-        interval = opt.get('update_every_frames', end - 1)
-        if interval < end - 1:
-            from .vi_frame_updates import train_pass
-            losses, penalty_value, z = train_pass(
-                rollout, q, optimizer, end, interval, deadline)
-        else:
-            optimizer.zero_grad(set_to_none=True)
-            z = q.sample() if mode == 'vi' else q.mu
-            try:
-                losses, grad = rollout.trajectory(z, end, True, deadline)
-            except TimeoutError:
+    try:
+        history = []
+        status = 'completed'
+        for iteration in range(initial_iteration + 1, opt['max_iterations'] + 1):
+            if time.monotonic() >= deadline:
                 status = 'budget_limited'
                 break
-            except Exception:
-                torch.save({'sample':z.detach().cpu(), 'posterior':q.state_dict()}, artifacts / 'failed-sample.pt')
-                raise
-            penalty = q.kl() if mode == 'vi' else q.map_penalty()
-            torch.autograd.backward((z, penalty), (grad, torch.ones_like(penalty)))
-            if not all(p.grad is not None and torch.isfinite(p.grad).all() for p in parameters):
-                raise FloatingPointError('Non-finite posterior gradient')
-            # Record the objective at the pre-update sample; std summaries are post-update.
-            penalty_value = float(penalty.detach())
-            optimizer.step()
-            if not all(torch.isfinite(p).all() for p in parameters):
-                raise FloatingPointError('Non-finite posterior parameter after update')
-        threshold = protocol['primary_metric']['std_ratio_threshold']
-        row = dict(iteration=iteration, optimizer_steps=iteration * math.ceil((end-1)/interval),
-                   seconds=time.monotonic()-start,
-                   nll_without_constant=float(losses.sum()), penalty=penalty_value,
-                   objective=float(losses.sum())+penalty_value,
-                   rmse_m=math.sqrt(2 * plan['likelihood']['sigma_obs_m']**2 * losses.sum()
-                                   / (3 * s.valid_counts[:end-1].sum())),
-                   saturated_fraction=float((z.detach() >= math.log(s.spring_Y_max)).float().mean()),
-                   std=posterior_summary(q, s.object_springs, threshold) if mode == 'vi' else None)
-        if isinstance(q, UniformStiffnessPosterior):
-            with torch.no_grad():
-                fraction = (z.detach().exp()-q.lower)/(q.upper-q.lower)
-                margin = plan['diagnostics']['boundary_margin_fraction']
-                row['near_uniform_bounds_fraction'] = float(((fraction < margin) | (fraction > 1-margin)).float().mean())
-                row['max_logit_std'] = float(q.std.max())
+            interval = opt.get('update_every_frames', end - 1)
+            if interval < end - 1:
+                from .vi_frame_updates import train_pass
+                try:
+                    losses, penalty_value, z = train_pass(
+                        rollout, q, optimizer, end, interval,
+                        float('inf') if isinstance(q, GraphResidualPosterior) else deadline)
+                except BaseException:
+                    if isinstance(q, GraphResidualPosterior):
+                        torch.save({'posterior':q.state_dict(), 'log_stiffness':rollout.z_buffer.detach().cpu(),
+                                    'partial_iteration':iteration}, artifacts/'failed-partial-pass.pt')
+                    raise
+            else:
+                optimizer.zero_grad(set_to_none=True)
+                if isinstance(q, GraphResidualPosterior):
+                    z, flow_penalty = q.sample_and_penalty(q.draw_noise())
+                else:
+                    z = q.sample() if mode == 'vi' else q.mu
+                try:
+                    losses, grad = rollout.trajectory(z, end, True, deadline)
+                except TimeoutError:
+                    status = 'budget_limited'
+                    break
+                except Exception:
+                    torch.save({'sample':z.detach().cpu(), 'posterior':q.state_dict()}, artifacts / 'failed-sample.pt')
+                    raise
+                penalty = (flow_penalty if isinstance(q, GraphResidualPosterior)
+                           else q.kl() if mode == 'vi' else q.map_penalty())
+                torch.autograd.backward((z, penalty), (grad, torch.ones_like(penalty)))
+                if not all(p.grad is not None and torch.isfinite(p.grad).all() for p in parameters):
+                    raise FloatingPointError('Non-finite posterior gradient')
+                # Record the objective at the pre-update sample; std summaries are post-update.
+                penalty_value = float(penalty.detach())
+                optimizer.step()
+                if not all(torch.isfinite(p).all() for p in parameters):
+                    raise FloatingPointError('Non-finite posterior parameter after update')
+            threshold = protocol['primary_metric']['std_ratio_threshold']
+            row = dict(iteration=iteration, optimizer_steps=iteration * math.ceil((end-1)/interval),
+                       seconds=time.monotonic()-start,
+                       nll_without_constant=float(losses.sum()), penalty=penalty_value,
+                       objective=float(losses.sum())+penalty_value,
+                       rmse_m=math.sqrt(2 * plan['likelihood']['sigma_obs_m']**2 * losses.sum()
+                                       / (3 * s.valid_counts[:end-1].sum())),
+                       saturated_fraction=float((z.detach() >= math.log(s.spring_Y_max)).float().mean()),
+                       std=posterior_summary(q, s.object_springs, threshold) if mode == 'vi' else None)
+            if isinstance(q, UniformStiffnessPosterior):
+                with torch.no_grad():
+                    fraction = (z.detach().exp()-q.lower)/(q.upper-q.lower)
+                    margin = plan['diagnostics']['boundary_margin_fraction']
+                    row['near_uniform_bounds_fraction'] = float(((fraction < margin) | (fraction > 1-margin)).float().mean())
+                    row['max_logit_std'] = float(q.std.max())
+            if monitor:
+                monitor.update(row, q)
+            if evaluation and iteration % evaluation['every'] == 0:
+                result = evaluate_current(rollout, q, plan, protocol, artifacts, iteration, deadline)
+                monitor.evaluation(result, iteration)
+            history.append(row)
+            with (artifacts / 'history.jsonl').open('a') as f:
+                f.write(json.dumps(row, allow_nan=False)+'\n')
+            if iteration % plan.get('checkpoint_every', 1) == 0 or iteration == opt['max_iterations']:
+                checkpoint(artifacts / 'checkpoint.pt', q, optimizer, iteration, mode, meta)
+            if iteration in plan.get('checkpoint_iterations', []):
+                checkpoint(artifacts / f'checkpoint-{iteration:06d}.pt', q, optimizer, iteration, mode, meta)
+            logging.info('%s iteration=%d nll=%.5g rmse=%.5g elapsed=%.1fs', mode, iteration,
+                         row['nll_without_constant'], row['rmse_m'], row['seconds'])
+    finally:
         if monitor:
-            monitor.update(row, q)
-        if evaluation and iteration % evaluation['every'] == 0:
-            result = evaluate_current(rollout, q, plan, protocol, artifacts, iteration, deadline)
-            monitor.evaluation(result, iteration)
-        history.append(row)
-        with (artifacts / 'history.jsonl').open('a') as f:
-            f.write(json.dumps(row, allow_nan=False)+'\n')
-        if iteration % plan.get('checkpoint_every', 1) == 0 or iteration == opt['max_iterations']:
-            checkpoint(artifacts / 'checkpoint.pt', q, optimizer, iteration, mode, meta)
-        if iteration in plan.get('checkpoint_iterations', []):
-            checkpoint(artifacts / f'checkpoint-{iteration:06d}.pt', q, optimizer, iteration, mode, meta)
-        logging.info('%s iteration=%d nll=%.5g rmse=%.5g elapsed=%.1fs', mode, iteration,
-                     row['nll_without_constant'], row['rmse_m'], row['seconds'])
-    if monitor:
-        monitor.close()
+            monitor.close()
     completed = len(history)
     checkpoint(artifacts / 'checkpoint.pt', q, optimizer, initial_iteration+completed, mode, meta)
     return dict(status=status, completed_iterations=completed, initial_iteration=initial_iteration,
@@ -331,12 +392,15 @@ def evaluate(rollout, plan, protocol, args, artifacts):
     for mode, path in [('MAP',args.map_checkpoint),('VI_mu',args.vi_checkpoint)]:
         if path:
             state = torch.load(path, map_location='cuda:0', weights_only=False)
-            q = make_posterior(center, state['metadata']['config']['posterior'])
+            q = build_posterior(center, state['metadata']['config']['posterior'], plan, artifacts)
+            if isinstance(q, GraphResidualPosterior) and state['metadata'].get('graph_sha256') != sha256(artifacts/'posterior-graph.npz'):
+                raise ValueError('Evaluation graph mismatch')
             q.load_state_dict(state['posterior'])
             if q.mu.shape != center.shape or state['metadata']['topology_sha256'] != sha256(artifacts/'topology.npz'):
                 raise ValueError('Checkpoint topology mismatch')
             label = 'VI_median' if mode == 'VI_mu' and isinstance(q, UniformStiffnessPosterior) else mode
-            candidates.append((label,q.point_estimate().detach().clone()))
+            if not isinstance(q, GraphResidualPosterior):
+                candidates.append((label,q.point_estimate().detach().clone()))
             if mode=='VI_mu': q_vi=q
     if q_vi is not None:
         torch.manual_seed(plan.get('periodic_evaluation', {}).get('seed', plan['optimizer']['seed']+1))
@@ -345,6 +409,13 @@ def evaluate(rollout, plan, protocol, args, artifacts):
         with torch.no_grad():
             ratios = q_vi.std_ratio().cpu().numpy()
         np.save(artifacts/'std_ratio.npy',ratios)
+        if isinstance(q_vi, GraphResidualPosterior):
+            samples = q_vi.diagnostic_samples()
+            np.savez(artifacts/'physical-posterior.npz', mean_Y=samples.mean(0).cpu().numpy(),
+                     std_Y=samples.std(0).cpu().numpy(), median_Y=samples.median(0).values.cpu().numpy(),
+                     q025_Y=torch.quantile(samples,.025,dim=0).cpu().numpy(),
+                     q975_Y=torch.quantile(samples,.975,dim=0).cpu().numpy(), std_ratio=ratios,
+                     estimator=np.array('32 reproducible joint samples'))
         if isinstance(q_vi, UniformStiffnessPosterior):
             with torch.no_grad():
                 mean, std = q_vi.physical_moments()
@@ -354,9 +425,27 @@ def evaluate(rollout, plan, protocol, args, artifacts):
                          q975_Y=q_vi.log_stiffness(q_vi.mu+1.95996398454*q_vi.std).exp().cpu().numpy(),
                          std_ratio=ratios)
     rows = []
+    flow_predictions = {}
+    collect_pairs = plan.get('comparison', {}).get('type') == 'exploratory_joint_sample_diversity'
+    if collect_pairs:
+        np.savez(artifacts/'joint-samples.npz', **{name:z.cpu().numpy() for name,z in candidates if name.startswith('VI_sample')})
     for name,z in candidates:
         try:
-            losses,_=rollout.trajectory(z,end,False,deadline)
+            if collect_pairs:
+                rollout.reset(z)
+                losses, positions = [], []
+                for frame in range(1,end):
+                    if time.monotonic() >= deadline:
+                        raise TimeoutError('Evaluation budget exhausted')
+                    loss,_ = rollout.frame(frame,False)
+                    losses.append(loss)
+                    positions.append(rollout.sim.wp_states[-1].wp_x.numpy().copy())
+                losses = np.asarray(losses)
+                if name.startswith('VI_sample'):
+                    flow_predictions[name] = np.stack(positions)
+                    np.save(artifacts/f'{name}-positions.npy', flow_predictions[name])
+            else:
+                losses,_=rollout.trajectory(z,end,False,deadline)
         except TimeoutError:
             break
         except Exception:
@@ -368,8 +457,11 @@ def evaluate(rollout, plan, protocol, args, artifacts):
         np.save(artifacts/f'{name}-frame-nll.npy',losses)
         write_json(artifacts/'evaluation.json',{'results':rows})
         logging.info('evaluation %s %s',name,row)
+    if collect_pairs:
+        from .flow_analysis import compare_samples
+        compare_samples(candidates, flow_predictions, rows, rollout.sim.object_springs, split, artifacts)
     plot_results(args, artifacts, rollout.sim.object_springs,
-                 'Y' if isinstance(q_vi, UniformStiffnessPosterior) else 'log stiffness')
+                 'Y' if isinstance(q_vi, (UniformStiffnessPosterior, GraphResidualPosterior)) else 'log stiffness')
     return dict(status='completed' if len(rows)==len(candidates) else 'budget_limited',
                 evaluation_seconds=time.monotonic()-start, completed_rollouts=len(rows),
                 requested_rollouts=len(candidates),results=rows)

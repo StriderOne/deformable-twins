@@ -7,8 +7,9 @@ RUN sed -i 's|http://|https://|g' /etc/apt/sources.list \
     git libgl1 libglib2.0-0 libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 COPY requirements-phystwin-vi.txt /tmp/requirements.txt
+COPY requirements-comet.txt /tmp/requirements-comet.txt
 RUN python -m pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cu128 \
-    -r /tmp/requirements.txt && python -m pip check
+    -r /tmp/requirements.txt -r /tmp/requirements-comet.txt && python -m pip check
 RUN mkdir -p /home/homa && chmod 755 /home/homa \
     && git config --system --add safe.directory /workspace \
     && git config --system --add safe.directory /workspace/third_party/PhysTwin

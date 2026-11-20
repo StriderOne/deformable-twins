@@ -91,7 +91,12 @@ class UniformStiffnessPosterior(nn.Module):
         return self.physical_moments()[1] / ((self.upper-self.lower)/math.sqrt(12))
 
 
-def make_posterior(center, settings):
+def make_posterior(center, settings, graph=None):
+    if settings["family"] == "graph_residual_flow":
+        from .residual_flow import GraphResidualPosterior
+        if graph is None:
+            raise ValueError("Residual flow requires a fixed spring graph")
+        return GraphResidualPosterior(center, settings, graph)
     if settings['family'] == 'low_rank_logistic_normal_stiffness':
         return LowRankUniformPosterior(center, settings['initial_std'], settings['lower'], settings['upper'], settings['quadrature_points'], settings['rank'])
     if settings['family'] == 'logistic_normal_stiffness':

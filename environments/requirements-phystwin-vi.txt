@@ -8,3 +8,4 @@ jsonschema==4.26.0
 
 plotly==7.1.0
 tensorboard==2.21.0
+scipy==1.17.1
